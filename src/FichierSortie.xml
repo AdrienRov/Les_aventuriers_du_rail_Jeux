@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<listeNoeuds>
+		<noeud nom="Tours">
+			<coordonnees x="283" y="210"/>
+			<coordonneesTexte x="18" y="54"/>
+		</noeud>
+		<noeud nom="Rennes">
+			<coordonnees x="1207" y="573"/>
+			<coordonneesTexte x="18" y="54"/>
+		</noeud>
+		<noeud nom="Paris">
+			<coordonnees x="562" y="137"/>
+			<coordonneesTexte x="18" y="54"/>
+		</noeud>
+		<noeud nom="Marseille">
+			<coordonnees x="691" y="569"/>
+			<coordonneesTexte x="18" y="54"/>
+		</noeud>
+	</listeNoeuds>
+	<listeArete>
+		<arete>
+			<noeudDepart nom="Tours"/>
+			<noeudArrive nom="Marseille"/>
+			<coordonneesDepart x="399" y="404"/>
+			<coordonneesArrive x="629" y="445"/>
+			<nbWagon nb="4"/>
+			<couleur couleur="java.awt.Color[r=255,g=0,b=0]"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Paris"/>
+			<noeudArrive nom="Marseille"/>
+			<coordonneesDepart x="690" y="221"/>
+			<coordonneesArrive x="629" y="445"/>
+			<nbWagon nb="2"/>
+			<couleur couleur="java.awt.Color[r=255,g=0,b=0]"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Paris"/>
+			<noeudArrive nom="Rennes"/>
+			<coordonneesDepart x="690" y="221"/>
+			<coordonneesArrive x="898" y="421"/>
+			<nbWagon nb="5"/>
+			<couleur couleur="java.awt.Color[r=255,g=200,b=0]"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Rennes"/>
+			<noeudArrive nom="Paris"/>
+			<coordonneesDepart x="1207" y="573"/>
+			<coordonneesArrive x="562" y="137"/>
+			<nbWagon nb="4"/>
+			<couleur couleur="java.awt.Color[r=255,g=255,b=255]"/>
+		</arete>
+	</listeArete>
+	<listeParametres>
+		<parametre>
+			<nbJoueur nb="55"/>
+			<nbWagon nb="5"/>
+			<nbWagonFin nb="5"/>
+			<nbPoint1 nb="55"/>
+			<nbPoint2 nb="5"/>
+			<nbPoint3 nb= "5"/>
+			<nbPoint4 nb="5"/>
+			<nbPoint5 nb="5"/>
+			<nbPoint6 nb="55"/>
+			<nbJoueurDoublesVoies nb="5"/>
+		</parametre>
+	</listeParametres>
+</root>
