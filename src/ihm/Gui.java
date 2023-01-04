@@ -30,6 +30,4 @@ public class Gui extends JFrame
         // rendre la fenetre visible
         this.setVisible(true);
     }
-
-
 }
