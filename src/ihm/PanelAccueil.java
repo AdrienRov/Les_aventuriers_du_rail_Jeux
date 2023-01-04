@@ -12,7 +12,7 @@ import src.Controleur;
 //TEST BRanche 82828828811
 public class PanelAccueil extends JPanel
 {
-    private Controleur controleur;
+    private Controleur ctrl;
 
     // Ajout des composants
     private Image carte;
@@ -20,13 +20,10 @@ public class PanelAccueil extends JPanel
     private JLabel lblTitre;
 
 
-    public PanelAccueil(Controleur controleur) 
+    public PanelAccueil(Controleur ctrl) 
     {
-        this.controleur = controleur;
+        this.ctrl = ctrl;
         this.setLayout(null);
-
-        // Configuration des composants
-        this.btnAjouterCarte = new JButton("Ajouter une carte de jeu");
 
         this.lblTitre = new JLabel("Les aventuriers du rail");
 
@@ -37,10 +34,5 @@ public class PanelAccueil extends JPanel
         this.add(btnAjouterCarte, BorderLayout.SOUTH);
 
         this.setVisible(true);
-    }
-
-    public void ajouterCarte()
-    {
-        
     }
 }
