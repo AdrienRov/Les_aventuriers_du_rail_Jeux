@@ -33,8 +33,9 @@ public class Controleur
     private Document document;
     private static org.jdom2.Element racine;
 
-    public Controleur() 
+    public Controleur()  
     {
+        this.gui = new Gui(this);
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.document  = new org.jdom2.Document();
