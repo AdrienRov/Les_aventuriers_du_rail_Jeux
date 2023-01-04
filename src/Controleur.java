@@ -36,6 +36,9 @@ public class Controleur
     public Controleur()  
     {
         this.gui = new Gui(this);
+
+
+        
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.document  = new org.jdom2.Document();
