@@ -119,6 +119,23 @@ public class Controleur
             System.out.println("nbJoueurDoublesVoies : " + nbJoueurDoublesVoies);
 
         }
+
+        // Pour les images présentent dans le XML
+        try {
+            List<Element> listImages = racine.getChild("listeImage").getChildren("image");
+            for (Element image : listImages) 
+            {
+                String idImage = image.getAttributeValue("idImage");
+                String nom = image.getAttributeValue("nom");
+                byte[] decodedBytes = Base64.getDecoder().decode(idImage);
+                FileOutputStream fos = new FileOutputStream("images/"+ nom + ".jpg");
+                fos.write(decodedBytes);
+                fos.close();
+            }    
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void creerNoeud(String nom, int x, int y, int xNom, int yNom)
