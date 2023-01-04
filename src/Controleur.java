@@ -41,10 +41,8 @@ public class Controleur
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
-        //123
-        //456
     }
-//TEEEEESTTT
+    
     // Lire le fichier XML qu'on rentre en paramètre et assigner les valeurs dans le controleur
     public void lireFichierXML(File fichierXML, Controleur controleur)
     {
