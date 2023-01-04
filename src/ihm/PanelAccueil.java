@@ -9,7 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Image;
 
 import src.Controleur;
-
+//TEST
 public class PanelAccueil extends JPanel
 {
     private Controleur ctrl;
