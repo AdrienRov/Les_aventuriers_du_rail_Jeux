@@ -36,4 +36,10 @@ public class Noeud
     public int getYNom() {
         return yNom;
     }
+
+    //to string
+    @Override
+    public String toString() {
+        return "Noeud [nom=" + nom + ", x=" + x + ", y=" + y + ", xNom=" + xNom + ", yNom=" + yNom + "]";
+    }
 }
