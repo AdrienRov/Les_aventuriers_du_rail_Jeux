@@ -45,7 +45,7 @@ public class PanelJeux extends JPanel{
         cartesJoueur = new JButton[8];
         cartesTable  = new JButton[6];
 
-        this.lblImage = new JLabel(new ImageIcon("images/carte.jpg"));
+        this.lblImage = new JLabel(new ImageIcon("images/carte.png"));
 
         // initialisation des List
         this.allTrajets = new ArrayList<Arete>();
