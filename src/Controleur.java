@@ -91,11 +91,16 @@ public class Controleur
         this.racine    = new org.jdom2.Element("racine");
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
         this.AfficherDonnees();
+        initPioche();
     }
 
     public void initPioche()
     {
         this.pioche = new ArrayList<Color>();
+        this.defausse = new ArrayList<Color>();
+        this.mainJoueur = new ArrayList<Color>();
+        this.carteTable = new ArrayList<Color>();
+
         
         for(int i =0 ; i<12 ;i++)
         {
@@ -132,6 +137,10 @@ public class Controleur
         System.out.println();
         System.out.println();
         System.out.println(this.pioche);
+        System.out.println();
+        System.out.println();
+        System.out.println("le joueur a la pioche suivante :" + this.mainJoueur);
+        System.out.println("les cartes sur la table sont :" + this.carteTable);
     }
    
 
@@ -201,37 +210,49 @@ public class Controleur
         //si oui : prendre possession de l'arete et enlever les cartes de la main du joueur et le mettre dans la defausse
         //si non : afficher un message d'erreur
 
-
+        
         if(!verif)
         {
-            int nbCarte = 0;
-            for(int i =0 ; i<this.mainJoueur.size() ; i++)
+            if(cpt != 2)
             {
-                if(this.mainJoueur.get(i).equals(a.getCouleur()))
+                int nbCarte = 0;
+                for(int i =0 ; i<this.mainJoueur.size() ; i++)
                 {
-                    nbCarte++;
+                    if(this.mainJoueur.get(i).equals(a.getCouleur()))
+                    {
+                        nbCarte++;
+                    }
+                
                 }
+                if(nbCarte >= a.getNbVoiture())
+                {
+                    for(int i =0 ; i<a.getNbVoiture() ;i++)
+                    {
+                        this.mainJoueur.remove(a.getCouleur());
+                        this.defausse.add(a.getCouleur());
+                    }
+                    a.setPossession(true);
+                    this.cpt++;
+                    if(cpt == 2)
+                    {
+                        cpt = 0;
+                        verif = true;
+                    }
+                }
+                else
+                {
+                    System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
+                }
+            }
             
-            }
-            if(nbCarte >= a.getNbVoiture())
-            {
-                for(int i =0 ; i<a.getNbVoiture() ;i++)
-                {
-                    this.mainJoueur.remove(a.getCouleur());
-                    this.defausse.add(a.getCouleur());
-                }
-                a.setPossession(true);
-                this.verif = true;
-            }
-            else
-            {
-                System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
-            }
+        }
+        else 
+        {
+            System.out.println("vous avez deja fait une action");
         }
 
 
     }
-
 
 
 
