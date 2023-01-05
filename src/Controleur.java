@@ -47,6 +47,7 @@ public class Controleur
     private List<Noeud> allNoeuds;
     private List<Arete> allAretes;
     private List<Integer> allParametres;
+    private List<String> allImages;
 
     // Pour lire le fichier XML
     private Document document;
@@ -70,6 +71,8 @@ public class Controleur
         this.gui = new Gui(this);
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
+        this.allParametres = new ArrayList<Integer>();
+        this.allImages = new ArrayList<String>();
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
@@ -87,7 +90,7 @@ public class Controleur
         System.out.println("\n----------------- Les Aretes -----------------\n");
         for(Arete a : this.allAretes)
         {
-            System.out.println(a.getNoeudDepart() + " - " + a.getNoeudArrivee());
+            System.out.println(a.getNoeudDepart() + " - " + a.getNoeudArrive());
         }   
         System.out.println("\n----------------- Les Paramètres -----------------\n");
         System.out.println("\nNombre de joueurs : " + this.nbJoueur);
@@ -128,7 +131,7 @@ public class Controleur
             int xNom = Integer.parseInt(noeud.getChild("coordonneesTexte").getAttributeValue("x"));
             int yNom = Integer.parseInt(noeud.getChild("coordonneesTexte").getAttributeValue("y"));
             // On créer le noeud avec les valeurs récupérées
-            controleur.creerNoeud(nom, x, y, xNom, yNom);
+            this.allNoeuds.add(new Noeud(nom, x, y, xNom, yNom));
         }
 
         // String nom = noeud.getChild("nom").getText();
@@ -137,18 +140,22 @@ public class Controleur
         List<Element> listAretes = racine.getChild("listeArete").getChildren("arete");
         for (Element arete : listAretes) 
         {
-            String noeudDepart = arete.getChild("noeudDepart").getAttributeValue("nom");
-            String noeudArrive = arete.getChild("noeudArrive").getAttributeValue("nom");
-            int xDepart = Integer.parseInt(arete.getChild("coordonneesDepart").getAttributeValue("x"));
-            int yDepart = Integer.parseInt(arete.getChild("coordonneesDepart").getAttributeValue("y"));
-            int xArrive = Integer.parseInt(arete.getChild("coordonneesArrive").getAttributeValue("x"));
-            int yArrive = Integer.parseInt(arete.getChild("coordonneesArrive").getAttributeValue("y"));
-            int nbWagon = Integer.parseInt(arete.getChild("nbWagon").getAttributeValue("nb"));
-            String couleur = arete.getChild("couleur").getAttributeValue("couleur");
-            // On créer l'arete avec les valeurs récupérées
-            controleur.creerArete(noeudDepart, noeudArrive, xDepart, xArrive, yDepart, yArrive, nbWagon, couleur);
-        }
+            Noeud noeudDepart = null;
+            Noeud noeudArrive = null;
 
+            for (Noeud noeud : this.allNoeuds) {
+                if (noeud.getNom().equals(arete.getChild("noeudDepart").getAttributeValue("nom"))) {
+                    noeudDepart = noeud;
+                }
+                if (noeud.getNom().equals(arete.getChild("noeudArrive").getAttributeValue("nom"))) {
+                    noeudArrive = noeud;
+                }
+            };
+            int nbWagon = Integer.parseInt(arete.getChild("nbWagon").getAttributeValue("nb"));
+            Color couleur = new Color (Integer.parseInt(arete.getChild("couleur").getAttributeValue("couleur")));
+            // On créer l'arete avec les valeurs récupérées
+            this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, true));
+        }
         // On crée une Liste regroupant toutes les balises <arete> contenu dans la
         // racine
 
@@ -185,24 +192,40 @@ public class Controleur
         }
     }
 
-    public void creerNoeud(String nom, int x, int y, int xNom, int yNom)
-    {
-        this.allNoeuds.add(new Noeud(nom, x, y, xNom, yNom));
-    }
+    // public static File stringToFile(String encodedString, File file) {
+    //     try {
+    //         byte[] bytes = Base64.getDecoder().decode(encodedString);
+    //         file.createNewFile();
+    //         FileOutputStream w = new FileOutputStream(file);
+    //         w.write(bytes);
+    //         w.close();
+    //         return file;
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
 
-    public void creerArete(String noeudDepart, String noeudArrive, int xDepart, int xArrive, int yDepart, int yArrive, int nbWagon, String couleur)
-    {
-        this.allAretes.add(new Arete(noeudDepart, noeudArrive, xDepart, xArrive, yDepart, yArrive, nbWagon, couleur));
+
+    
+
+
+    public List<Arete> getAllTrajets() {
+        return this.allAretes;
     }
 
     public void afficherPanelJeu()
     {
         this.gui.afficherPanelJeu();
     }
+    public List<Noeud> getAllNoeuds() {
+        return this.allNoeuds;
+    }
+    
 
     public static void main(String[] args) 
     {
         new Controleur();
     }
-    
+
 }
