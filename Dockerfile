@@ -15,7 +15,6 @@ COPY ./src/client src/client
 COPY ./src/server src/server
 
 # Exposer Apache
-EXPOSE 3306
 EXPOSE 80
 EXPOSE 8000
 
