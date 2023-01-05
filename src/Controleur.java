@@ -32,6 +32,19 @@ public class Controleur
     // Pour lire le fichier XML
     private Document document;
     private static org.jdom2.Element racine;
+    private int nbJoueur;
+    private int nbWagon;
+    private int nbWagonFin;
+    private int nbPoint1;
+    private int nbPoint2;
+    private int nbPoint3;
+    private int nbPoint4;
+    private int nbPoint5;
+    private int nbPoint6;
+    private int nbJoueurDoublesVoies;
+
+
+
 
     public Controleur() 
     {
@@ -41,6 +54,32 @@ public class Controleur
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
+        this.AfficherDonnees();
+    }
+
+    public void AfficherDonnees()
+    {
+        System.out.println("\n----------------- Les Noeuds -----------------\n");
+        for(Noeud n : this.allNoeuds)
+        {
+            System.out.println(n.getNom());
+        }   
+        System.out.println("\n----------------- Les Aretes -----------------\n");
+        for(Arete a : this.allAretes)
+        {
+            System.out.println(a.getNoeudDepart() + " - " + a.getNoeudArrivee());
+        }   
+        System.out.println("\n----------------- Les Paramètres -----------------\n");
+        System.out.println("\nNombre de joueurs : " + this.nbJoueur);
+        System.out.println("\nNombre de wagons : " + this.nbWagon);
+        System.out.println("\nNombre de wagons pour finir : " + this.nbWagonFin);
+        System.out.println("\nNombre de points pour 1 : " + this.nbPoint1);
+        System.out.println("\nNombre de points pour 2 : " + this.nbPoint2);
+        System.out.println("\nNombre de points pour 3 : " + this.nbPoint3);
+        System.out.println("\nNombre de points pour 4 : " + this.nbPoint4);
+        System.out.println("\nNombre de points pour 5 : " + this.nbPoint5);
+        System.out.println("\nNombre de points pour 6 : " + this.nbPoint6);
+        System.out.println("\nNombre de joueurs avec double voies : " + this.nbJoueurDoublesVoies);
     }
 
     // Lire le fichier XML qu'on rentre en paramètre et assigner les valeurs dans le controleur
@@ -96,29 +135,16 @@ public class Controleur
         List<Element> parametres = racine.getChild("listeParametres").getChildren("parametre");
         for(Element parametre : parametres)
         {
-            int nbJoueur = Integer.parseInt(parametre.getChild("nbJoueur").getAttributeValue("nb"));
-            int nbWagon = Integer.parseInt(parametre.getChild("nbWagon").getAttributeValue("nb"));
-            int nbWagonFin = Integer.parseInt(parametre.getChild("nbWagonFin").getAttributeValue("nb"));
-            int nbPoint1 = Integer.parseInt(parametre.getChild("nbPoint1").getAttributeValue("nb"));
-            int nbPoint2 = Integer.parseInt(parametre.getChild("nbPoint2").getAttributeValue("nb"));
-            int nbPoint3 = Integer.parseInt(parametre.getChild("nbPoint3").getAttributeValue("nb"));
-            int nbPoint4 = Integer.parseInt(parametre.getChild("nbPoint4").getAttributeValue("nb"));
-            int nbPoint5 = Integer.parseInt(parametre.getChild("nbPoint5").getAttributeValue("nb"));
-            int nbPoint6 = Integer.parseInt(parametre.getChild("nbPoint6").getAttributeValue("nb"));
-            int nbJoueurDoublesVoies = Integer.parseInt(parametre.getChild("nbJoueurDoublesVoies").getAttributeValue("nb"));
-
-            // print tous les parametres pour tester si ça marche
-            System.out.println("nbJoueur : " + nbJoueur);
-            System.out.println("nbWagon : " + nbWagon);
-            System.out.println("nbWagonFin : " + nbWagonFin);
-            System.out.println("nbPoint1 : " + nbPoint1);
-            System.out.println("nbPoint2 : " + nbPoint2);
-            System.out.println("nbPoint3 : " + nbPoint3);
-            System.out.println("nbPoint4 : " + nbPoint4);
-            System.out.println("nbPoint5 : " + nbPoint5);
-            System.out.println("nbPoint6 : " + nbPoint6);
-            System.out.println("nbJoueurDoublesVoies : " + nbJoueurDoublesVoies);
-
+            nbJoueur                = Integer.parseInt(parametre.getChild("nbJoueur").getAttributeValue("nb"));
+            nbWagon                 = Integer.parseInt(parametre.getChild("nbWagon").getAttributeValue("nb"));
+            nbWagonFin              = Integer.parseInt(parametre.getChild("nbWagonFin").getAttributeValue("nb"));
+            nbPoint1                = Integer.parseInt(parametre.getChild("nbPoint1").getAttributeValue("nb"));
+            nbPoint2                = Integer.parseInt(parametre.getChild("nbPoint2").getAttributeValue("nb"));
+            nbPoint3                = Integer.parseInt(parametre.getChild("nbPoint3").getAttributeValue("nb"));
+            nbPoint4                = Integer.parseInt(parametre.getChild("nbPoint4").getAttributeValue("nb"));
+            nbPoint5                = Integer.parseInt(parametre.getChild("nbPoint5").getAttributeValue("nb"));
+            nbPoint6                = Integer.parseInt(parametre.getChild("nbPoint6").getAttributeValue("nb"));
+            nbJoueurDoublesVoies    = Integer.parseInt(parametre.getChild("nbJoueurDoublesVoies").getAttributeValue("nb"));
         }
 
         // Pour les images présentent dans le XML
