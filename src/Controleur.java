@@ -4,6 +4,7 @@ import java.io.File;
 
 import java.io.File;
 
+import src.ihm.FrameAccueil;
 import src.ihm.Gui;
 import src.metier.Arete;
 import src.metier.Noeud;
@@ -42,7 +43,7 @@ import java.awt.image.BufferedImage;
 
 public class Controleur 
 {
-    private Gui gui;
+    private FrameAccueil frameAcceuil;
 
     private List<Noeud> allNoeuds;
     private List<Arete> allAretes;
@@ -68,7 +69,8 @@ public class Controleur
 
     public Controleur()  
     {
-        this.gui = new Gui(this);
+        this.frameAcceuil = new FrameAccueil(this);
+
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.allParametres = new ArrayList<Integer>();
@@ -207,11 +209,7 @@ public class Controleur
     // }
 
 
-    public void afficherPanelJeu()
-    {
-        this.gui.afficherPanelJeu();
-    }
-
+    
 
     public List<Arete> getAllTrajets() {
         return this.allAretes;

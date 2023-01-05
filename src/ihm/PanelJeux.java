@@ -22,6 +22,7 @@ public class PanelJeux extends JPanel{
     private JButton[] cartesTable ;
     private JButton[] cartesJoueur ;
 
+    private PanelCarte panelCarte1;
     private Graphics2D  g2d;
 
     private List<Arete> allTrajets;
@@ -41,6 +42,8 @@ public class PanelJeux extends JPanel{
         panelInfo    = new JPanel();
         panel1Nord   = new JPanel();
         panelTable   = new JPanel();
+
+        this.panelCarte1 = new PanelCarte(ctrl);
 
         cartesJoueur = new JButton[8];
         cartesTable  = new JButton[6];
@@ -81,7 +84,7 @@ public class PanelJeux extends JPanel{
 
         
         // liste des boutons
-        JButton[] boutons = {suivant, ajouterWagons,};
+        JButton[] boutons = {suivant, ajouterWagons};
         for (int i = 0; i < boutons.length; i++) {
             boutons[i].setBackground(Color.GRAY);
             boutons[i].setForeground(Color.WHITE);
@@ -101,8 +104,6 @@ public class PanelJeux extends JPanel{
         
         panel2.setBackground(Color.BLACK);
         panel2.setLayout (new BorderLayout());
-
-        this.panel2.add(lblImage, BorderLayout.CENTER);
         
         panel3.setBackground(Color.WHITE);
         panel3.setPreferredSize(new Dimension(0, 150));
@@ -136,6 +137,10 @@ public class PanelJeux extends JPanel{
         panel1.add(panel1Nord, BorderLayout.NORTH);
         panel1.add(panelInfo, BorderLayout.CENTER);
         panel1.add(boutons[1], BorderLayout.SOUTH);
+
+        //panel2.add(lblImage, BorderLayout.SOUTH);
+        panel2.add(panelCarte1, BorderLayout.CENTER);
+
         
         
         //-------------------------------- panel 2 (carte du joueur) -----------------------------------------------------------------

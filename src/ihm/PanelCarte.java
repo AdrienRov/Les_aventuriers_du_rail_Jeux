@@ -19,13 +19,22 @@ public class PanelCarte extends JPanel {
     private List<Noeud> allNoeud;
 
     private Image       image;
+    private JLabel     lblImage;
 
 
-    public PanelCarte(Controleur ctrl) {
+
+    public PanelCarte(Controleur ctrl) 
+    {
         this.ctrl = ctrl;
-
+        lblImage = new JLabel(new ImageIcon("images/carte.png"));
         this.image          = new ImageIcon("").getImage();
+
+        this.allTrajets     = new ArrayList<Arete>();
+        this.allNoeud       = new ArrayList<Noeud>();
+
+        this.add(lblImage);
     }
+
     public void paintComponent(Graphics g) 
     {
         super.paintComponent(g);

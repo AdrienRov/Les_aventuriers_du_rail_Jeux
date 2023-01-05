@@ -2,6 +2,7 @@ package src.ihm;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,7 +15,7 @@ import java.awt.BorderLayout;
 
 import src.Controleur;
 
-public class PanelAccueil extends JPanel implements ActionListener
+public class FrameAccueil extends JFrame implements ActionListener
 {
     private Controleur ctrl;
     
@@ -28,7 +29,7 @@ public class PanelAccueil extends JPanel implements ActionListener
     private JPanel panelTitre;
 
 
-    public PanelAccueil(Controleur ctrl) 
+    public FrameAccueil(Controleur ctrl) 
     {
         this.ctrl           = ctrl;
         this.setLayout      (null);
@@ -85,6 +86,7 @@ public class PanelAccueil extends JPanel implements ActionListener
         this.add(this.panelBoutons  , BorderLayout.SOUTH);
         this.add(this.panelTitre    , BorderLayout.NORTH);
         this.setVisible(true);
+        this.setSize(800, 600);
     }
 
 
@@ -92,7 +94,9 @@ public class PanelAccueil extends JPanel implements ActionListener
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == this.btnJouer)
         {
-            this.ctrl.afficherPanelJeu();
+            //fermer la frame
+            new Gui(ctrl);
+            this.dispose();
         }  
     }
 }
