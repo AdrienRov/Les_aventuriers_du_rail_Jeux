@@ -57,6 +57,7 @@ public class Controleur
         this.AfficherDonnees();
     }
 
+    // Afficher les données du fichier XML
     public void AfficherDonnees()
     {
         System.out.println("\n----------------- Les Noeuds -----------------\n");
