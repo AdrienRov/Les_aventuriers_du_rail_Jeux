@@ -19,6 +19,7 @@ public class Gui extends JFrame
         this.panelAccueil = new PanelAccueil(this.ctrl);
         this.panelJeux = new PanelJeux(this.ctrl);
 
+
         // Mettre une taille par defaut
 
         this.setSize(800, 600);
