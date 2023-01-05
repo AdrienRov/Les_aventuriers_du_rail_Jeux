@@ -4,6 +4,7 @@ import java.io.File;
 
 import src.ihm.Gui;
 import src.metier.Arete;
+import src.metier.CarteObjectif;
 import src.metier.Noeud;
 
 import java.io.*;
@@ -27,6 +28,7 @@ public class Controleur
 
     private List<Noeud> allNoeuds;
     private List<Arete> allAretes;
+    private List<CarteObjectif> allCartesObjectifs;
     private List<Integer> allParametres;
 
     // Pour lire le fichier XML
