@@ -2,7 +2,26 @@ package src;
 
 import java.io.File;
 
+import java.io.File;
+
 import src.ihm.Gui;
+import src.metier.Arete;
+import src.metier.Noeud;
+
+import java.io.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import src.metier.Arete;
 import src.metier.Noeud;
 
@@ -46,9 +65,9 @@ public class Controleur
 
 
 
-    public Controleur() 
+    public Controleur()  
     {
-        this.gui = null;
+        this.gui = new Gui(this);
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.document  = new org.jdom2.Document();
@@ -174,6 +193,11 @@ public class Controleur
     public void creerArete(String noeudDepart, String noeudArrive, int xDepart, int xArrive, int yDepart, int yArrive, int nbWagon, String couleur)
     {
         this.allAretes.add(new Arete(noeudDepart, noeudArrive, xDepart, xArrive, yDepart, yArrive, nbWagon, couleur));
+    }
+
+    public void afficherPanelJeu()
+    {
+        this.gui.afficherPanelJeu();
     }
 
     public static void main(String[] args) 
