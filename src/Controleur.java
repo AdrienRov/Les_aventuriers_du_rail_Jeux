@@ -16,9 +16,11 @@ import org.jdom2.input.SAXBuilder;
 
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -48,6 +50,7 @@ public class Controleur
     private List<Arete> allAretes;
     private List<Integer> allParametres;
     private List<String> allImages;
+    private List<Color> pioche;
 
     // Pour lire le fichier XML
     private Document document;
@@ -62,6 +65,16 @@ public class Controleur
     private int nbPoint5;
     private int nbPoint6;
     private int nbJoueurDoublesVoies;
+
+    private int cpt ; // compteur pour le nombre de carte sur la table
+
+    private ArrayList<Color> defausse;
+    private ArrayList<Color> mainJoueur;
+    private ArrayList<CarteObjectif> carteObjectifJoeur;
+    private ArrayList<Color> carteTable ; //carte sur la table
+
+    private boolean verif ; // verifie si le joeur à joué ou non
+    
 
 
 
@@ -78,6 +91,153 @@ public class Controleur
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
         this.AfficherDonnees();
     }
+
+    public void initPioche()
+    {
+        this.pioche = new ArrayList<Color>();
+        
+        for(int i =0 ; i<12 ;i++)
+        {
+                this.pioche.add(Color.BLUE);
+                this.pioche.add(Color.GREEN);
+                this.pioche.add(Color.YELLOW);
+                this.pioche.add(Color.RED);
+                this.pioche.add(Color.ORANGE);
+                this.pioche.add(Color.PINK);
+                this.pioche.add(Color.BLACK);
+                this.pioche.add(Color.WHITE);
+        }
+
+        for(int i =0 ; i<14 ;i++){ this.pioche.add(Color.GRAY);} // locomotive
+
+        //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
+        for(int i =0 ; i<4 ;i++)
+        {
+            this.mainJoueur.add(this.pioche.get(i));
+            this.pioche.remove(i);
+        }
+
+        // mettres  5 cartes sur la table et les enlever de la pioche
+        for(int i =0 ; i<5 ;i++)
+        {
+            this.carteTable.add(this.pioche.get(i));
+            this.pioche.remove(i);
+        }
+    
+        System.out.println(this.pioche);
+        Collections.shuffle(this.pioche);
+    
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println(this.pioche);
+    }
+   
+
+    // action du joueur : piocher une carte 
+
+    public void pioche()
+    {
+        if(!verif)
+        {
+            this.mainJoueur.add(this.pioche.get(0));
+            this.pioche.remove(0);
+            cpt++;
+        }
+        if(cpt == 2)
+        {
+            cpt = 0;
+            verif = true;
+        }
+
+    }
+
+    // action du joueur :prendre une carte de la table
+    public void carteTable(int i)
+    {
+
+        if(!verif)
+        {
+            this.mainJoueur.add(this.carteTable.get(i));
+            this.carteTable.remove(i);
+            this.carteTable.add(this.pioche.get(0));
+            this.pioche.remove(0);
+            this.verif = true; 
+        }
+    }
+
+    public void verifTourDejeux()
+    {
+         
+        if(this.verif == true)
+        {
+            System.out.println("fin de tour");
+            this.verif = false;
+        }
+        else
+        {
+            System.out.println("vous devez faire une et une seule des trois actions");
+        }
+
+    }
+
+    // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
+    public void remelanger()
+    {
+        if(this.pioche.isEmpty())
+        {
+            this.pioche.addAll(this.defausse);
+            this.defausse.clear();
+            Collections.shuffle(this.pioche);
+        }
+    }
+
+    // action du jouer : prendre possession d'une arete
+    public void prendrePossession(Arete a)
+    {
+        //verif si le joueurs dans sa main a assez de carte de la couleur de l'arete 
+        // les locomotives sont pas comptabilisée
+        //si oui : prendre possession de l'arete et enlever les cartes de la main du joueur et le mettre dans la defausse
+        //si non : afficher un message d'erreur
+
+
+        if(!verif)
+        {
+            int nbCarte = 0;
+            for(int i =0 ; i<this.mainJoueur.size() ; i++)
+            {
+                if(this.mainJoueur.get(i).equals(a.getCouleur()))
+                {
+                    nbCarte++;
+                }
+            
+            }
+            if(nbCarte >= a.getNbVoiture())
+            {
+                for(int i =0 ; i<a.getNbVoiture() ;i++)
+                {
+                    this.mainJoueur.remove(a.getCouleur());
+                    this.defausse.add(a.getCouleur());
+                }
+                a.setPossession(true);
+                this.verif = true;
+            }
+            else
+            {
+                System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
+            }
+        }
+
+
+    }
+
+
+
+
+
+
+
+    //créer une pioche de carte voiture avec les infos du
 
     // Afficher les données du fichier XML
     public void AfficherDonnees()

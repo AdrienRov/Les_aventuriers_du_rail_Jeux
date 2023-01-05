@@ -10,6 +10,7 @@ public class Arete {
     private int n2x;
 
     private Noeud noeudDepart;
+    private Boolean possession;
     private Noeud noeudarrive;
 
     private Boolean sensUnique;
@@ -25,6 +26,7 @@ public class Arete {
         this.nbVoiture = nbVoiture;
         this.sensUnique = sensUnique;
         this.couleur = couleur;
+        this.possession = false;
 
     }
 
@@ -87,6 +89,12 @@ public class Arete {
     {
         return couleur;
     }
+
+    public void setPossession(Boolean possession) 
+    {
+        this.sensUnique = possession;
+    }
+   
 
     public String toString() 
     {
