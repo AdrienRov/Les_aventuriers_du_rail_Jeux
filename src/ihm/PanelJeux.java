@@ -11,8 +11,8 @@ public class PanelJeux extends JPanel{
     private Controleur ctrl;
     
     private JPanel panel1, panel2, panel3 ,Paneltext, PanelCarte;
-    // bouton suivant, piocher, jouer, passer, quitter
-    private JButton suivant, piocher, jouer, passer, quitter;
+    // bouton suivant, piocher, jouer, piocher, CarteTable
+    private JButton suivant, piocher, ajouterWagons, CarteTable;
     // label pour le nom du joueur, le nombre de carte, le nombre de carte dans la pioche, le nombre de carte dans la defausse
     private JLabel nomJoueur, nbCarte, nbCartePioche, nbCarteDefausse;
 
@@ -35,11 +35,10 @@ public class PanelJeux extends JPanel{
 
         cartesJoueur = new JButton[8];
 
-        suivant  = new JButton("Suivant");
-        piocher  = new JButton("Piocher");
-        jouer    = new JButton("Jouer");
-        passer   = new JButton("Passer");
-        quitter  = new JButton("Quitter");
+        suivant         = new JButton("<html>Suivant<html>");
+        ajouterWagons   = new JButton("<html>Remplire une section Wagons<html>");
+        piocher         = new JButton("<html>Piocher une carte<html>");
+        CarteTable      = new JButton ("<html>Prendre une carte sur la table<html>");
 
         nomJoueur       = new JLabel("Nom du joueur");
         nbCarte         = new JLabel("Nombre de carte");
@@ -52,12 +51,12 @@ public class PanelJeux extends JPanel{
         }
         
         // liste des boutons
-        JButton[] boutons = {suivant, piocher, jouer, passer, quitter};
+        JButton[] boutons = {suivant, piocher, ajouterWagons, piocher, CarteTable};
         //boucle pour changer les boutons, bouton arrondi  avec un fond gris, police blanche, taille 80%
         for (int i = 0; i < boutons.length; i++) {
             boutons[i].setBackground(Color.GRAY);
             boutons[i].setForeground(Color.WHITE);
-            boutons[i].setFont(new Font("Arial", Font.BOLD, 20));
+            boutons[i].setFont(new Font("Arial", Font.BOLD, 12));
             boutons[i].setBorderPainted(false);
             boutons[i].setFocusPainted(false);
             boutons[i].setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -79,9 +78,9 @@ public class PanelJeux extends JPanel{
 
         panel1.add(suivant);
         panel1.add(piocher);
-        panel1.add(jouer);
-        panel1.add(passer);
-        panel1.add(quitter);
+        panel1.add(ajouterWagons);
+        panel1.add(piocher);
+        panel1.add(CarteTable);
 
         Paneltext.setLayout(new GridLayout(1, 8, 10, 10));
         PanelCarte.setLayout(new GridLayout(1, 8, 10, 10));
