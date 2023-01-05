@@ -70,7 +70,6 @@ public class Controleur
 
     private ArrayList<Color> defausse;
     private ArrayList<Color> mainJoueur;
-    private ArrayList<CarteObjectif> carteObjectifJoeur;
     private ArrayList<Color> carteTable ; //carte sur la table
 
     private boolean verif ; // verifie si le joeur à joué ou non
