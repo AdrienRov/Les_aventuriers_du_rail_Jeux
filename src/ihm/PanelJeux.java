@@ -10,7 +10,7 @@ import src.Controleur;
 public class PanelJeux extends JPanel{
     private Controleur ctrl;
     
-    private JPanel panel1, panel2, panel3 ,Paneltext, PanelCarte, PanelInfo, Panel1Nord, PanelTable;
+    private JPanel panel1, panel2, panel3 ,paneltext, panelCarte, panelInfo, panel1Nord, panelTable;
     private JButton suivant , ajouterWagons ;
 
     private JButton[] cartesJoueur ;
@@ -29,11 +29,11 @@ public class PanelJeux extends JPanel{
         panel2 = new JPanel();
         panel3 = new JPanel();
 
-        Paneltext    = new JPanel();
-        PanelCarte   = new JPanel();
-        PanelInfo    = new JPanel();
-        Panel1Nord   = new JPanel();
-        PanelTable   = new JPanel();
+        paneltext    = new JPanel();
+        panelCarte   = new JPanel();
+        panelInfo    = new JPanel();
+        panel1Nord   = new JPanel();
+        panelTable   = new JPanel();
 
         cartesJoueur = new JButton[8];
         cartesTable  = new JButton[6];
@@ -82,64 +82,64 @@ public class PanelJeux extends JPanel{
 
         this.setLayout(new BorderLayout());
      
-        panel1.setBackground   (new Color(0x1E1E1E));
+        panel1.setBackground(new Color(0x1E1E1E));
         panel1.setPreferredSize(new Dimension(300, 0));
-        panel1.setLayout       (new BorderLayout());
+        panel1.setLayout(new BorderLayout());
         
         panel2.setBackground(Color.BLACK);
-        panel2.setLayout    (new BorderLayout());
+        panel2.setLayout (new BorderLayout());
         
-        panel3.setBackground   (Color.WHITE);
+        panel3.setBackground(Color.WHITE);
         panel3.setPreferredSize(new Dimension(0, 150));
-        panel3.setLayout       (new GridLayout(2, 1, 10, 10));
+        panel3.setLayout(new GridLayout(2, 1, 10, 10));
 
-        PanelTable.setLayout(new GridLayout(2, 3, 10, 10));
-        PanelInfo.setLayout (new BorderLayout());
+        panelTable.setLayout(new GridLayout(2, 3, 10, 10));
+        panelInfo.setLayout(new BorderLayout());
 
-        Paneltext.setLayout (new GridLayout(1, 8, 10, 10));
-        PanelCarte.setLayout(new GridLayout(1, 8, 10, 10));
+        paneltext.setLayout(new GridLayout(1, 8, 10, 10));
+        panelCarte.setLayout(new GridLayout(1, 8, 10, 10));
 
        
-        Panel1Nord.setLayout(new GridLayout(2, 1, 10, 10));
+        panel1Nord.setLayout(new GridLayout(2, 1, 10, 10));
 
         /*--------------------------------*/
-		/* Positionnement des composants  */
+		/* positionnement des composants  */
 		/*--------------------------------*/
 
-        //-------------------------------- Panel 1(table + bouton suivant et remplire section) --------------------------------
+        //-------------------------------- panel 1(table + bouton suivant et remplire section) --------------------------------
         
-        Panel1Nord.add(boutons[0]);
-        Panel1Nord.add(new JLabel("Table :"));
+        panel1Nord.add(boutons[0]);
+        panel1Nord.add(new JLabel("Table :"));
 
         for (int i = 0; i < cartesTable.length; i++) 
         {
-            PanelTable.add(cartesTable[i]);
+            panelTable.add(cartesTable[i]);
         }
 
-        PanelInfo.add(PanelTable);
+        panelInfo.add(panelTable);
        
-        panel1.add(Panel1Nord, BorderLayout.NORTH);
-        panel1.add(PanelInfo, BorderLayout.CENTER);
+        panel1.add(panel1Nord, BorderLayout.NORTH);
+        panel1.add(panelInfo, BorderLayout.CENTER);
         panel1.add(boutons[1], BorderLayout.SOUTH);
         
         
-        //-------------------------------- Panel 2 (carte du joueur) -----------------------------------------------------------------
+        //-------------------------------- panel 2 (carte du joueur) -----------------------------------------------------------------
         
-        Paneltext.add(  new JLabel("<html>votre main: <html>"));
+        paneltext.add(  new JLabel("<html>votre main: <html>"));
         for (int i = 0; i < cartesJoueur.length-1; i++) {
-            Paneltext.add(new JLabel(""));
+            paneltext.add(new JLabel(""));
         }
        
         // creation des 8 boutons qui vont representer les cartes du joueur
         for (int i = 0; i < cartesJoueur.length; i++) {
             cartesJoueur[i] = new JButton("Carte " + i);
-            PanelCarte.add(cartesJoueur[i]);
+            panelCarte.add(cartesJoueur[i]);
         }
         
-        panel3.add(Paneltext);
-        panel3.add(PanelCarte);
+        panel3.add(paneltext);
+        panel3.add(panelCarte);
 
-        //-------------------------------- Panel de base --------------------------------------------
+        //-------------------------------- panel de base --------------------------------------------
        
         this.add(panel1, BorderLayout.EAST);
         this.add(panel2, BorderLayout.CENTER);
