@@ -11,6 +11,11 @@ public class Controleur
         this.gui = new Gui(this);
     }
 
+    public void afficherPanelJeu()
+    {
+        this.gui.afficherPanelJeu();
+    }
+
     public static void main(String[] args) 
     {
         new Controleur();

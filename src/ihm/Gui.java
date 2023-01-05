@@ -3,19 +3,23 @@ package src.ihm;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
+import java.awt.Color;
+
 import src.Controleur;
 
 public class Gui extends JFrame
 {
-    private Controleur controleur;
+    private Controleur ctrl;
     private PanelAccueil panelAccueil;
+    private PanelJeux panelJeux;
     
-    public Gui(Controleur controleur) 
+    public Gui(Controleur ctrl) 
     {
-        this.controleur = controleur;
-        this.panelAccueil = new PanelAccueil(this.controleur);
+        this.ctrl = ctrl;
+        this.panelAccueil = new PanelAccueil(this.ctrl);
+        this.panelJeux = new PanelJeux(this.ctrl);
 
-        this.setTitle("Jeu : Les aventuriers du rail");
+        // Mettre une taille par defaut
 
         this.setSize(800, 600);
 
@@ -25,10 +29,18 @@ public class Gui extends JFrame
         // ajout des panels
         this.add(this.panelAccueil, BorderLayout.CENTER);
 
-        this.pack();
         this.setLocationRelativeTo(null);
         // rendre la fenetre visible
         this.setVisible(true);
+    }
+
+    public void afficherPanelJeu()
+    {
+        this.remove(this.panelAccueil);
+        this.add(this.panelJeux, BorderLayout.CENTER);
+        this.repaint();
+        this.revalidate();
+        
     }
 
 
