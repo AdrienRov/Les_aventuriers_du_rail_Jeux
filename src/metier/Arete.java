@@ -1,57 +1,105 @@
 package src.metier;
 
-public class Arete 
-{
-    private String noeudDepart;
-    private String noeudArrivee;
-    private int xDepart;
-    private int yDepart;
-    private int xArrivee;
-    private int yArrivee;
-    private int nbWagon;
-    private String couleur;
+import java.awt.Color;
 
-    public Arete(String noeudDepart, String noeudArrivee, int xDepart, int yDepart, int xArrivee, int yArrivee, int nbWagon, String couleur) 
+public class Arete {
+    // Attributs
+    private int n1y;
+    private int n1x;
+    private int n2y;
+    private int n2x;
+
+    private Noeud noeudDepart;
+    private Boolean possession;
+    private Noeud noeudarrive;
+
+    private Boolean sensUnique;
+
+    private Color couleur;
+
+    private int nbVoiture;
+
+    public Arete(Noeud noeudDepart, Noeud noeudarrive, int nbVoiture, Color couleur, Boolean sensUnique) 
     {
         this.noeudDepart = noeudDepart;
-        this.noeudArrivee = noeudArrivee;
-        this.xDepart = xDepart;
-        this.yDepart = yDepart;
-        this.xArrivee = xArrivee;
-        this.yArrivee = yArrivee;
-        this.nbWagon = nbWagon;
+        this.noeudarrive = noeudarrive;
+        this.nbVoiture = nbVoiture;
+        this.sensUnique = sensUnique;
         this.couleur = couleur;
+        this.possession = false;
+
     }
 
-    public String getNoeudDepart() {
+    public int getNbVoiture() 
+    {
+        return nbVoiture;
+    }
+
+    public Boolean getSensUnique() 
+    {
+        return sensUnique;
+    }
+
+    public void setNbVoiture(int nbVoiture) 
+    {
+        this.nbVoiture = nbVoiture;
+    }
+
+    public Noeud getNoeudDepart() 
+    {
         return noeudDepart;
     }
 
-    public String getNoeudArrivee() {
-        return noeudArrivee;
+    public Noeud getNoeudArrive() 
+    {
+        return noeudarrive;
     }
 
-    public int getXDepart() {
-        return xDepart;
+    public void setNoeudDepart(Noeud noeudDepart) 
+    {
+        this.noeudDepart = noeudDepart;
     }
 
-    public int getYDepart() {
-        return yDepart;
+    public void setNoeudarrive(Noeud noeudarrive) 
+    {
+        this.noeudarrive = noeudarrive;
     }
 
-    public int getXArrivee() {
-        return xArrivee;
+    public void setN1x(int n1x) 
+    {
+        this.n1x = n1x;
     }
 
-    public int getYArrivee() {
-        return yArrivee;
+    public void setN1y(int n1y) 
+    {
+        this.n1y = n1y;
     }
 
-    public int getNbWagon() {
-        return nbWagon;
+    public void setN2x(int n2x) 
+    {
+        this.n2x = n2x;
     }
 
-    public String getCouleur() {
+    public void setN2y(int n2y) 
+    {
+        this.n2y = n2y;
+    }
+
+    public Color getCouleur() 
+    {
         return couleur;
     }
+
+    public void setPossession(Boolean possession) 
+    {
+        this.sensUnique = possession;
+    }
+   
+
+    public String toString() 
+    {
+        return "Arete [n1x=" + n1x + ", n1y=" + n1y + ", n2x=" + n2x + ", n2y=" + n2y + ", nbVoiture=" + nbVoiture
+                + "]";
+    }
+
 }
