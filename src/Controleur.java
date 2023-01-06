@@ -251,7 +251,7 @@ public class Controleur
         System.out.println("\n----------------- Les Aretes -----------------\n");
         for(Arete a : this.allAretes)
         {
-            System.out.println(a.getNoeudDepart() + " - " + a.getNoeudArrive());
+            System.out.println(a.getNoeudDepart() + " - " + a.getNoeudArrive() +  " : " + a.getNbVoiture() + " " + a.getCouleur());
         }   
         System.out.println("\n----------------- Les Paramètres -----------------\n");
         System.out.println("\nNombre de joueurs : " + this.nbJoueur);
