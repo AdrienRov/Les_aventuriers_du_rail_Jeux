@@ -1,6 +1,7 @@
 package src.ihm;
 
 import javax.swing.*;
+import java.awt.GridLayout;
 import java.awt.*;
 import src.Controleur;
 
@@ -8,52 +9,49 @@ public class PanelPioche extends JPanel
 {
     private Controleur ctrl;
 
-    private JPanel panelTable;
-    private JPanel panel1Nord;
+    private JPanel panelBoutonPioche, panel1Nord, panelSud;
     private JButton[] cartesTable ;
-    
-
-    private JButton suivant, ajouterWagons;
+    private JButton btnRemplirSection;
 
     public PanelPioche(Controleur ctrl)
     {
 
         this.ctrl = ctrl;
-        this.panelTable = new JPanel();
+        this.setLayout(new BorderLayout());
+        this.panelBoutonPioche = new JPanel();
+        this.panelBoutonPioche.setLayout(new GridLayout(3, 2, 10, 10));
+        //modifier la taille des boutons dans un panel avec un gridlayout 
 
+        this.panel1Nord = new JPanel();
+        
         this.panel1Nord.setLayout(new GridLayout(2, 1, 10, 10));
 
         this.cartesTable  = new JButton[6];
+        this.btnRemplirSection = new JButton("Remplir une section");
 
-        JButton[] boutons = {suivant, ajouterWagons};
-        for (int i = 0; i < boutons.length; i++) {
-            boutons[i].setBackground(Color.GRAY);
-            boutons[i].setForeground(Color.WHITE);
-            boutons[i].setFont(new Font("Arial", Font.BOLD, 12));
-            boutons[i].setBorderPainted(false);
-            boutons[i].setFocusPainted(false);
-            boutons[i].setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            boutons[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-         
-        }
-
-        for (int i = 0; i < cartesTable.length; i++) 
+        
+        for (int i = 0; i < this.cartesTable.length; i++) 
         {
-            this.panelTable.add(cartesTable[i]);
+            if(i == 0) 
+            { 
+                this.cartesTable[i] = new JButton("Pioche : nombre de carte restante");
+            }
+            else 
+            { 
+                //gérer la taille des boutons
+                this.cartesTable[i] = new JButton("CarteTable" + i);
+            }
         }
-        this.panel1Nord.add(boutons[0]);
+
+        for (int i = 0; i < this.cartesTable.length; i++) 
+        {
+            this.panelBoutonPioche.add(this.cartesTable[i]);
+        }
+        
         this.panel1Nord.add(new JLabel("Table :"));
 
-        this.add(panel1Nord, BorderLayout.NORTH);
-        this.add(panelTable, BorderLayout.CENTER);
-
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("PanelPioche");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new PanelPioche(null));
-        frame.pack();
-        frame.setVisible(true);
+        this.add(this.panel1Nord, BorderLayout.NORTH);
+        this.add(this.panelBoutonPioche, BorderLayout.CENTER);
+        this.add(this.btnRemplirSection, BorderLayout.SOUTH);
     }
 }

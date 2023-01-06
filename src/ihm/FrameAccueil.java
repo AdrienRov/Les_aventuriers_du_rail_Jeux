@@ -33,6 +33,7 @@ public class FrameAccueil extends JFrame implements ActionListener
     {
         this.ctrl           = ctrl;
         this.setLayout      (null);
+        this.setSize(800, 600);
 
         this.panelBoutons   = new JPanel();
         this.panelImage     = new JPanel();
@@ -86,7 +87,7 @@ public class FrameAccueil extends JFrame implements ActionListener
         this.add(this.panelBoutons  , BorderLayout.SOUTH);
         this.add(this.panelTitre    , BorderLayout.NORTH);
         this.setVisible(true);
-        this.setSize(800, 600);
+        this.setLocationRelativeTo(null);     
     }
 
 
@@ -95,7 +96,7 @@ public class FrameAccueil extends JFrame implements ActionListener
         if(e.getSource() == this.btnJouer)
         {
             //fermer la frame
-            new Gui(ctrl);
+            this.ctrl.afficherJeux();
             this.dispose();
         }  
     }

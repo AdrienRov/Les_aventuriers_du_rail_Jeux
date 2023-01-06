@@ -3,6 +3,7 @@ package src;
 import java.io.File;
 
 import src.ihm.FrameAccueil;
+import src.ihm.Gui;
 import src.metier.Arete;
 import src.metier.CarteObjectif;
 import src.metier.Noeud;
@@ -60,6 +61,7 @@ import java.awt.Color;
 public class Controleur 
 {
     private FrameAccueil frameAcceuil;
+    private Gui gui;
 
     private List<Noeud> allNoeuds;
     private List<Arete> allAretes;
@@ -97,7 +99,6 @@ public class Controleur
     public Controleur()  
     {
         this.frameAcceuil = new FrameAccueil(this);
-
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.allParametres = new ArrayList<Integer>();
@@ -414,6 +415,16 @@ public class Controleur
             this.allCartesObjectifs.add(new CarteObjectif(noeudDepart,noeudArrive,points));
         }
         
+    }
+
+    public void afficherJeux() 
+    {
+        this.gui = new Gui(this);
+    }
+
+    public void resizeFrame(int width, int height) 
+    {
+        this.gui.resizeFrame(width, height);
     }
 
     // public static File stringToFile(String encodedString, File file) {

@@ -1,11 +1,9 @@
 package src.ihm;
 
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -19,9 +17,7 @@ public class PanelCarte extends JPanel {
 
     private List<Arete> allTrajets;
     private List<Noeud> allNoeud;
-
     private Image      image;
-    private JLabel     lblImage;
 
 
 
@@ -31,7 +27,6 @@ public class PanelCarte extends JPanel {
         this.image          = new ImageIcon ("images/carte.png").getImage();
         this.allTrajets     = new ArrayList<Arete>();
         this.allNoeud       = new ArrayList<Noeud>();
-        this.repaint();
     }
 
     public void paintComponent(Graphics g) 
@@ -39,6 +34,7 @@ public class PanelCarte extends JPanel {
         super.paintComponent(g);
         g2d = (Graphics2D) g;
         g2d.drawImage(image, 0, 0, this);
+        this.ctrl.resizeFrame(this.image.getWidth(this), this.image.getHeight(this));
 
         this.allTrajets = this.ctrl.getAllTrajets();
         this.allNoeud   = this.ctrl.getAllNoeuds();
@@ -137,10 +133,6 @@ public class PanelCarte extends JPanel {
         }
     }
 
-    public void majIHM()
-    {
-        this.repaint();
-    }
     
 
 }
