@@ -33,7 +33,7 @@ public class PanelJeux extends JPanel{
         this.setLayout(new BorderLayout());
         this.panelMain = new JPanel();
         this.panelMain.setLayout(new GridLayout(1, 8, 10, 10));
-        this.panelMain.setBackground(Color.WHITE);
+        this.panelMain.setBackground(new Color(35, 31, 32));
 
         this.allImages = new ArrayList<String>();
 
@@ -48,7 +48,7 @@ public class PanelJeux extends JPanel{
             //ajouter une image carte wagons dans les boutons
             this.cartesJoueur[i] = new JButton();
             try {
-                this.cartesJoueur[i].setIcon(new ImageIcon( "./images/Wagon_rouge.png")); 
+                this.cartesJoueur[i].setIcon(new ImageIcon( "./images/"+this.allImages.get(i)+".png")); 
                 this.cartesJoueur[i].setBorderPainted(false);
                 this.cartesJoueur[i].setContentAreaFilled(false);
                 this.cartesJoueur[i].setFocusPainted(false);

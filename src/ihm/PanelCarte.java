@@ -24,9 +24,11 @@ public class PanelCarte extends JPanel {
     public PanelCarte(Controleur ctrl) 
     {
         this.ctrl = ctrl;
+        this.setBackground(new Color(35, 31, 32));
         this.image          = new ImageIcon ("images/carte.png").getImage();
         this.allTrajets     = new ArrayList<Arete>();
         this.allNoeud       = new ArrayList<Noeud>();
+        this.setBackground(new Color(35, 31, 32));
     }
 
     public void paintComponent(Graphics g) 

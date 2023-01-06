@@ -53,6 +53,8 @@ public class PanelPioche extends JPanel
         
         this.panel1Nord.add(new JLabel("Table :"));
 
+        this.panel1Nord.setBackground(new Color(35, 31, 32));
+        this.panelBoutonPioche.setBackground(new Color(35, 31, 32));
         this.add(this.panel1Nord, BorderLayout.NORTH);
         this.add(this.panelBoutonPioche, BorderLayout.CENTER);
         this.add(this.btnRemplirSection, BorderLayout.SOUTH);

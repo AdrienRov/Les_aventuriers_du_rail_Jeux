@@ -24,7 +24,6 @@ public class Gui extends JFrame
 
         //this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         //ajout des panels
         this.add(this.panelCarte, BorderLayout.CENTER);
         this.add(this.panelJeux, BorderLayout.SOUTH);
@@ -36,7 +35,7 @@ public class Gui extends JFrame
     public void resizeFrame(int width, int height)
     {
         //Ajuster la taille de la fenetre
-        this.setSize(width+500, height+200);
+        this.setSize(width+480, height+190);
         this.panelCarte.setSize(width, height);
         this.panelJeux.setSize(width+500, 300);
         this.panelJeux.setPreferredSize(new Dimension(width+500, 150));
