@@ -32,13 +32,16 @@ public class PanelPioche extends JPanel
         
         for (int i = 0; i < this.cartesTable.length; i++) 
         {
+            
             if(i == 0) 
             { 
                 this.cartesTable[i] = new JButton("Pioche : nombre de carte restante");
+
             }
-            else 
+            else  
             { 
                 //gérer la taille des boutons
+                this.cartesTable[i] = new JButton();
                 this.cartesTable[i] = new JButton("CarteTable" + i);
             }
         }

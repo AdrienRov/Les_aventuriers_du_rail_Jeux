@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import src.Controleur;
 
@@ -35,11 +36,10 @@ public class Gui extends JFrame
     public void resizeFrame(int width, int height)
     {
         //Ajuster la taille de la fenetre
-        this.setSize(width+500, height+100);
+        this.setSize(width+500, height+200);
         this.panelCarte.setSize(width, height);
-        this.panelJeux.setSize(width+500, 200);
-        this.panelPioche.setSize(600, height +200);  
-
+        this.panelJeux.setSize(width+500, 300);
+        this.panelJeux.setPreferredSize(new Dimension(width+500, 150));
         //centrer la fenetre
         this.setLocationRelativeTo(null);     
     }

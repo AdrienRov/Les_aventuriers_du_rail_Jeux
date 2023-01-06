@@ -6,6 +6,7 @@ import src.ihm.FrameAccueil;
 import src.ihm.Gui;
 import src.metier.Arete;
 import src.metier.CarteObjectif;
+import src.metier.Joueur;
 import src.metier.Noeud;
 
 import java.io.*;
@@ -71,7 +72,6 @@ public class Controleur
     private List<Integer> allParametres;
     private List<String> allImages;
     private List<Color> pioche;
-    private List<Image> allImagesCartes;
 
     // Pour lire le fichier XML
     private Document document;
@@ -90,19 +90,18 @@ public class Controleur
     private int cpt ; // compteur pour le nombre de carte sur la table
 
     private ArrayList<Color> defausse;
-    private ArrayList<Color> mainJoueur;
     private ArrayList<Color> carteTable ; //carte sur la table
 
-    private boolean verif ; // verifie si le joeur à joué ou non
-    
+    private Joueur joueur1;
+
     public Controleur()  
     {
         this.frameAcceuil = new FrameAccueil(this);
+        this.joueur1 = new Joueur("Joueur 1");
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.allParametres = new ArrayList<Integer>();
         this.allImages = new ArrayList<String>();
-        this.allImagesCartes = new ArrayList<Image>();
         this.allCartesObjectifs = new ArrayList<CarteObjectif>();
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
@@ -111,11 +110,10 @@ public class Controleur
         initPioche();
     }
 
-    public void initPioche()
+  public void initPioche()
     {
         this.pioche = new ArrayList<Color>();
         this.defausse = new ArrayList<Color>();
-        this.mainJoueur = new ArrayList<Color>();
         this.carteTable = new ArrayList<Color>();
 
         
@@ -136,7 +134,7 @@ public class Controleur
         //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
         for(int i =0 ; i<4 ;i++)
         {
-            this.mainJoueur.add(this.pioche.get(i));
+            this.joueur1.setMain(this.pioche.get(i));
             this.pioche.remove(i);
         }
 
@@ -156,55 +154,34 @@ public class Controleur
         System.out.println(this.pioche);
         System.out.println();
         System.out.println();
-        System.out.println("le joueur a la pioche suivante :" + this.mainJoueur);
+        System.out.println("le joueur a la pioche suivante :" + this.joueur1.getMain());
         System.out.println("les cartes sur la table sont :" + this.carteTable);
     }
    
 
+    
     // action du joueur : piocher une carte 
 
     public void pioche()
     {
-        if(!verif)
-        {
-            this.mainJoueur.add(this.pioche.get(0));
-            this.pioche.remove(0);
-            cpt++;
-        }
-        if(cpt == 2)
-        {
-            cpt = 0;
-            verif = true;
-        }
-
+        this.joueur1.addMain(this.pioche.get(0));
     }
+    
 
     // action du joueur :prendre une carte de la table
     public void carteTable(int i)
     {
-
-        if(!verif)
-        {
-            this.mainJoueur.add(this.carteTable.get(i));
-            this.carteTable.remove(i);
-            this.carteTable.add(this.pioche.get(0));
-            this.pioche.remove(0);
-            this.verif = true; 
-        }
+        this.joueur1.addMain(this.carteTable.get(i));
+        this.carteTable.remove(i);
+        this.carteTable.add(this.pioche.get(0));
+        this.pioche.remove(0);
+           
     }
 
     public void verifTourDejeux()
     {
          
-        if(this.verif == true)
-        {
-            System.out.println("fin de tour");
-            this.verif = false;
-        }
-        else
-        {
-            System.out.println("vous devez faire une et une seule des trois actions");
-        }
+        System.out.println("fin de tour");
 
     }
 
@@ -226,51 +203,31 @@ public class Controleur
         // les locomotives sont pas comptabilisée
         //si oui : prendre possession de l'arete et enlever les cartes de la main du joueur et le mettre dans la defausse
         //si non : afficher un message d'erreur
-
         
-        if(!verif)
+        int nbCarte = 0;
+        for(int i =0 ; i<this.joueur1.getMain().size() ; i++)
         {
-            if(cpt != 2)
+            if(this.joueur1.getMain().get(i).equals(a.getCouleur()))
             {
-                int nbCarte = 0;
-                for(int i =0 ; i<this.mainJoueur.size() ; i++)
-                {
-                    if(this.mainJoueur.get(i).equals(a.getCouleur()))
-                    {
-                        nbCarte++;
-                    }
-                
-                }
-                if(nbCarte >= a.getNbVoiture())
-                {
-                    for(int i =0 ; i<a.getNbVoiture() ;i++)
-                    {
-                        this.mainJoueur.remove(a.getCouleur());
-                        this.defausse.add(a.getCouleur());
-                    }
-                    a.setPossession(true);
-                    this.cpt++;
-                    if(cpt == 2)
-                    {
-                        cpt = 0;
-                        verif = true;
-                    }
-                }
-                else
-                {
-                    System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
-                }
+                nbCarte++;
             }
-            
         }
-        else 
+        if(nbCarte >= a.getNbVoiture())
         {
-            System.out.println("vous avez deja fait une action");
+            for(int i =0 ; i<a.getNbVoiture() ;i++)
+            {
+                this.joueur1.removeMain(a.getCouleur());
+                this.defausse.add(a.getCouleur());
+            }
+            a.setPossession(true);
+            a.setJoueur(this.joueur1);
+                   
         }
-
-
+        else
+        {
+            System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
+        }
     }
-
     //créer une pioche de carte voiture avec les infos du
 
     // Afficher les données du fichier XML
@@ -297,6 +254,12 @@ public class Controleur
         System.out.println("\nNombre de points pour 5 : " + this.nbPoint5);
         System.out.println("\nNombre de points pour 6 : " + this.nbPoint6);
         System.out.println("\nNombre de joueurs avec double voies : " + this.nbJoueurDoublesVoies);
+
+        System.out.println("\n----------------- Les Images -----------------\n");
+        for(String ch : this.allImages)
+        {
+            System.out.println(ch);
+        }
     }
 
     // Lire le fichier XML qu'on rentre en paramètre et assigner les valeurs dans le controleur
@@ -378,9 +341,9 @@ public class Controleur
             {
                 String idImage = image.getAttributeValue("idImage");
                 String nom = image.getAttributeValue("nom");
+                this.allImages.add(nom);
                 byte[] decodedBytes = Base64.getDecoder().decode(idImage);
-                FileOutputStream fos = new FileOutputStream("images/"+ nom + ".jpg");
-                this.allImagesCartes.add(new ImageIcon("images/"+ nom + ".jpg"));
+                FileOutputStream fos = new FileOutputStream("images/"+ nom + ".png");
                 fos.write(decodedBytes);
                 fos.close();
             }    
@@ -441,11 +404,25 @@ public class Controleur
     //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
     public boolean finPartie()
     {
-        if(mainJoueur.size() < nbWagonFin)
+        if(this.joueur1.getMain().size() < nbWagonFin)
         {
             return true;
         }
         return false;
+    }
+
+    // fonctio qui compte les cartes du joueur en fonction de leur couleur
+    public int compterCarteCouleur(Color couleur)
+    {
+        int compteur = 0;
+        for(Color c : this.joueur1.getMain())
+        {
+            if(c == couleur )
+            {
+                compteur++;
+            }
+        }
+        return compteur;
     }
 
     
@@ -480,17 +457,17 @@ public class Controleur
         return nbWagonFin;
     }
 
-    public ArrayList<Color> getCarteJoueur() {
-        return this.mainJoueur;
-    }
-
     public ArrayList<Color> getCarteTable() {
         return this.carteTable;
     }
 
-    public List<Image> getAllImagesCartes() 
+    public Joueur getJoueur1() {
+        return joueur1;
+    }
+
+    public List<String> getAllImages() 
     {
-        return this.allImagesCartes;
+        return this.allImages;
     }
 
     public static void main(String[] args) 
