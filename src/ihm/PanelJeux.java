@@ -10,12 +10,9 @@ import javax.swing.*;
 
 import src.Controleur;
 import src.metier.Arete;
-import src.metier.CarteObjectif;
 import src.metier.Noeud;
 
-import java.awt.event.*;
-
-public class PanelJeux extends JPanel implements ActionListener{
+public class PanelJeux extends JPanel{
     private Controleur ctrl;
     
     private JPanel panelMain, paneltext, panelCarte;
@@ -65,14 +62,13 @@ public class PanelJeux extends JPanel implements ActionListener{
             this.cartesJoueur[i] = new JButton("Carte " + i);
             this.panelCarte.add(cartesJoueur[i]);
         }
-        
-        panel3.add(paneltext);
-        panel3.add(panelCarte);
 
-        //-------------------------------- panel de base --------------------------------------------
-       
-        this.add(panel1, BorderLayout.EAST);
-        this.add(panel2, BorderLayout.CENTER);
-        this.add(panel3, BorderLayout.SOUTH);
+        this.panelMain.add(this.paneltext);
+        this.panelMain.add(this.panelCarte);
+        this.add(this.panelMain);
+
+        // initialisation des List
+        this.allTrajets = new ArrayList<Arete>();
+        this.allNoeud = new ArrayList<Noeud>();      
     }  
 }
