@@ -251,7 +251,7 @@ public class Controleur
                         this.mainJoueur.remove(a.getCouleur());
                         this.defausse.add(a.getCouleur());
                     }
-                    a.setPossession(true);
+                    //a.setPossession(true);
                     this.cpt++;
                     if(cpt == 2)
                     {
