@@ -2,8 +2,6 @@ package src;
 
 import java.io.File;
 
-
-
 import src.ihm.FrameAccueil;
 import src.ihm.Gui;
 import src.metier.Arete;
@@ -92,16 +90,14 @@ public class Controleur
     private int cpt ; // compteur pour le nombre de carte sur la table
 
     private ArrayList<Color> defausse;
-    private ArrayList<Color> mainJoueur;
     private ArrayList<Color> carteTable ; //carte sur la table
 
-    private boolean verif ; // verifie si le joeur à joué ou non
-    
     private Joueur joueur1;
 
-    public Controleur() 
+    public Controleur()  
     {
-        this.gui = new Gui(this);
+        this.frameAcceuil = new FrameAccueil(this);
+        this.joueur1 = new Joueur("Joueur 1");
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.allParametres = new ArrayList<Integer>();
@@ -114,24 +110,23 @@ public class Controleur
         initPioche();
     }
 
-    public void initPioche()
+  public void initPioche()
     {
         this.pioche = new ArrayList<Color>();
         this.defausse = new ArrayList<Color>();
-        this.mainJoueur = new ArrayList<Color>();
         this.carteTable = new ArrayList<Color>();
 
         
         for(int i =0 ; i<12 ;i++)
         {
-                this.pioche.add(Color.BLUE);
-                this.pioche.add(Color.GREEN);
+                this.pioche.add(Color.BLUE  );
+                this.pioche.add(Color.GREEN );
                 this.pioche.add(Color.YELLOW);
-                this.pioche.add(Color.RED);
+                this.pioche.add(Color.RED   );
                 this.pioche.add(Color.ORANGE);
-                this.pioche.add(Color.PINK);
-                this.pioche.add(Color.BLACK);
-                this.pioche.add(Color.WHITE);
+                this.pioche.add(Color.PINK  );
+                this.pioche.add(Color.BLACK );
+                this.pioche.add(Color.WHITE );
         }
 
         for(int i =0 ; i<14 ;i++){ this.pioche.add(Color.GRAY);} // locomotive
@@ -139,7 +134,7 @@ public class Controleur
         //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
         for(int i =0 ; i<4 ;i++)
         {
-            this.mainJoueur.add(this.pioche.get(i));
+            this.joueur1.setMain(this.pioche.get(i));
             this.pioche.remove(i);
         }
 
@@ -159,55 +154,34 @@ public class Controleur
         System.out.println(this.pioche);
         System.out.println();
         System.out.println();
-        System.out.println("le joueur a la pioche suivante :" + this.mainJoueur);
+        System.out.println("le joueur a la pioche suivante :" + this.joueur1.getMain());
         System.out.println("les cartes sur la table sont :" + this.carteTable);
     }
    
 
+    
     // action du joueur : piocher une carte 
 
     public void pioche()
     {
-        if(!verif)
-        {
-            this.mainJoueur.add(this.pioche.get(0));
-            this.pioche.remove(0);
-            cpt++;
-        }
-        if(cpt == 2)
-        {
-            cpt = 0;
-            verif = true;
-        }
-
+        this.joueur1.addMain(this.pioche.get(0));
     }
+    
 
     // action du joueur :prendre une carte de la table
     public void carteTable(int i)
     {
-
-        if(!verif)
-        {
-            this.mainJoueur.add(this.carteTable.get(i));
-            this.carteTable.remove(i);
-            this.carteTable.add(this.pioche.get(0));
-            this.pioche.remove(0);
-            this.verif = true; 
-        }
+        this.joueur1.addMain(this.carteTable.get(i));
+        this.carteTable.remove(i);
+        this.carteTable.add(this.pioche.get(0));
+        this.pioche.remove(0);
+           
     }
 
     public void verifTourDejeux()
     {
          
-        if(this.verif == true)
-        {
-            System.out.println("fin de tour");
-            this.verif = false;
-        }
-        else
-        {
-            System.out.println("vous devez faire une et une seule des trois actions");
-        }
+        System.out.println("fin de tour");
 
     }
 
@@ -229,56 +203,31 @@ public class Controleur
         // les locomotives sont pas comptabilisée
         //si oui : prendre possession de l'arete et enlever les cartes de la main du joueur et le mettre dans la defausse
         //si non : afficher un message d'erreur
-
         
-        if(!verif)
+        int nbCarte = 0;
+        for(int i =0 ; i<this.joueur1.getMain().size() ; i++)
         {
-            if(cpt != 2)
+            if(this.joueur1.getMain().get(i).equals(a.getCouleur()))
             {
-                int nbCarte = 0;
-                for(int i =0 ; i<this.mainJoueur.size() ; i++)
-                {
-                    if(this.mainJoueur.get(i).equals(a.getCouleur()))
-                    {
-                        nbCarte++;
-                    }
-                
-                }
-                if(nbCarte >= a.getNbVoiture())
-                {
-                    for(int i =0 ; i<a.getNbVoiture() ;i++)
-                    {
-                        this.mainJoueur.remove(a.getCouleur());
-                        this.defausse.add(a.getCouleur());
-                    }
-                    a.setPossession(true);
-                    this.cpt++;
-                    if(cpt == 2)
-                    {
-                        cpt = 0;
-                        verif = true;
-                    }
-                }
-                else
-                {
-                    System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
-                }
+                nbCarte++;
             }
-            
         }
-        else 
+        if(nbCarte >= a.getNbVoiture())
         {
-            System.out.println("vous avez deja fait une action");
+            for(int i =0 ; i<a.getNbVoiture() ;i++)
+            {
+                this.joueur1.removeMain(a.getCouleur());
+                this.defausse.add(a.getCouleur());
+            }
+            a.setPossession(true);
+            a.setJoueur(this.joueur1);
+                   
         }
-
-
+        else
+        {
+            System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
+        }
     }
-
-
-
-
-
-
     //créer une pioche de carte voiture avec les infos du
 
     // Afficher les données du fichier XML
@@ -305,6 +254,12 @@ public class Controleur
         System.out.println("\nNombre de points pour 5 : " + this.nbPoint5);
         System.out.println("\nNombre de points pour 6 : " + this.nbPoint6);
         System.out.println("\nNombre de joueurs avec double voies : " + this.nbJoueurDoublesVoies);
+
+        System.out.println("\n----------------- Les Images -----------------\n");
+        for(String ch : this.allImages)
+        {
+            System.out.println(ch);
+        }
     }
 
     // Lire le fichier XML qu'on rentre en paramètre et assigner les valeurs dans le controleur
@@ -355,11 +310,7 @@ public class Controleur
             };
             int nbWagon = Integer.parseInt(arete.getChild("nbWagon").getAttributeValue("nb"));
             // Récupération de la couleur de l'arête
-            String couleurString = arete.getChild("couleur").getAttributeValue("couleur");
-            int r = Integer.parseInt(couleurString.substring(couleurString.indexOf("r=") + 2, couleurString.indexOf(",")));
-            int g = Integer.parseInt(couleurString.substring(couleurString.indexOf("g=") + 2, couleurString.lastIndexOf(",")));
-            int b = Integer.parseInt(couleurString.substring(couleurString.indexOf("b=") + 2, couleurString.lastIndexOf("]")));
-            Color couleur = new Color(r, g, b);
+            Color couleur = new Color (Integer.parseInt(arete.getChild("couleur").getAttributeValue("couleur")));
             // On créer l'arete avec les valeurs récupérées
             this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, true));
         }
@@ -390,8 +341,9 @@ public class Controleur
             {
                 String idImage = image.getAttributeValue("idImage");
                 String nom = image.getAttributeValue("nom");
+                this.allImages.add(nom);
                 byte[] decodedBytes = Base64.getDecoder().decode(idImage);
-                FileOutputStream fos = new FileOutputStream("images/"+ nom + ".jpg");
+                FileOutputStream fos = new FileOutputStream("images/"+ nom + ".png");
                 fos.write(decodedBytes);
                 fos.close();
             }    
@@ -424,24 +376,10 @@ public class Controleur
         
     }
 
-    // public static File stringToFile(String encodedString, File file) {
-    //     try {
-    //         byte[] bytes = Base64.getDecoder().decode(encodedString);
-    //         file.createNewFile();
-    //         FileOutputStream w = new FileOutputStream(file);
-    //         w.write(bytes);
-    //         w.close();
-    //         return file;
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return null;
-    //     }
-    // }
-
-
-    
-
-
+    public void afficherJeux() 
+    {
+        this.gui = new Gui(this);
+    }
 
     public void resizeFrame(int width, int height) 
     {
