@@ -17,20 +17,26 @@ public class PanelCarte extends JPanel {
 
     private List<Arete> allTrajets;
     private List<Noeud> allNoeud;
+    private Image      image;
 
-    private Image       image;
 
 
-    public PanelCarte(Controleur ctrl) {
+    public PanelCarte(Controleur ctrl) 
+    {
         this.ctrl = ctrl;
-
-        this.image          = new ImageIcon("").getImage();
+        this.setBackground(new Color(35, 31, 32));
+        this.image          = new ImageIcon ("images/carte.png").getImage();
+        this.allTrajets     = new ArrayList<Arete>();
+        this.allNoeud       = new ArrayList<Noeud>();
+        this.setBackground(new Color(35, 31, 32));
     }
+
     public void paintComponent(Graphics g) 
     {
         super.paintComponent(g);
         g2d = (Graphics2D) g;
         g2d.drawImage(image, 0, 0, this);
+        this.ctrl.resizeFrame(this.image.getWidth(this), this.image.getHeight(this));
 
         this.allTrajets = this.ctrl.getAllTrajets();
         this.allNoeud   = this.ctrl.getAllNoeuds();
@@ -128,4 +134,7 @@ public class PanelCarte extends JPanel {
             }
         }
     }
+
+    
+
 }

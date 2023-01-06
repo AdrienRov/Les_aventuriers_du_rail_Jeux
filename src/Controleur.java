@@ -2,11 +2,13 @@ package src;
 
 import java.io.File;
 
-import java.io.File;
 
+
+import src.ihm.FrameAccueil;
 import src.ihm.Gui;
 import src.metier.Arete;
 import src.metier.CarteObjectif;
+import src.metier.Joueur;
 import src.metier.Noeud;
 
 import java.io.*;
@@ -21,7 +23,26 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.text.AttributeSet.ColorAttribute;
+
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.Image;
+import src.metier.Arete;
+import src.metier.Noeud;
+
+import java.io.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -41,10 +62,10 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 
 public class Controleur 
 {
+    private FrameAccueil frameAcceuil;
     private Gui gui;
 
     private List<Noeud> allNoeuds;
@@ -76,11 +97,9 @@ public class Controleur
 
     private boolean verif ; // verifie si le joeur à joué ou non
     
+    private Joueur joueur1;
 
-
-
-
-    public Controleur()  
+    public Controleur() 
     {
         this.gui = new Gui(this);
         this.allNoeuds = new ArrayList<Noeud>();
@@ -423,18 +442,95 @@ public class Controleur
     
 
 
-    public List<Arete> getAllTrajets() {
-        return this.allAretes;
+
+    public void resizeFrame(int width, int height) 
+    {
+        this.gui.resizeFrame(width, height);
+    }
+    
+
+    // public static File stringToFile(String encodedString, File file) {
+    //     try {
+    //         byte[] bytes = Base64.getDecoder().decode(encodedString);
+    //         file.createNewFile();
+    //         FileOutputStream w = new FileOutputStream(file);
+    //         w.write(bytes);
+    //         w.close();
+    //         return file;
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
+
+    //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
+    public boolean finPartie()
+    {
+        if(this.joueur1.getMain().size() < nbWagonFin)
+        {
+            return true;
+        }
+        return false;
     }
 
-    public void afficherPanelJeu()
+    // fonctio qui compte les cartes du joueur en fonction de leur couleur
+    public int compterCarteCouleur(Color couleur)
     {
-        this.gui.afficherPanelJeu();
+        int compteur = 0;
+        for(Color c : this.joueur1.getMain())
+        {
+            if(c == couleur )
+            {
+                compteur++;
+            }
+        }
+        return compteur;
     }
-    public List<Noeud> getAllNoeuds() {
+
+    
+
+    public List<Noeud> getAllNoeuds() 
+    {
         return this.allNoeuds;
     }
     
+    public List<Arete> getAllTrajets() 
+    {
+        return this.allAretes;
+    }
+
+    //vérifier si la main possède moins de 3 carte wagon
+
+    
+
+    public List<CarteObjectif> getAllCartesObjectifs() {
+        return this.allCartesObjectifs;
+    }
+
+    public int getNbJoueur() {
+        return nbJoueur;
+    }
+
+    public int getNbWagon() {
+        return nbWagon;
+    }
+
+    public int getNbWagonFin() {
+        return nbWagonFin;
+    }
+
+    public ArrayList<Color> getCarteTable() {
+        return this.carteTable;
+    }
+
+    public Joueur getJoueur1() {
+        return joueur1;
+    }
+
+    public List<String> getAllImages() 
+    {
+        return this.allImages;
+    }
 
     public static void main(String[] args) 
     {

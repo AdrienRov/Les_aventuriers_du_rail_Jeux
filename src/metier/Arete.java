@@ -10,14 +10,16 @@ public class Arete {
     private int n2x;
 
     private Noeud noeudDepart;
-    private Boolean possession;
+    private boolean possession = false;
     private Noeud noeudarrive;
 
-    private Boolean sensUnique;
+    private boolean sensUnique;
 
     private Color couleur;
 
     private int nbVoiture;
+
+    private Joueur joueur;
 
     public Arete(Noeud noeudDepart, Noeud noeudarrive, int nbVoiture, Color couleur, Boolean sensUnique) 
     {
@@ -26,7 +28,7 @@ public class Arete {
         this.nbVoiture = nbVoiture;
         this.sensUnique = sensUnique;
         this.couleur = couleur;
-        this.possession = false;
+        this.joueur = null;
 
     }
 
@@ -35,7 +37,7 @@ public class Arete {
         return nbVoiture;
     }
 
-    public Boolean getSensUnique() 
+    public boolean getSensUnique() 
     {
         return sensUnique;
     }
@@ -90,11 +92,22 @@ public class Arete {
         return couleur;
     }
 
-    public void setPossession(Boolean possession) 
+    public void setPossession(boolean bo) 
     {
-        this.sensUnique = possession;
+        this.possession = bo;
     }
-   
+    
+    public void setJoueur(Joueur joueurPossedantArete)
+    {
+        this.joueur = joueurPossedantArete;
+    }
+
+    public Joueur getJoueur()
+    {
+        return joueur;
+    }
+
+
 
     public String toString() 
     {
