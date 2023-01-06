@@ -10,13 +10,16 @@ import javax.swing.*;
 
 import src.Controleur;
 import src.metier.Arete;
+import src.metier.CarteObjectif;
 import src.metier.Noeud;
 
-public class PanelJeux extends JPanel{
+import java.awt.event.*;
+
+public class PanelJeux extends JPanel implements ActionListener{
     private Controleur ctrl;
     
     private JPanel panel1, panel2, panel3 ,paneltext, panelCarte, panelInfo, panel1Nord, panelTable;
-    private JButton suivant , ajouterWagons ;
+    private JButton suivant , ajouterWagons, btnCarteObjectif;
 
     private JLabel lblImage;
     private JButton[] cartesTable ;
@@ -44,6 +47,8 @@ public class PanelJeux extends JPanel{
 
         cartesJoueur = new JButton[8];
         cartesTable  = new JButton[6];
+
+        btnCarteObjectif = new JButton();
 
         this.lblImage = new JLabel(new ImageIcon("images/carte.png"));
 
@@ -141,9 +146,10 @@ public class PanelJeux extends JPanel{
         //-------------------------------- panel 2 (carte du joueur) -----------------------------------------------------------------
         
         paneltext.add(  new JLabel("<html>votre main: <html>"));
-        for (int i = 0; i < cartesJoueur.length-1; i++) {
+        for (int i = 0; i < cartesJoueur.length-2; i++) {
             paneltext.add(new JLabel(""));
         }
+        paneltext.add( btnCarteObjectif);
        
         // creation des 8 boutons qui vont representer les cartes du joueur
         for (int i = 0; i < cartesJoueur.length; i++) {
@@ -159,5 +165,17 @@ public class PanelJeux extends JPanel{
         this.add(panel1, BorderLayout.EAST);
         this.add(panel2, BorderLayout.CENTER);
         this.add(panel3, BorderLayout.SOUTH);
+
+        btnCarteObjectif.addActionListener(this);
+            
+           
+    
     }  
+
+    public void actionPerformed(ActionEvent e) {
+
+        CarteObjectif carteObjectif = ctrl.getCarteObjectif();
+        JOptionPane.showMessageDialog(null, carteObjectif.toString());
+        
+    }
 }

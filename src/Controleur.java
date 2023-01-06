@@ -416,10 +416,6 @@ public class Controleur
     //     }
     // }
 
-
-    
-
-
     public List<Arete> getAllTrajets() {
         return this.allAretes;
     }
@@ -428,10 +424,45 @@ public class Controleur
     {
         this.gui.afficherPanelJeu();
     }
+    
     public List<Noeud> getAllNoeuds() {
         return this.allNoeuds;
     }
     
+
+    public List<CarteObjectif> getAllCartesObjectifs() {
+        return this.allCartesObjectifs;
+    }
+
+    public int getNbJoueur() {
+        return nbJoueur;
+    }
+
+    public int getNbWagon() {
+        return nbWagon;
+    }
+
+    public int getNbWagonFin() {
+        return nbWagonFin;
+    }
+
+    public ArrayList<Color> getCarteJoueur() {
+        return this.mainJoueur;
+    }
+
+    public ArrayList<Color> getCarteTable() {
+        return this.carteTable;
+    }
+
+
+
+
+
+
+
+
+    
+
 
     public static void main(String[] args) 
     {
