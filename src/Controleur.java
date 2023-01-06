@@ -20,10 +20,12 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.awt.Image;
 import src.metier.Arete;
 import src.metier.Noeud;
 
@@ -69,6 +71,7 @@ public class Controleur
     private List<Integer> allParametres;
     private List<String> allImages;
     private List<Color> pioche;
+    private List<Image> allImagesCartes;
 
     // Pour lire le fichier XML
     private Document document;
@@ -99,6 +102,7 @@ public class Controleur
         this.allAretes = new ArrayList<Arete>();
         this.allParametres = new ArrayList<Integer>();
         this.allImages = new ArrayList<String>();
+        this.allImagesCartes = new ArrayList<Image>();
         this.allCartesObjectifs = new ArrayList<CarteObjectif>();
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
@@ -376,6 +380,7 @@ public class Controleur
                 String nom = image.getAttributeValue("nom");
                 byte[] decodedBytes = Base64.getDecoder().decode(idImage);
                 FileOutputStream fos = new FileOutputStream("images/"+ nom + ".jpg");
+                this.allImagesCartes.add(new ImageIcon("images/"+ nom + ".jpg"));
                 fos.write(decodedBytes);
                 fos.close();
             }    
@@ -481,6 +486,11 @@ public class Controleur
 
     public ArrayList<Color> getCarteTable() {
         return this.carteTable;
+    }
+
+    public List<Image> getAllImagesCartes() 
+    {
+        return this.allImagesCartes;
     }
 
     public static void main(String[] args) 
