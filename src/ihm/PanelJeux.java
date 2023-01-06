@@ -77,12 +77,7 @@ public class PanelJeux extends JPanel{
             { 
                 cartesTable[i] = new JButton("CarteTable" + i);
             }
-
-          
-
         }
-
-        
         // liste des boutons
         JButton[] boutons = {suivant, ajouterWagons};
         for (int i = 0; i < boutons.length; i++) {
@@ -138,7 +133,6 @@ public class PanelJeux extends JPanel{
         panel1.add(panelInfo, BorderLayout.CENTER);
         panel1.add(boutons[1], BorderLayout.SOUTH);
 
-        //panel2.add(lblImage, BorderLayout.SOUTH);
         panel2.add(panelCarte1, BorderLayout.CENTER);
 
         
@@ -164,5 +158,6 @@ public class PanelJeux extends JPanel{
         this.add(panel1, BorderLayout.EAST);
         this.add(panel2, BorderLayout.CENTER);
         this.add(panel3, BorderLayout.SOUTH);
+        this.panelCarte1.majIHM();
     }  
 }

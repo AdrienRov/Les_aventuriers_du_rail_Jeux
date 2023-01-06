@@ -15,6 +15,7 @@ public class Arete {
     private Boolean sensUnique;
 
     private Color couleur;
+    private boolean possession = false;
 
     private int nbVoiture;
 
@@ -86,6 +87,11 @@ public class Arete {
     public Color getCouleur() 
     {
         return couleur;
+    }
+
+    public void setPossession(boolean bo) 
+    {
+        this.possession = bo;
     }
 
     public String toString() 
