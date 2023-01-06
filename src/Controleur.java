@@ -455,6 +455,11 @@ public class Controleur
     {
         return this.allNoeuds;
     }
+    
+    public List<Arete> getAllTrajets() 
+    {
+        return this.allAretes;
+    }
 
     //vérifier si la main possède moins de 3 carte wagon
 
