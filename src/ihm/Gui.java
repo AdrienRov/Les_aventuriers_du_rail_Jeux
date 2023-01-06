@@ -10,39 +10,39 @@ import src.Controleur;
 public class Gui extends JFrame
 {
     private Controleur ctrl;
-    private PanelAccueil panelAccueil;
     private PanelJeux panelJeux;
+    private PanelCarte panelCarte;
+    private PanelPioche panelPioche;
     
     public Gui(Controleur ctrl) 
     {
         this.ctrl = ctrl;
-        this.panelAccueil = new PanelAccueil(this.ctrl);
         this.panelJeux = new PanelJeux(this.ctrl);
+        this.panelCarte = new PanelCarte(this.ctrl);
+        this.panelPioche = new PanelPioche(this.ctrl);
 
-
-        // Mettre une taille par defaut
-
-        this.setSize(800, 600);
-
-        this.setResizable(false);
+        //this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // ajout des panels
-        this.add(this.panelAccueil, BorderLayout.CENTER);
-
-        this.setLocationRelativeTo(null);
-        // rendre la fenetre visible
+        //ajout des panels
+        this.add(this.panelCarte, BorderLayout.CENTER);
+        this.add(this.panelJeux, BorderLayout.SOUTH);
+        this.add(this.panelPioche, BorderLayout.EAST);
         this.setVisible(true);
+        this.pack();
     }
 
-    public void afficherPanelJeu()
+    public void resizeFrame(int width, int height)
     {
-        this.remove(this.panelAccueil);
-        this.add(this.panelJeux, BorderLayout.CENTER);
-        this.repaint();
-        this.revalidate();
-        
+        //Ajuster la taille de la fenetre
+        this.setSize(width+500, height+100);
+        this.panelCarte.setSize(width, height);
+        this.panelJeux.setSize(width+500, 200);
+        this.panelPioche.setSize(600, height +200);  
+
+        //centrer la fenetre
+        this.setLocationRelativeTo(null);     
     }
 
-
+    
 }

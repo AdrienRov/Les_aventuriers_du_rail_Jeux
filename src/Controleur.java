@@ -2,8 +2,7 @@ package src;
 
 import java.io.File;
 
-import java.io.File;
-
+import src.ihm.FrameAccueil;
 import src.ihm.Gui;
 import src.metier.Arete;
 import src.metier.CarteObjectif;
@@ -42,9 +41,26 @@ import javax.imageio.ImageIO;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import src.metier.Arete;
+import src.metier.Noeud;
+
+import java.io.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import java.awt.Color;
 
 public class Controleur 
 {
+    private FrameAccueil frameAcceuil;
     private Gui gui;
 
     private List<Noeud> allNoeuds;
@@ -82,7 +98,7 @@ public class Controleur
 
     public Controleur()  
     {
-        this.gui = new Gui(this);
+        this.frameAcceuil = new FrameAccueil(this);
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.allParametres = new ArrayList<Integer>();
@@ -145,7 +161,6 @@ public class Controleur
     }
    
 
-    
     // action du joueur : piocher une carte 
 
     public void pioche()
@@ -402,6 +417,17 @@ public class Controleur
         
     }
 
+    public void afficherJeux() 
+    {
+        this.gui = new Gui(this);
+    }
+
+    public void resizeFrame(int width, int height) 
+    {
+        this.gui.resizeFrame(width, height);
+    }
+    
+
     // public static File stringToFile(String encodedString, File file) {
     //     try {
     //         byte[] bytes = Base64.getDecoder().decode(encodedString);
@@ -419,15 +445,10 @@ public class Controleur
 
     
 
-
     public List<Arete> getAllTrajets() {
         return this.allAretes;
     }
 
-    public void afficherPanelJeu()
-    {
-        this.gui.afficherPanelJeu();
-    }
     public List<Noeud> getAllNoeuds() {
         return this.allNoeuds;
     }
