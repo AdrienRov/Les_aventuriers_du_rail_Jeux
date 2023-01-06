@@ -10,12 +10,12 @@ public class Arete {
     private int n2x;
 
     private Noeud noeudDepart;
+    private boolean possession = false;
     private Noeud noeudarrive;
 
-    private Boolean sensUnique;
+    private boolean sensUnique;
 
     private Color couleur;
-    private boolean possession = false;
 
     private int nbVoiture;
 
@@ -34,7 +34,7 @@ public class Arete {
         return nbVoiture;
     }
 
-    public Boolean getSensUnique() 
+    public boolean getSensUnique() 
     {
         return sensUnique;
     }
