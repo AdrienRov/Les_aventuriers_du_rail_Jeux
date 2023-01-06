@@ -76,10 +76,6 @@ public class Controleur
 
     private boolean verif ; // verifie si le joeur à joué ou non
     
-
-
-
-
     public Controleur()  
     {
         this.gui = new Gui(this);
@@ -105,14 +101,14 @@ public class Controleur
         
         for(int i =0 ; i<12 ;i++)
         {
-                this.pioche.add(Color.BLUE);
-                this.pioche.add(Color.GREEN);
+                this.pioche.add(Color.BLUE  );
+                this.pioche.add(Color.GREEN );
                 this.pioche.add(Color.YELLOW);
-                this.pioche.add(Color.RED);
+                this.pioche.add(Color.RED   );
                 this.pioche.add(Color.ORANGE);
-                this.pioche.add(Color.PINK);
-                this.pioche.add(Color.BLACK);
-                this.pioche.add(Color.WHITE);
+                this.pioche.add(Color.PINK  );
+                this.pioche.add(Color.BLACK );
+                this.pioche.add(Color.WHITE );
         }
 
         for(int i =0 ; i<14 ;i++){ this.pioche.add(Color.GRAY);} // locomotive
@@ -255,6 +251,7 @@ public class Controleur
 
 
     }
+
 
 
 
@@ -416,7 +413,25 @@ public class Controleur
     //     }
     // }
 
+<<<<<<< HEAD
     public List<Arete> getAllTrajets() {
+=======
+    //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
+    public boolean finPartie()
+    {
+        if(mainJoueur.size() < nbWagonFin)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    
+
+
+    public List<Arete> getAllTrajets() 
+    {
+>>>>>>> 7c900085d3a780d5cd4aaff6abe11dd120d11d47
         return this.allAretes;
     }
 
@@ -424,10 +439,19 @@ public class Controleur
     {
         this.gui.afficherPanelJeu();
     }
+<<<<<<< HEAD
     
     public List<Noeud> getAllNoeuds() {
+=======
+
+    public List<Noeud> getAllNoeuds() 
+    {
+>>>>>>> 7c900085d3a780d5cd4aaff6abe11dd120d11d47
         return this.allNoeuds;
     }
+
+    //vérifier si la main possède moins de 3 carte wagon
+
     
 
     public List<CarteObjectif> getAllCartesObjectifs() {
