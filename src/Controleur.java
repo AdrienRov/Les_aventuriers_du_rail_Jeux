@@ -145,6 +145,7 @@ public class Controleur
     }
    
 
+    
     // action du joueur : piocher une carte 
 
     public void pioche()
@@ -273,7 +274,7 @@ public class Controleur
         System.out.println("\n----------------- Les Aretes -----------------\n");
         for(Arete a : this.allAretes)
         {
-            System.out.println(a.getNoeudDepart() + " - " + a.getNoeudArrive() + " - " + a.getCouleur());
+            System.out.println(a.getNoeudDepart() + " - " + a.getNoeudArrive() +  " : " + a.getNbVoiture() + " " + a.getCouleur());
         }   
         System.out.println("\n----------------- Les Paramètres -----------------\n");
         System.out.println("\nNombre de joueurs : " + this.nbJoueur);
@@ -336,11 +337,7 @@ public class Controleur
             };
             int nbWagon = Integer.parseInt(arete.getChild("nbWagon").getAttributeValue("nb"));
             // Récupération de la couleur de l'arête
-            String couleurString = arete.getChild("couleur").getAttributeValue("couleur");
-            int r = Integer.parseInt(couleurString.substring(couleurString.indexOf("r=") + 2, couleurString.indexOf(",")));
-            int g = Integer.parseInt(couleurString.substring(couleurString.indexOf("g=") + 2, couleurString.lastIndexOf(",")));
-            int b = Integer.parseInt(couleurString.substring(couleurString.indexOf("b=") + 2, couleurString.lastIndexOf("]")));
-            Color couleur = new Color(r, g, b);
+            Color couleur = new Color (Integer.parseInt(arete.getChild("couleur").getAttributeValue("couleur")));
             // On créer l'arete avec les valeurs récupérées
             this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, true));
         }
