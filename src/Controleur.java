@@ -87,15 +87,21 @@ public class Controleur
         this.allAretes = new ArrayList<Arete>();
         this.allParametres = new ArrayList<Integer>();
         this.allImages = new ArrayList<String>();
+        this.allCartesObjectifs = new ArrayList<CarteObjectif>();
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
         this.AfficherDonnees();
+        initPioche();
     }
 
     public void initPioche()
     {
         this.pioche = new ArrayList<Color>();
+        this.defausse = new ArrayList<Color>();
+        this.mainJoueur = new ArrayList<Color>();
+        this.carteTable = new ArrayList<Color>();
+
         
         for(int i =0 ; i<12 ;i++)
         {
@@ -132,6 +138,10 @@ public class Controleur
         System.out.println();
         System.out.println();
         System.out.println(this.pioche);
+        System.out.println();
+        System.out.println();
+        System.out.println("le joueur a la pioche suivante :" + this.mainJoueur);
+        System.out.println("les cartes sur la table sont :" + this.carteTable);
     }
    
 
@@ -201,37 +211,49 @@ public class Controleur
         //si oui : prendre possession de l'arete et enlever les cartes de la main du joueur et le mettre dans la defausse
         //si non : afficher un message d'erreur
 
-
+        
         if(!verif)
         {
-            int nbCarte = 0;
-            for(int i =0 ; i<this.mainJoueur.size() ; i++)
+            if(cpt != 2)
             {
-                if(this.mainJoueur.get(i).equals(a.getCouleur()))
+                int nbCarte = 0;
+                for(int i =0 ; i<this.mainJoueur.size() ; i++)
                 {
-                    nbCarte++;
+                    if(this.mainJoueur.get(i).equals(a.getCouleur()))
+                    {
+                        nbCarte++;
+                    }
+                
                 }
+                if(nbCarte >= a.getNbVoiture())
+                {
+                    for(int i =0 ; i<a.getNbVoiture() ;i++)
+                    {
+                        this.mainJoueur.remove(a.getCouleur());
+                        this.defausse.add(a.getCouleur());
+                    }
+                    a.setPossession(true);
+                    this.cpt++;
+                    if(cpt == 2)
+                    {
+                        cpt = 0;
+                        verif = true;
+                    }
+                }
+                else
+                {
+                    System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
+                }
+            }
             
-            }
-            if(nbCarte >= a.getNbVoiture())
-            {
-                for(int i =0 ; i<a.getNbVoiture() ;i++)
-                {
-                    this.mainJoueur.remove(a.getCouleur());
-                    this.defausse.add(a.getCouleur());
-                }
-                a.setPossession(true);
-                this.verif = true;
-            }
-            else
-            {
-                System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
-            }
+        }
+        else 
+        {
+            System.out.println("vous avez deja fait une action");
         }
 
 
     }
-
 
 
 
@@ -313,7 +335,12 @@ public class Controleur
                 }
             };
             int nbWagon = Integer.parseInt(arete.getChild("nbWagon").getAttributeValue("nb"));
-            Color couleur = new Color (Integer.parseInt(arete.getChild("couleur").getAttributeValue("couleur")));
+            // Récupération de la couleur de l'arête
+            String couleurString = arete.getChild("couleur").getAttributeValue("couleur");
+            int r = Integer.parseInt(couleurString.substring(couleurString.indexOf("r=") + 2, couleurString.indexOf(",")));
+            int g = Integer.parseInt(couleurString.substring(couleurString.indexOf("g=") + 2, couleurString.lastIndexOf(",")));
+            int b = Integer.parseInt(couleurString.substring(couleurString.indexOf("b=") + 2, couleurString.lastIndexOf("]")));
+            Color couleur = new Color(r, g, b);
             // On créer l'arete avec les valeurs récupérées
             this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, true));
         }
@@ -335,6 +362,8 @@ public class Controleur
             nbJoueurDoublesVoies    = Integer.parseInt(parametre.getChild("nbJoueurDoublesVoies").getAttributeValue("nb"));
         }
 
+        // On s'occupe des cartes objectifs
+
         // Pour les images présentent dans le XML
         try {
             List<Element> listImages = racine.getChild("listeImage").getChildren("image");
@@ -351,6 +380,29 @@ public class Controleur
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        // Pour les cartes objectifs
+        List<Element> listCartesObjectifs = racine.getChild("listeCarteObjectif").getChildren("CarteObjectif");
+        for (Element carteObjectif : listCartesObjectifs) 
+        {
+            String NomNoeudDepart = carteObjectif.getAttributeValue("nom");
+            String NomNoeudArrive = carteObjectif.getAttributeValue("nom");
+            Noeud noeudDepart = null;
+            Noeud noeudArrive = null;
+            // Trouver les noeuds correspondant dans la liste des noeuds
+            for (Noeud noeud : this.allNoeuds) {
+                if (noeud.getNom().equals(carteObjectif.getChild("noeudDepart").getAttributeValue("nom"))) {
+                    noeudDepart = noeud;
+                }
+                if (noeud.getNom().equals(carteObjectif.getChild("noeudArrive").getAttributeValue("nom"))) {
+                    noeudArrive = noeud;
+                }
+            };
+            int points = Integer.parseInt(carteObjectif.getChild("point").getAttributeValue("pts"));
+            // On créer la carte avec les valeurs récupérées
+            this.allCartesObjectifs.add(new CarteObjectif(noeudDepart,noeudArrive,points));
+        }
+        
     }
 
     // public static File stringToFile(String encodedString, File file) {
