@@ -267,12 +267,6 @@ public class Controleur
 
     }
 
-
-
-
-
-
-
     //créer une pioche de carte voiture avec les infos du
 
     // Afficher les données du fichier XML
