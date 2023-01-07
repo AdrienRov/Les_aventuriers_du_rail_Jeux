@@ -1,19 +1,28 @@
 package src.metier;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Joueur {
     private String nom;
     private int score;
 
-    private ArrayList<Color> main;
+    private ArrayList<Carte> main;
+    private ArrayList<Arete> tabArete = new ArrayList<Arete>();
+    private ArrayList<CarteObjectif> tabCarteObjectif = new ArrayList<CarteObjectif>();
+    //hashmap pour les cartes String couleur, String couleur
+    private HashMap<String, ArrayList<Carte>> cartes = new HashMap<String, ArrayList<Carte>>();
 
 
 
-    public Joueur(String nom) {
+    public Joueur(String nom) 
+    {
         this.nom = nom;
         this.score = 0;
-        this.main = new ArrayList<Color>();
+        this.main = new ArrayList<Carte>();
+        this.tabArete = new ArrayList<Arete>();
+        this.cartes = new HashMap<String, ArrayList<Carte>>();
+        this.tabCarteObjectif = new ArrayList<CarteObjectif>();
     }
 
     public String getNom() {
@@ -24,39 +33,98 @@ public class Joueur {
         return score;
     }
 
-    public void setScore(int score) {
+    public ArrayList<Arete> getTabArete() 
+    {
+        return tabArete;
+    }
+
+    public void setScore(int score) 
+    {
         this.score = score;
     }
 
-    public void addScore(int score) {
+    public void addArete(Arete arete) 
+    {
+        this.tabArete.add(arete);
+    }
+
+    public void addScore(int score) 
+    {
         this.score += score;
     }
 
-    public void removeScore(int score) {
+    public void removeScore(int score) 
+    {
         this.score -= score;
     }
 
-    public ArrayList<Color> getMain() {
+    public ArrayList<Carte> getMain() 
+    {
         return main;
     }
 
-    public void setMain(Color carte) {
-        this.main.add(carte);
+    // get couleur carte
+    public int nbCouleur(String couleur) 
+    {
+        //obtenir le nombre de carte de la couleur dans la hashmap si elle existe
+        if(this.cartes.containsKey(couleur)) 
+        {
+            return this.cartes.get(couleur).size();
+        } else {
+            return 0;
+        }
+        
     }
 
-    // get couleur carte
-    
-
-    public void removeMain(Color carte) {
+    public void removeMain(Color carte) 
+    {
         this.main.remove(carte);
     }
 
-    public void addMain(Color carte) {
-        this.main.add(carte);
+    public void addMain(Carte carte) 
+    {
+        //ajouter la carte dans la hashmap
+        if(this.cartes.containsKey(carte.getNomCarte())) 
+        {
+            this.cartes.get(carte.getNomCarte()).add(carte);
+            this.main.add(carte);
+        } else {
+            ArrayList<Carte> list = new ArrayList<Carte>();
+            list.add(carte);
+            this.cartes.put(carte.getNomCarte(), list);
+            this.main.add(carte);
+        }
+        
+    }
+
+    public HashMap<String, ArrayList<Carte>> getCartes() {
+        return cartes;
     }
 
     public void removeMain(int index) {
         this.main.remove(index);
+    }
+
+    public String toString() 
+    {
+        //afficher toute les cartes du joueur en parcourant la hashmap
+        String str = "";
+        for(String key : this.cartes.keySet()) 
+        {
+            str += key + " : " + this.cartes.get(key)+"\n";
+        }
+        return str;
+        
+    }
+
+    public void addCarteObjectif(CarteObjectif carteObjectif) 
+    {
+        this.tabCarteObjectif.add(carteObjectif);
+    }
+
+    public ArrayList<CarteObjectif> getTabCarteObjectif() 
+    {
+        return tabCarteObjectif;
     }
 
 }

@@ -114,15 +114,9 @@ public class PanelCarte extends JPanel {
                     // dessiner un carre blanc pour surligner le nom du noeud
                     g2d.setColor(Color.WHITE);
                     g2d.fillRect(noeud.getXNom(), noeud.getYNom(), nbLettre * 12, 20);
-
-                    g2d.setColor(Color.BLACK);
-
-                    Font font = null;
-                    font = Font.decode("Arial-PLAIN-12");
-                    System.out.println("DECODE FONT ------- " + font);
-                    g2d.setFont(font);
-
-                    g2d.drawString(noeud.getNom(), noeud.getXNom(), noeud.getY()+13);
+                    g2d.setColor(Color.WHITE);
+                    
+                    
 
                     //dessiner les noeuds
                     g2d.setColor(Color.BLACK);
@@ -131,6 +125,12 @@ public class PanelCarte extends JPanel {
                     //dessiner un cercke noir autour du noeud
                     g2d.setColor(Color.BLACK);
                     g2d.drawOval(noeud.getX(), noeud.getY(), 35, 35);
+                    
+                    //agrandir le texte du nom du noeud 
+                    g2d.setFont(new Font("Arial", Font.BOLD, 20));
+
+                    g2d.drawString(noeud.getNom(), noeud.getXNom(), noeud.getY()-13);
+
             }
         }
     }

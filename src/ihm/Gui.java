@@ -35,12 +35,25 @@ public class Gui extends JFrame
     public void resizeFrame(int width, int height)
     {
         //Ajuster la taille de la fenetre
-        this.setSize(width+485, height+190);
+        this.setSize(width+(width/3)+50, height+190);
+        System.out.println("width: "+width+" height: "+height);
+        this.panelPioche.setPreferredSize(new Dimension((width/3)+30,  height+190));
         this.panelCarte.setSize(width, height);
-        this.panelJeux.setSize(width+500, 300);
-        this.panelJeux.setPreferredSize(new Dimension(width+500, 150));
+        this.panelJeux.setPreferredSize(new Dimension(width+650, 150));
         //centrer la fenetre
-        this.setLocationRelativeTo(null);     
+        this.setLocationRelativeTo(null);  
+        this.setBackground(Color.RED);  
+    }
+
+
+    public void refreshTableTrajets()
+    {
+        this.panelPioche.refreshTableTrajets();
+    }
+
+    public void piocherCarteObjectif()
+    {
+        this.panelPioche.piocherCarteObjectif();
     }
 
     
