@@ -42,7 +42,17 @@ public class PanelPioche extends JPanel
             { 
                 //gérer la taille des boutons
                 this.cartesTable[i] = new JButton();
-                this.cartesTable[i] = new JButton("CarteTable" + i);
+                this.cartesTable[i] = new JButton("" + i);
+                try {
+                    this.cartesTable[i].setIcon(new ImageIcon( "./images/"+this.ctrl.getAllImages().get(i)+".png")); 
+                    this.cartesTable[i].setBorderPainted(false);
+                    this.cartesTable[i].setContentAreaFilled(false);
+                    this.cartesTable[i].setFocusPainted(false);
+                    this.cartesTable[i].setOpaque(false);
+                } catch (Exception e) {
+                    // TODO: handle exception
+                    System.out.println(e.getMessage());
+                } 
             }
         }
 
