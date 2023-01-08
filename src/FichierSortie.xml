@@ -91,7 +91,7 @@
 			<nbPoint4 nb="6"/>
 			<nbPoint5 nb="8"/>
 			<nbPoint6 nb="10"/>
-			<nbCarteJoueur nb="5"/>
+			<nbCarteJoueur nb="20"/>
 			<nbJoueurDoublesVoies nb="5"/>
 			<nbWagonCouleur nb="14"/>
 			<nbJoker nb="15"/>

@@ -49,6 +49,22 @@ public class Gui extends JFrame
     public void refreshTableTrajets()
     {
         this.panelPioche.refreshTableTrajets();
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void refreshMain()
+    {
+        this.panelJeux.refreshMain();
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void refreshCarte()
+    {
+        this.panelCarte.repaint();
+        this.revalidate();
+        this.repaint();
     }
 
     public void piocherCarteObjectif()

@@ -132,6 +132,27 @@ public class PanelCarte extends JPanel {
                     g2d.drawString(noeud.getNom(), noeud.getXNom(), noeud.getY()-13);
 
             }
+
+            if(!this.ctrl.getJoueur().getAretes().isEmpty())
+            {
+                for(Arete a : this.ctrl.getJoueur().getAretes())
+                {
+                    int x1 = a.getNoeudDepart().getX();
+                    int y1 = a.getNoeudDepart().getY();
+                    int x2 = a.getNoeudArrive().getX();
+                    int y2 = a.getNoeudArrive().getY();
+
+                    //calcul des coordonnées du centre du trajet
+                    int xCentre = (x1 + x2) / 2;
+                    int yCentre = (y1 + y2) / 2;
+
+
+                    g2d.setColor(Color.black);
+                    //dessiner un cercle noir autour du trajet
+                    g2d.drawOval(xCentre, yCentre, 40, 40);
+
+                }
+            }   
         }
     }
 

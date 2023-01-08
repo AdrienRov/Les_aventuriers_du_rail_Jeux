@@ -90,4 +90,46 @@ public class PanelJeux extends JPanel{
         this.allTrajets = new ArrayList<Arete>();
         this.allNoeud = new ArrayList<Noeud>();      
     }  
+
+    public void refreshMain()
+    {
+        this.panelMain.removeAll();
+        int cpt = 0;
+        for (int i = 0; i < this.ctrl.getCouleurCarte().length; i++) 
+        {
+            //ajouter une image carte wagons dans les boutons
+            if(this.ctrl.getJoueur().getCartes().containsKey(this.ctrl.getCouleurCarte()[i]))
+            {
+                this.cartesJoueur[cpt] = new JButton();
+                try {
+                    ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getAllImages().get(i)+".png");
+                    //changer la taille de l'image
+                    Image image = img.getImage(); // transform it
+                    Image newimg = image.getScaledInstance(90, 90,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                    this.cartesJoueur[cpt].setIcon(new ImageIcon(newimg)); 
+                    this.cartesJoueur[cpt].setBorderPainted(false);
+                    this.cartesJoueur[cpt].setContentAreaFilled(false);
+                    this.cartesJoueur[cpt].setFocusPainted(false);
+                    this.cartesJoueur[cpt].setOpaque(false);
+                    //afficher un texte sur le bouton par dessus l'image
+                    //mettre le texte en blanc
+                    this.cartesJoueur[cpt].setForeground(Color.WHITE);
+                    //changer la police du texte
+                    this.cartesJoueur[cpt].setFont(new Font("Arial", Font.BOLD, 15));
+                    this.cartesJoueur[cpt].setText(" " +this.joueur.nbCouleur(this.ctrl.getCouleurCarte()[i]));
+                    cpt++;
+                    
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }   
+            }
+        }
+
+        for (int i = 0; i < cartesJoueur.length; i++) {
+            // this.cartesJoueur[i] = new JButton(" " +this.ctrl.compterCarteCouleur(color[i]));
+            this.panelMain.add(cartesJoueur[i]);
+        }
+        this.revalidate();
+        this.repaint();
+    }
 }

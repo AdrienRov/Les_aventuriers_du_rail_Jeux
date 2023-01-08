@@ -1,15 +1,23 @@
 package src.ihm;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 import java.awt.GridLayout;
 import java.awt.*;
 import src.Controleur;
+import src.metier.Arete;
 import src.metier.CarteObjectif;
+
+
 
 public class PanelPioche extends JPanel implements ActionListener
 {
@@ -19,15 +27,21 @@ public class PanelPioche extends JPanel implements ActionListener
     private JButton[] cartesTable ;
     private JButton btnPiocheObjectif;
     private JButton btnRemplirSection;
+    private JLabel  lblTrajets[] = new JLabel[3];
+    private List<Color>  lstColor ;
+    private JComboBox<Color> comboColor;
+    private JRadioButton rdTrajets[];
     private JLabel lblTable, lblObjectif;
     private JTable table;
     private Object[][] donneesTrajets = {{"", "", ""}};
-    private String[] entetes = {"Départ", "Voiture", "Arrivée", "Validation"};
+    private String[] entetesTrajets = {"Départ", "Voiture", "Arrivée", "Validation"};
 
     private JTable tableObjectif;
     private Object[][] donneesObjectif = {{"", "", ""}};
     private String[] entetesObjectif;
     private TableColumn[] tabColObjectif;
+    private TableColumn tabColTrajet      = new TableColumn();
+    private JComboBox<String> comboVille1, comboVille2;
 
     private JCheckBox checkObjectif1, checkObjectif2, checkObjectif3;
 
@@ -35,15 +49,19 @@ public class PanelPioche extends JPanel implements ActionListener
     {
 
         this.ctrl = ctrl;
-        this.table = new JTable(this.donneesTrajets, this.entetes);
+        this.table = new JTable(this.donneesTrajets, this.entetesTrajets);
         this.setLayout(new BorderLayout());
         this.panelBoutonPioche = new JPanel();
+        this.lstColor = new ArrayList<Color>();
         this.panelBoutonPioche.setLayout(new GridLayout(3, 3, 10, 10));
         this.panelGlobal = new JPanel();
         this.panelGlobal.setLayout(new GridLayout(4, 1, 1, 1));
         this.panelObjectif = new JPanel();
         this.panelObjectif.setLayout(new GridLayout(1, 2, 1, 1));
         this.tabColObjectif = new TableColumn[3];
+        this.rdTrajets = new JRadioButton[this.ctrl.getAllTrajets().size()];
+        this.comboVille1 = new JComboBox<String>();
+        this.comboVille2 = new JComboBox<String>();
         // Création des labels
         this.lblTable = new JLabel("Cartes sur la table : ");
         this.lblObjectif = new JLabel("Liste des objectifs :");
@@ -63,24 +81,33 @@ public class PanelPioche extends JPanel implements ActionListener
         this.btnRemplirSection.addActionListener(this);
         this.btnPiocheObjectif.addActionListener(this);
         
+        for(Color c: this.ctrl.getTabColor())
+        {
+            this.lstColor.add(c);
+        }
+
+        this.comboColor = new JComboBox<Color>(this.lstColor.toArray(new Color[this.lstColor.size()]));
+        comboColor.setRenderer(new ColorListCellRenderer());
+        this.comboColor.addActionListener(this);
         
-        
+
         for (int i = 0; i < this.cartesTable.length; i++) 
         {
             
             if(i == 0) 
             { 
                 this.cartesTable[i] = new JButton("");
+                this.cartesTable[i].addActionListener(this);
                 try {
                     ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getAllImages().get(9)+".png");
                     //changer la taille de l'image
                     Image image = img.getImage(); // transform it
                     Image newimg = image.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                     this.cartesTable[i].setIcon(new ImageIcon(newimg)); 
-                    this.cartesTable[i].setBorderPainted(false);
+                    //this.cartesTable[i].setBorderPainted(false);
                     this.cartesTable[i].setContentAreaFilled(false);
-                    this.cartesTable[i].setFocusPainted(false);
-                    this.cartesTable[i].setOpaque(false);
+                    //this.cartesTable[i].setFocusPainted(false);
+                    //this.cartesTable[i].setOpaque(false);
                     
                 } catch (Exception e) {
                     // TODO: handle exception
@@ -97,10 +124,10 @@ public class PanelPioche extends JPanel implements ActionListener
                     Image image = img.getImage(); // transform it
                     Image newimg = image.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                     this.cartesTable[i].setIcon(new ImageIcon(newimg)); 
-                    this.cartesTable[i].setBorderPainted(false);
+                    //this.cartesTable[i].setBorderPainted(false);
                     this.cartesTable[i].setContentAreaFilled(false);
-                    this.cartesTable[i].setFocusPainted(false);
-                    this.cartesTable[i].setOpaque(false);
+                    //this.cartesTable[i].setFocusPainted(false);
+                    //this.cartesTable[i].setOpaque(false);
                 } catch (Exception e) {
                     // TODO: handle exception
                 } 
@@ -114,10 +141,10 @@ public class PanelPioche extends JPanel implements ActionListener
             Image image = img.getImage(); // transform it
             Image newimg = image.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
             this.btnPiocheObjectif.setIcon(new ImageIcon(newimg)); 
-            this.btnPiocheObjectif.setBorderPainted(false);
+            //this.btnPiocheObjectif.setBorderPainted(false);
             this.btnPiocheObjectif.setContentAreaFilled(false);
-            this.btnPiocheObjectif.setFocusPainted(false);
-            this.btnPiocheObjectif.setOpaque(false);
+            //this.btnPiocheObjectif.setFocusPainted(false);
+            //this.btnPiocheObjectif.setOpaque(false);
             
         } catch (Exception e) {
             // TODO: handle exception
@@ -159,14 +186,19 @@ public class PanelPioche extends JPanel implements ActionListener
 
     public void refreshTableTrajets()
     {
-        this.donneesTrajets = new Object[this.ctrl.getAllTrajets().size()][4];
-        for(int i = 0; i < this.ctrl.getAllTrajets().size(); i++)
+
+        //remplr les combobox avec les trajets disponibles 
+        this.comboVille1.removeAllItems();
+        this.comboVille2.removeAllItems();
+
+        for(int i = 0; i < this.ctrl.getAllNoeuds().size(); i++)
         {
-            this.donneesTrajets[i][0] = this.ctrl.getAllTrajets().get(i).getNoeudDepart().getNom();
-            this.donneesTrajets[i][1] = this.ctrl.getAllTrajets().get(i).getNbVoiture();
-            this.donneesTrajets[i][2] = this.ctrl.getAllTrajets().get(i).getNoeudArrive().getNom();
+            this.comboVille1.addItem(this.ctrl.getAllNoeuds().get(i).getNom());
+            this.comboVille2.addItem(this.ctrl.getAllNoeuds().get(i).getNom());
         }
-        this.table = new JTable(this.donneesTrajets, this.entetes);
+
+        this.comboVille1.addActionListener(this);
+        this.comboVille2.addActionListener(this);
     }
 
     public void refreshTableObjectifs()
@@ -252,14 +284,19 @@ public class PanelPioche extends JPanel implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) 
     {
+
+        
+
         // TODO Auto-generated method stub
         if(e.getSource() == this.cartesTable[0])
         {
-            this.ctrl.jouerManche(0);
+            this.ctrl.pioche(this.ctrl.getJoueur());
+            this.ctrl.joueurSuivant();
         }
         if(e.getSource() == this.btnPiocheObjectif)
         {
             this.ctrl.jouerManche(1);
+            this.ctrl.joueurSuivant();
         }
 
         if(e.getSource() == this.btnRemplirSection)
@@ -268,9 +305,43 @@ public class PanelPioche extends JPanel implements ActionListener
             System.out.println("Remplir section");
             JPanel panel = new JPanel();
             this.ctrl.refreshTabTrajets();
-            JScrollPane scrollPane = new JScrollPane(this.table);
-            panel.add(scrollPane);
-            JOptionPane.showMessageDialog(null, panel, "Trajet", JOptionPane.PLAIN_MESSAGE);
+            
+            panel.add(this.comboVille1);
+            panel.add(this.comboVille2);
+            panel.add(this.comboColor);
+            //mettre une condition si on clique sur ok ou annuler
+            //si on clique sur ok, on récupère les deux villes choisies et on les envoie au controleur
+            int result = JOptionPane.showConfirmDialog(null, panel, "Trajet", JOptionPane.OK_CANCEL_OPTION);
+            ArrayList<Arete> trajets = (ArrayList<Arete>) this.ctrl.getAllTrajets();
+
+            if (result == JOptionPane.OK_OPTION) {
+                // L'utilisateur a appuyé sur "OK"
+                // Exécutez le code voulu ici
+                for(int i = 0; i <this.ctrl.getAllTrajets().size(); i++)
+                {
+                    if(trajets.get(i).getNoeudDepart().getNom().equals(this.comboVille1.getSelectedItem()) && trajets.get(i).getNoeudArrive().getNom().equals(this.comboVille2.getSelectedItem()) || trajets.get(i).getNoeudDepart().getNom().equals(this.comboVille2.getSelectedItem()) && trajets.get(i).getNoeudArrive().getNom().equals(this.comboVille1.getSelectedItem()))
+                    {
+                        Arete arete = this.ctrl.getAllTrajets().get(i);
+                        if(this.ctrl.prendrePossession(arete))
+                        {
+                            this.ctrl.joueurSuivant();
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Vous n'avez pas assez de carte de même couleur pour prendre possession de cette arete", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            }
+            else {
+                // L'utilisateur a appuyé sur "Annuler"
+                // Exécutez le code voulu ici
+                return;
+            }
+
+            
         }
     }
+
+   
 }

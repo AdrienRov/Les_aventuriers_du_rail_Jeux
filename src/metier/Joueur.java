@@ -2,6 +2,7 @@ package src.metier;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Joueur {
     private String nom;
@@ -51,6 +52,12 @@ public class Joueur {
     public void addScore(int score) 
     {
         this.score += score;
+    }
+
+    public void removeCarte(Carte c)
+    {
+        this.main.remove(c);
+        this.cartes.get(c.getNomCarte()).remove(c);
     }
 
     public void removeScore(int score) 
@@ -115,6 +122,11 @@ public class Joueur {
         }
         return str;
         
+    }
+
+    public List<Arete> getAretes() 
+    {
+        return this.tabArete;
     }
 
     public void addCarteObjectif(CarteObjectif carteObjectif) 

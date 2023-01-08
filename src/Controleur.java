@@ -1,6 +1,7 @@
 package src;
 
 import java.io.File;
+import java.text.DateFormat.Field;
 
 import src.ihm.FrameAccueil;
 import src.ihm.Gui;
@@ -67,7 +68,8 @@ public class Controleur
 {
     private FrameAccueil frameAcceuil;
     private Gui gui;
-    private String[] couleurCarte = {"Rouge","Bleu","Vert","Jaune","Noir","Violet","Marron","Blanc","Gris"};
+    private String[] couleurCarte = {"red","blue","green","yellow","black","purple","orange","white","grey"};
+    private Color[] tabColors = {Color.RED,Color.BLUE,Color.GREEN,Color.YELLOW,Color.BLACK,Color.MAGENTA,Color.ORANGE,Color.WHITE,Color.GRAY};
     private List<Noeud> allNoeuds;
     private List<Arete> allAretes;
     private List<CarteObjectif> allCartesObjectifs;
@@ -112,7 +114,6 @@ public class Controleur
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
-        
         initPioche();
         this.AfficherDonnees();
     }
@@ -131,14 +132,7 @@ public class Controleur
 
         if(numAction == 2)
         {
-            if(this.prendrePossession(choixArete))
-            {
-                System.out.println("Vous avez pris possession de l'arete");
-            }
-            else
-            {
-                System.out.println("Vous n'avez pas pris possession de l'arete");
-            }
+            
         }
     }
 
@@ -187,9 +181,11 @@ public class Controleur
     
     // action du joueur : piocher une carte 
 
-    public void pioche()
+    public void pioche(Joueur joueur)
     {
-        this.joueur1.addMain(this.pioche.get(0));
+        joueur.addMain(this.pioche.get(0));
+        this.pioche.remove(0);
+        this.gui.refreshMain();
     }
     
 
@@ -223,6 +219,7 @@ public class Controleur
 
     // action du jouer : prendre possession d'une arete
    
+    /*
     public boolean prendrePossession(Arete a)
     {
         //verif si le joueurs dans sa main a assez de carte de la couleur de l'arete 
@@ -241,7 +238,7 @@ public class Controleur
         return true;          
         
     }
-    
+    */
     //créer une pioche de carte voiture avec les infos du
 
     // Afficher les données du fichier XML
@@ -295,6 +292,17 @@ public class Controleur
         System.out.println("rien : " + joueur1.nbCouleur("fergreg"));
         System.out.println("Marron : " + joueur1.nbCouleur("Marron"));
         System.out.println("Gris : " + joueur1.nbCouleur("Gris"));
+
+        Color color;
+        try {
+            java.lang.reflect.Field field = Class.forName("java.awt.Color").getField("grey");
+            color = (Color)field.get(null);
+        } catch (Exception e) {
+            color = null; // Not defined
+        }
+
+        System.out.println("Couleur : " + color);
+    
 
     }
 
@@ -454,14 +462,44 @@ public class Controleur
     //         return null;
     //     }
     // }
-
-    public void setChoixArete(Arete arete) 
+    public void joueurSuivant()
     {
-        this.choixArete = arete;
+        System.out.println("Joueur suivant");
     }
+
+
+    public boolean prendrePossession(Arete arete) 
+    {
+        for(Carte c : this.allCartes)
+        {
+            System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
+            if(arete.getCouleur().equals(c.getCouleur()))
+            {
+                if(this.joueur1.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
+                {
+                    
+                    this.joueur1.addArete(arete);
+                    for(int i = 0; i < arete.getNbVoiture(); i++)
+                    {
+                        this.joueur1.removeCarte(c);
+                    }
+                    this.gui.refreshMain();
+                    this.gui.refreshCarte();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public void refreshTabTrajets()
     {
         this.gui.refreshTableTrajets();
+    }
+
+    public Color[] getTabColor() 
+    {
+        return this.tabColors;
     }
 
     //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
@@ -472,25 +510,7 @@ public class Controleur
             return true;
         }
         return false;
-    }
-
-    // fonctio qui compte les cartes du joueur en fonction de leur couleur
-    /*
-    public int compterCarteCouleur(String couleur)
-    {
-        int compteur = 0;
-        for(Color c : this.joueur1.getMain())
-        {
-            if(c == couleur )
-            {
-                compteur++;
-            }
-        }
-        return compteur;
-    }*/
-    
-
-    
+    }    
 
     public List<Noeud> getAllNoeuds() 
     {
