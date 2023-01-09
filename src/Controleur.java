@@ -349,8 +349,9 @@ public class Controleur
             int nbWagon = Integer.parseInt(arete.getChild("nbWagon").getAttributeValue("nb"));
             // Récupération de la couleur de l'arête
             Color couleur = new Color (Integer.parseInt(arete.getChild("couleur").getAttributeValue("couleur")));
+            boolean sensUnique = Boolean.parseBoolean(arete.getChild("sens").getAttributeValue("sens"));
             // On créer l'arete avec les valeurs récupérées
-            this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, true));
+            this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, sensUnique));
         }
         // On crée une Liste regroupant toutes les balises <arete> contenu dans la
         // racine

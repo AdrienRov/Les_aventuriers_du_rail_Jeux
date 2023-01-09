@@ -2,100 +2,165 @@
 <root>
 	<listeNoeuds>
 		<noeud nom="Vancouver">
-			<coordonnees x="76" y="74"/>
-			<coordonneesTexte x="46" y="44"/>
+			<coordonnees x="78" y="72"/>
+			<coordonneesTexte x="48" y="42"/>
 		</noeud>
 		<noeud nom="San Francisco">
-			<coordonnees x="31" y="470"/>
-			<coordonneesTexte x="1" y="440"/>
-		</noeud>
-		<noeud nom="Toronto">
-			<coordonnees x="964" y="159"/>
-			<coordonneesTexte x="934" y="129"/>
-		</noeud>
-		<noeud nom="Helena">
-			<coordonnees x="367" y="226"/>
-			<coordonneesTexte x="337" y="196"/>
+			<coordonnees x="31" y="466"/>
+			<coordonneesTexte x="1" y="436"/>
 		</noeud>
 		<noeud nom="Denver">
-			<coordonnees x="442" y="427"/>
-			<coordonneesTexte x="412" y="397"/>
+			<coordonnees x="437" y="419"/>
+			<coordonneesTexte x="407" y="389"/>
+		</noeud>
+		<noeud nom="Dallas">
+			<coordonnees x="655" y="628"/>
+			<coordonneesTexte x="625" y="598"/>
+		</noeud>
+		<noeud nom="Chicago">
+			<coordonnees x="818" y="296"/>
+			<coordonneesTexte x="788" y="266"/>
+		</noeud>
+		<noeud nom="Helena">
+			<coordonnees x="371" y="220"/>
+			<coordonneesTexte x="341" y="190"/>
 		</noeud>
 	</listeNoeuds>
 	<listeArete>
 		<arete>
-			<noeudDepart nom="Vancouver"/>
-			<noeudArrive nom="San Francisco"/>
-			<coordonneesDepart x="76" y="74"/>
-			<coordonneesArrive x="31" y="470"/>
-			<nbWagon nb="4"/>
+			<noeudDepart nom="San Francisco"/>
+			<noeudArrive nom="Dallas"/>
+			<coordonneesDepart x="31" y="466"/>
+			<coordonneesArrive x="655" y="628"/>
+			<nbWagon nb="5"/>
 			<couleur couleur="-16711936"/>
+			<sens sens="true"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Helena"/>
+			<noeudArrive nom="Denver"/>
+			<coordonneesDepart x="371" y="220"/>
+			<coordonneesArrive x="437" y="419"/>
+			<nbWagon nb="3"/>
+			<couleur couleur="-16776961"/>
+			<sens sens="true"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Vancouver"/>
+			<noeudArrive nom="Chicago"/>
+			<coordonneesDepart x="78" y="72"/>
+			<coordonneesArrive x="818" y="296"/>
+			<nbWagon nb="6"/>
+			<couleur couleur="-65536"/>
+			<sens sens="true"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Helena"/>
+			<noeudArrive nom="Vancouver"/>
+			<coordonneesDepart x="371" y="220"/>
+			<coordonneesArrive x="78" y="72"/>
+			<nbWagon nb="3"/>
+			<couleur couleur="-16776961"/>
+			<sens sens="true"/>
 		</arete>
 		<arete>
 			<noeudDepart nom="San Francisco"/>
-			<noeudArrive nom="Denver"/>
-			<coordonneesDepart x="31" y="470"/>
-			<coordonneesArrive x="438" y="427"/>
-			<nbWagon nb="5"/>
-			<couleur couleur="-256"/>
-		</arete>
-		<arete>
-			<noeudDepart nom="Helena"/>
-			<noeudArrive nom="Toronto"/>
-			<coordonneesDepart x="367" y="226"/>
-			<coordonneesArrive x="964" y="159"/>
+			<noeudArrive nom="Helena"/>
+			<coordonneesDepart x="31" y="466"/>
+			<coordonneesArrive x="371" y="220"/>
 			<nbWagon nb="4"/>
 			<couleur couleur="-14336"/>
+			<sens sens="true"/>
 		</arete>
 		<arete>
-			<noeudDepart nom="Helena"/>
-			<noeudArrive nom="Denver"/>
-			<coordonneesDepart x="367" y="226"/>
-			<coordonneesArrive x="442" y="427"/>
+			<noeudDepart nom="Vancouver"/>
+			<noeudArrive nom="San Francisco"/>
+			<coordonneesDepart x="78" y="72"/>
+			<coordonneesArrive x="31" y="466"/>
+			<nbWagon nb="3"/>
+			<couleur couleur="-8355712"/>
+			<sens sens="true"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Chicago"/>
+			<noeudArrive nom="Dallas"/>
+			<coordonneesDepart x="818" y="296"/>
+			<coordonneesArrive x="655" y="628"/>
+			<nbWagon nb="4"/>
+			<couleur couleur="-16777216"/>
+			<sens sens="true"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Denver"/>
+			<noeudArrive nom="Chicago"/>
+			<coordonneesDepart x="437" y="419"/>
+			<coordonneesArrive x="818" y="296"/>
+			<nbWagon nb="4"/>
+			<couleur couleur="-256"/>
+			<sens sens="true"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Denver"/>
+			<noeudArrive nom="Dallas"/>
+			<coordonneesDepart x="437" y="419"/>
+			<coordonneesArrive x="655" y="628"/>
+			<nbWagon nb="3"/>
+			<couleur couleur="-256"/>
+			<sens sens="true"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Denver"/>
+			<noeudArrive nom="San Francisco"/>
+			<coordonneesDepart x="437" y="419"/>
+			<coordonneesArrive x="31" y="466"/>
 			<nbWagon nb="4"/>
 			<couleur couleur="-1"/>
+			<sens sens="true"/>
 		</arete>
 		<arete>
 			<noeudDepart nom="Vancouver"/>
-			<noeudArrive nom="Helena"/>
-			<coordonneesDepart x="76" y="74"/>
-			<coordonneesArrive x="367" y="226"/>
-			<nbWagon nb="5"/>
-			<couleur couleur="-8355712"/>
-		</arete>
-		<arete>
-			<noeudDepart nom="Toronto"/>
-			<noeudArrive nom="Denver"/>
-			<coordonneesDepart x="964" y="159"/>
-			<coordonneesArrive x="442" y="427"/>
+			<noeudArrive nom="San Francisco"/>
+			<coordonneesDepart x="78" y="72"/>
+			<coordonneesArrive x="31" y="466"/>
 			<nbWagon nb="4"/>
 			<couleur couleur="-16776961"/>
+			<sens sens="false"/>
+		</arete>
+		<arete>
+			<noeudDepart nom="Denver"/>
+			<noeudArrive nom="Dallas"/>
+			<coordonneesDepart x="437" y="419"/>
+			<coordonneesArrive x="655" y="628"/>
+			<nbWagon nb="2"/>
+			<couleur couleur="-14336"/>
+			<sens sens="false"/>
 		</arete>
 		<arete>
 			<noeudDepart nom="Vancouver"/>
-			<noeudArrive nom="Toronto"/>
-			<coordonneesDepart x="76" y="74"/>
-			<coordonneesArrive x="964" y="159"/>
+			<noeudArrive nom="Chicago"/>
+			<coordonneesDepart x="78" y="72"/>
+			<coordonneesArrive x="818" y="296"/>
 			<nbWagon nb="6"/>
-			<couleur couleur="-65536"/>
+			<couleur couleur="-16777216"/>
+			<sens sens="false"/>
 		</arete>
 	</listeArete>
 	<listeParametres>
 		<parametre>
 			<nbJoueurMin nb="1"/>
-			<nbJoueurMax nb = "3"/>
-			<nbPion nb="5"/>
+			<nbJoueurMax nb="3"/>
+			<nbPion nb="100"/>
 			<nbWagonFin nb="3"/>
-			<nbPoint1 nb="1"/>
-			<nbPoint2 nb="2"/>
-			<nbPoint3 nb="4"/>
-			<nbPoint4 nb="6"/>
-			<nbPoint5 nb="8"/>
-			<nbPoint6 nb="10"/>
-			<nbCarteJoueur nb="20"/>
-			<nbJoueurDoublesVoies nb="5"/>
+			<nbPoint1 nb="10"/>
+			<nbPoint2 nb="20"/>
+			<nbPoint3 nb="30"/>
+			<nbPoint4 nb="40"/>
+			<nbPoint5 nb="50"/>
+			<nbPoint6 nb="60"/>
+			<nbCarteJoeur nb="20"/>
+			<nbJoueurDoublesVoies nb="3"/>
 			<nbWagonCouleur nb="14"/>
-			<nbJoker nb="15"/>
+			<nbJoker nb="16"/>
 		</parametre>
 	</listeParametres>
 	<listeImage>
@@ -114,23 +179,48 @@
 	<listeCarteObjectif>
 		<CarteObjectif>
 			<noeudDepart nom="Vancouver"/>
-			<noeudArrive nom="Denver"/>
+			<noeudArrive nom="Chicago"/>
+			<point pts="60"/>
+		</CarteObjectif>
+		<CarteObjectif>
+			<noeudDepart nom="Chicago"/>
+			<noeudArrive nom="Vancouver"/>
 			<point pts="50"/>
 		</CarteObjectif>
 		<CarteObjectif>
 			<noeudDepart nom="Vancouver"/>
-			<noeudArrive nom="Toronto"/>
-			<point pts="10"/>
+			<noeudArrive nom="Helena"/>
+			<point pts="40"/>
 		</CarteObjectif>
 		<CarteObjectif>
 			<noeudDepart nom="Helena"/>
-			<noeudArrive nom="San Francisco"/>
-			<point pts="20"/>
+			<noeudArrive nom="Vancouver"/>
+			<point pts="30"/>
 		</CarteObjectif>
 		<CarteObjectif>
-			<noeudDepart nom="Toronto"/>
+			<noeudDepart nom="Denver"/>
+			<noeudArrive nom="Dallas"/>
+			<point pts="40"/>
+		</CarteObjectif>
+		<CarteObjectif>
+			<noeudDepart nom="Denver"/>
 			<noeudArrive nom="San Francisco"/>
+			<point pts="5"/>
+		</CarteObjectif>
+		<CarteObjectif>
+			<noeudDepart nom="San Francisco"/>
+			<noeudArrive nom="Dallas"/>
 			<point pts="90"/>
+		</CarteObjectif>
+		<CarteObjectif>
+			<noeudDepart nom="Dallas"/>
+			<noeudArrive nom="Vancouver"/>
+			<point pts="100"/>
+		</CarteObjectif>
+		<CarteObjectif>
+			<noeudDepart nom="Chicago"/>
+			<noeudArrive nom="Dallas"/>
+			<point pts="10"/>
 		</CarteObjectif>
 	</listeCarteObjectif>
 </root>
