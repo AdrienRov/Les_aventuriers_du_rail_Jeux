@@ -78,5 +78,5 @@ public class Gui extends JFrame
     {
         this.panelPioche.piocherCarteObjectif();
     }
-    
+
 }

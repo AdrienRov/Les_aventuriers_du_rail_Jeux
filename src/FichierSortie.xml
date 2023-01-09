@@ -149,7 +149,7 @@
 		<parametre>
 			<nbJoueurMin nb="1"/>
 			<nbJoueurMax nb="3"/>
-			<nbPion nb="100"/>
+			<nbPion nb="10"/>
 			<nbWagonFin nb="3"/>
 			<nbPoint1 nb="10"/>
 			<nbPoint2 nb="20"/>

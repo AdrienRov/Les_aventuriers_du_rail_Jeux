@@ -105,6 +105,7 @@ public class Joueur {
         
     }
 
+
     public HashMap<String, ArrayList<Carte>> getCartes() {
         return cartes;
     }
