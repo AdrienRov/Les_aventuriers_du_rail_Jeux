@@ -6,9 +6,7 @@ import java.text.DateFormat.Field;
 import src.ihm.FrameAccueil;
 import src.ihm.Gui;
 import src.metier.Arete;
-import src.metier.Carte;
 import src.metier.CarteObjectif;
-import src.metier.Joueur;
 import src.metier.Noeud;
 
 import java.io.*;
@@ -20,9 +18,7 @@ import org.jdom2.input.SAXBuilder;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -30,40 +26,10 @@ import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.Image;
-import src.metier.Arete;
-import src.metier.Noeud;
-
-import java.io.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import src.metier.Arete;
-import src.metier.Noeud;
-
-import java.io.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import java.awt.Color;
+import src.metier.Carte;
+import src.metier.Joueur;
+import java.util.HashMap;
+import java.util.Random;
 
 public class Controleur 
 {
@@ -121,54 +87,35 @@ public class Controleur
         initPioche();
         initPiocheObjectif();
         this.AfficherDonnees();
-    }
-
-    public void jouerManche(int numAction)
-    {
-        if(numAction == 0)
-        {
-
-        }
-
-        if(numAction == 1)
-        {
-            this.gui.piocherCarteObjectif();
-        }
-
-        if(numAction == 2)
-        {
-            
-        }
+        initPioche();
     }
 
     public void initPioche()
     {
         this.pioche = new ArrayList<Carte>();
         this.defausse = new ArrayList<Carte>();
+        this.mainJoueur = new ArrayList<Carte>();
         this.carteTable = new ArrayList<Carte>();
 
         
-        for(int i =0 ; i<this.nbWagonCouleur ;i++)
+        for(int i =0 ; i<12 ;i++)
         {
-                this.pioche.add(this.allCartes.get(0));
-                this.pioche.add(this.allCartes.get(1));
-                this.pioche.add(this.allCartes.get(2));
-                this.pioche.add(this.allCartes.get(3));
-                this.pioche.add(this.allCartes.get(4));
-                this.pioche.add(this.allCartes.get(5));
-                this.pioche.add(this.allCartes.get(6));
-                this.pioche.add(this.allCartes.get(7));
+                this.pioche.add(Color.BLUE);
+                this.pioche.add(Color.GREEN);
+                this.pioche.add(Color.YELLOW);
+                this.pioche.add(Color.RED);
+                this.pioche.add(Color.ORANGE);
+                this.pioche.add(Color.PINK);
+                this.pioche.add(Color.BLACK);
+                this.pioche.add(Color.WHITE);
         }
 
-        for(int i =0 ; i<this.nbJoker ;i++){ this.pioche.add(this.allCartes.get(8));} // locomotive
-        
-        System.out.println(this.pioche);
-        Collections.shuffle(this.pioche);
-        
+        for(int i =0 ; i<14 ;i++){ this.pioche.add(Color.GRAY);} // locomotive
+
         //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
-        for(int i =0 ; i<this.nbCarteJoueur ;i++)
+        for(int i =0 ; i<4 ;i++)
         {
-            this.joueur1.addMain(this.pioche.get(i));
+            this.mainJoueur.add(this.pioche.get(i));
             this.pioche.remove(i);
         }
 
@@ -177,54 +124,19 @@ public class Controleur
         {
             this.carteTable.add(this.pioche.get(i));
             this.pioche.remove(i);
-        }     
-        
-        //refreshTabTrajets();
-    }
-        
-    // action du joueur : piocher une carte 
-
-    public void pioche(Joueur joueur)
-    {
-        if(!this.pioche.isEmpty())
-        {
-            joueur1.addMain(this.pioche.get(0));
-            this.pioche.remove(0);
-            this.gui.refreshMain();
-            return;
         }
-        this.gui.notification("Il n'y a plus de carte dans la pioche");      
-        System.out.println("Taille de la pioche = "+this.pioche.size());
-        
-    }
     
-
-    // action du joueur :prendre une carte de la table
-    public void carteTable(int i)
-    {
-        this.joueur1.addMain(this.carteTable.get(i));
-        this.carteTable.remove(i);
-        this.carteTable.add(this.pioche.get(0));
-        this.pioche.remove(0);
-           
-    }
-
-    public void verifTourDejeux()
-    {
-         
-        System.out.println("fin de tour");
-
-    }
-
-    // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
-    public void remelanger()
-    {
-        if(this.pioche.isEmpty())
-        {
-            this.pioche.addAll(this.defausse);
-            this.defausse.clear();
-            Collections.shuffle(this.pioche);
-        }
+        System.out.println(this.pioche);
+        Collections.shuffle(this.pioche);
+    
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println(this.pioche);
+        System.out.println();
+        System.out.println();
+        System.out.println("le joueur a la pioche suivante :" + this.mainJoueur);
+        System.out.println("les cartes sur la table sont :" + this.carteTable);
     }
 
     // Afficher les données du fichier XML
@@ -535,16 +447,6 @@ public class Controleur
         return false;
     }    
 
-    public List<Noeud> getAllNoeuds() 
-    {
-        return this.allNoeuds;
-    }
-    
-    public List<Arete> getAllTrajets() 
-    {
-        return this.allAretes;
-    }
-    
 
     public List<CarteObjectif> getAllCartesObjectifs() {
         return this.allCartesObjectifs;
@@ -586,6 +488,16 @@ public class Controleur
     {
         this.allCartesObjectifs.remove(carteObjectif);
     }
+
+
+    public List<Arete> getAllTrajets() {
+        return this.allAretes;
+    }
+
+    public List<Noeud> getAllNoeuds() {
+        return this.allNoeuds;
+    }
+    
 
     public static void main(String[] args) 
     {

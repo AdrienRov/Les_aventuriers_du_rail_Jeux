@@ -28,6 +28,8 @@ public class PanelJeux extends JPanel{
     private List<String> allImages;
     private Joueur joueur;
 
+    private Graphics2D  g2d;
+
 
     public PanelJeux(Controleur ctrl){
 
@@ -98,4 +100,5 @@ public class PanelJeux extends JPanel{
         this.revalidate();
         this.repaint();
     }
+
 }
