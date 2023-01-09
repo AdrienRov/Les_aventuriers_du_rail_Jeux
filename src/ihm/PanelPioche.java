@@ -282,6 +282,15 @@ public class PanelPioche extends JPanel implements ActionListener
     public void actionPerformed(ActionEvent e) 
     {
         // TODO Auto-generated method stub
+
+        for(int i = 0 ; i<this.cartesTable.length;i++)
+        {
+            if(e.getSource() == this.cartesTable[i])
+            {
+                ////////////Faut faire une methode refresh cartesTable qui permet de prendre la carte selectionné et de l'ajouter dans la main puis ajouter une autre carte sur la table
+            }
+        }
+
         if(e.getSource() == this.cartesTable[0])
         {
             this.ctrl.pioche(this.ctrl.getJoueur());
