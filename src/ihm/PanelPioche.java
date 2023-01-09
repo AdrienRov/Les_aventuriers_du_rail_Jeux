@@ -42,6 +42,7 @@ public class PanelPioche extends JPanel implements ActionListener
     private TableColumn[] tabColObjectif;
     private TableColumn tabColTrajet      = new TableColumn();
     private JComboBox<String> comboVille1, comboVille2;
+    private boolean verif =  true ; 
 
     private JCheckBox checkObjectif1, checkObjectif2, checkObjectif3;
 
@@ -361,11 +362,16 @@ public class PanelPioche extends JPanel implements ActionListener
                 
                 this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
                 this.ctrl.joueurSuivant();
-                if(this.ctrl.getPioche().isEmpty())
+                this.cartesTable[i].setVisible(verif);
+                
+                if(this.ctrl.getPioche().isEmpty() )
                 {
-                    //enlever le bouton du panel 
-                    this.cartesTable[i].setVisible(false);
-                    
+                    verif = false ;
+                    this.cartesTable[0].setVisible(verif);
+                }
+                else
+                {
+                    verif = true;
                 }
                 System.out.println("test"+i);
                 this.refreshTablePioche();
@@ -375,15 +381,14 @@ public class PanelPioche extends JPanel implements ActionListener
         
         if(e.getSource() == this.cartesTable[0])
         {
-
+            
             this.ctrl.pioche(this.ctrl.getJoueur());
             this.ctrl.joueurSuivant();
             if(this.ctrl.getPioche().isEmpty())
             {
-                //enlever le bouton du panel 
-                this.cartesTable[0].setVisible(false);
-                
+                this.cartesTable[0].setVisible(verif);
             }
+
             this.refreshTablePioche();
               
         }

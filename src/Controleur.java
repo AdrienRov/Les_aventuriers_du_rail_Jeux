@@ -26,6 +26,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
@@ -95,6 +96,8 @@ public class Controleur
     private int nbJoueurDoublesVoies;
     private int nbWagonCouleur;
     private int nbJoker;
+
+    private int tour = 1;
 
     private int nbJoueur;
 
@@ -212,15 +215,17 @@ public class Controleur
     public void piocheCarteTable(int i, Joueur joueur)
     {
         
-        this.joueur1.addMain(this.carteTable.get(i-1));
         // verifie si la pioche est vide 
+        this.joueur1.addMain(this.carteTable.get(i-1));
         if(!this.pioche.isEmpty())
         {
+
             this.carteTable.set(i-1, this.pioche.get(0));
             this.pioche.remove(0);
-
+            
         }
         this.gui.refreshMain();
+
         System.out.println(this.pioche);
     }
 
@@ -231,7 +236,7 @@ public class Controleur
 
     private void calculScore()
     {
-        int somme = 0;
+        int somme        = 0;
         int soustraction = 0;  
 
         for(int i = 0; i < this.joueur1.getAretes().size(); i++)
@@ -485,6 +490,8 @@ public class Controleur
     public void joueurSuivant()
     {
         System.out.println("Joueur suivant");
+        System.out.println("Tour "+ ++this.tour);
+        
         if(this.joueur1.getNbPion() < this.nbWagonFin)
         {
             this.gui.notification("C'est la dernière manche");
@@ -555,7 +562,7 @@ public class Controleur
         {
             for(Carte c : this.allCartes)
             {
-                System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
+                //System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
                 if(arete.getCouleur().equals(c.getCouleur()))
                 {
                     if(this.joueur1.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
@@ -565,8 +572,9 @@ public class Controleur
                         {
                             this.joueur1.removeCarte(c);
                             this.defausse.add(c);
+
                         }
-                        System.out.println(this.defausse);
+                        // System.out.println(this.defausse);
                         arete.setJoueur(this.joueur1);
                         this.gui.refreshMain();
                         this.gui.refreshCarte();
@@ -574,14 +582,11 @@ public class Controleur
                         return 1;
                     }
                 }
-                
+               
             }
-            
-            return 3;
-            
+            return 3;        
         }
-        return 2;
-        
+        return 2; 
     }
 
     public void refreshTabTrajets()
@@ -679,6 +684,12 @@ public class Controleur
     {
         this.frameAcceuil.etatConfig(etat);
     }
+
+    public FrameAccueil getFrameAccueil()
+    {
+        return this.frameAcceuil;
+    }
+    
 
     public static void main(String[] args) 
     {
