@@ -24,11 +24,17 @@ public class PanelCarte extends JPanel {
     public PanelCarte(Controleur ctrl) 
     {
         this.ctrl = ctrl;
+<<<<<<< HEAD
         this.setBackground(new Color(35, 31, 32));
         this.image          = new ImageIcon ("images/carte.png").getImage();
         this.allTrajets     = new ArrayList<Arete>();
         this.allNoeud       = new ArrayList<Noeud>();
         this.setBackground(new Color(35, 31, 32));
+=======
+        this.image          = new ImageIcon ("images/carte.png").getImage();
+        this.allTrajets     = new ArrayList<Arete>();
+        this.allNoeud       = new ArrayList<Noeud>();
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
     }
 
     public void paintComponent(Graphics g) 
@@ -114,9 +120,21 @@ public class PanelCarte extends JPanel {
                     // dessiner un carre blanc pour surligner le nom du noeud
                     g2d.setColor(Color.WHITE);
                     g2d.fillRect(noeud.getXNom(), noeud.getYNom(), nbLettre * 12, 20);
+<<<<<<< HEAD
                     g2d.setColor(Color.WHITE);
                     
                     
+=======
+
+                    g2d.setColor(Color.BLACK);
+
+                    Font font = null;
+                    font = Font.decode("Arial-PLAIN-12");
+                    System.out.println("DECODE FONT ------- " + font);
+                    g2d.setFont(font);
+
+                    g2d.drawString(noeud.getNom(), noeud.getXNom(), noeud.getY()+13);
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 
                     //dessiner les noeuds
                     g2d.setColor(Color.BLACK);
@@ -125,6 +143,7 @@ public class PanelCarte extends JPanel {
                     //dessiner un cercke noir autour du noeud
                     g2d.setColor(Color.BLACK);
                     g2d.drawOval(noeud.getX(), noeud.getY(), 35, 35);
+<<<<<<< HEAD
                     
                     //agrandir le texte du nom du noeud 
                     g2d.setFont(new Font("Arial", Font.BOLD, 20));
@@ -153,6 +172,9 @@ public class PanelCarte extends JPanel {
 
                 }
             }   
+=======
+            }
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
         }
     }
 

@@ -6,9 +6,13 @@ import java.text.DateFormat.Field;
 import src.ihm.FrameAccueil;
 import src.ihm.Gui;
 import src.metier.Arete;
+<<<<<<< HEAD
 import src.metier.Carte;
 import src.metier.CarteObjectif;
 import src.metier.Joueur;
+=======
+import src.metier.CarteObjectif;
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 import src.metier.Noeud;
 
 import java.io.*;
@@ -20,17 +24,26 @@ import org.jdom2.input.SAXBuilder;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+=======
+import java.util.List;
+
+import javax.imageio.ImageIO;
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+<<<<<<< HEAD
 import java.awt.Image;
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 import src.metier.Arete;
 import src.metier.Noeud;
 
@@ -76,8 +89,13 @@ public class Controleur
     private List<CarteObjectif> allCartesObjectifs;
     private List<Integer> allParametres;
     private List<String> allImages;
+<<<<<<< HEAD
     private List<Carte> pioche;
     private List<Carte> allCartes;
+=======
+    private List<Color> pioche;
+
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
     // Pour lire le fichier XML
     private Document document;
     private static org.jdom2.Element racine;
@@ -90,6 +108,7 @@ public class Controleur
     private int nbPoint4;
     private int nbPoint5;
     private int nbPoint6;
+<<<<<<< HEAD
     private int nbCarteJoueur;
     private int nbJoueurDoublesVoies;
     private int nbWagonCouleur;
@@ -103,15 +122,34 @@ public class Controleur
     private Joueur joueur1;
 
     private ArrayList<CarteObjectif> allCarteObjectifRandom;
+=======
+    private int nbJoueurDoublesVoies;
+
+    private int cpt ; // compteur pour le nombre de carte sur la table
+
+    private ArrayList<Color> defausse;
+    private ArrayList<Color> mainJoueur;
+    private ArrayList<Color> carteTable ; //carte sur la table
+
+    private boolean verif ; // verifie si le joeur à joué ou non
+
+
+
+
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 
     public Controleur()  
     {
         this.frameAcceuil = new FrameAccueil(this);
+<<<<<<< HEAD
         this.joueur1 = new Joueur("Joueur 1");
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.allParametres = new ArrayList<Integer>();
         this.allImages = new ArrayList<String>();
+<<<<<<< HEAD
         this.allCartes = new ArrayList<Carte>();
         this.allCartesObjectifs = new ArrayList<CarteObjectif>();
         this.allCarteObjectifRandom = new ArrayList<CarteObjectif>();
@@ -139,10 +177,19 @@ public class Controleur
         {
             
         }
+=======
+        this.allCartesObjectifs = new ArrayList<CarteObjectif>();
+        this.document  = new org.jdom2.Document();
+        this.racine    = new org.jdom2.Element("racine");
+        this.lireFichierXML(new File("src/FichierSortie.xml"), this);
+        this.AfficherDonnees();
+        initPioche();
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
     }
 
     public void initPioche()
     {
+<<<<<<< HEAD
         this.pioche = new ArrayList<Carte>();
         this.defausse = new ArrayList<Carte>();
         this.carteTable = new ArrayList<Carte>();
@@ -169,6 +216,32 @@ public class Controleur
         for(int i =0 ; i<this.nbCarteJoueur ;i++)
         {
             this.joueur1.addMain(this.pioche.get(i));
+=======
+        this.pioche = new ArrayList<Color>();
+        this.defausse = new ArrayList<Color>();
+        this.mainJoueur = new ArrayList<Color>();
+        this.carteTable = new ArrayList<Color>();
+
+        
+        for(int i =0 ; i<12 ;i++)
+        {
+                this.pioche.add(Color.BLUE);
+                this.pioche.add(Color.GREEN);
+                this.pioche.add(Color.YELLOW);
+                this.pioche.add(Color.RED);
+                this.pioche.add(Color.ORANGE);
+                this.pioche.add(Color.PINK);
+                this.pioche.add(Color.BLACK);
+                this.pioche.add(Color.WHITE);
+        }
+
+        for(int i =0 ; i<14 ;i++){ this.pioche.add(Color.GRAY);} // locomotive
+
+        //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
+        for(int i =0 ; i<4 ;i++)
+        {
+            this.mainJoueur.add(this.pioche.get(i));
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
             this.pioche.remove(i);
         }
 
@@ -177,6 +250,7 @@ public class Controleur
         {
             this.carteTable.add(this.pioche.get(i));
             this.pioche.remove(i);
+<<<<<<< HEAD
         }     
         
         //refreshTabTrajets();
@@ -198,21 +272,80 @@ public class Controleur
         
     }
     
+=======
+        }
+    
+        System.out.println(this.pioche);
+        Collections.shuffle(this.pioche);
+    
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println(this.pioche);
+        System.out.println();
+        System.out.println();
+        System.out.println("le joueur a la pioche suivante :" + this.mainJoueur);
+        System.out.println("les cartes sur la table sont :" + this.carteTable);
+    }
+   
+
+    // action du joueur : piocher une carte 
+
+    public void pioche()
+    {
+        if(!verif)
+        {
+            this.mainJoueur.add(this.pioche.get(0));
+            this.pioche.remove(0);
+            cpt++;
+        }
+        if(cpt == 2)
+        {
+            cpt = 0;
+            verif = true;
+        }
+
+    }
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 
     // action du joueur :prendre une carte de la table
     public void carteTable(int i)
     {
+<<<<<<< HEAD
         this.joueur1.addMain(this.carteTable.get(i));
         this.carteTable.remove(i);
         this.carteTable.add(this.pioche.get(0));
         this.pioche.remove(0);
            
+=======
+
+        if(!verif)
+        {
+            this.mainJoueur.add(this.carteTable.get(i));
+            this.carteTable.remove(i);
+            this.carteTable.add(this.pioche.get(0));
+            this.pioche.remove(0);
+            this.verif = true; 
+        }
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
     }
 
     public void verifTourDejeux()
     {
          
+<<<<<<< HEAD
         System.out.println("fin de tour");
+=======
+        if(this.verif == true)
+        {
+            System.out.println("fin de tour");
+            this.verif = false;
+        }
+        else
+        {
+            System.out.println("vous devez faire une et une seule des trois actions");
+        }
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 
     }
 
@@ -227,6 +360,68 @@ public class Controleur
         }
     }
 
+<<<<<<< HEAD
+=======
+    // action du jouer : prendre possession d'une arete
+    public void prendrePossession(Arete a)
+    {
+        //verif si le joueurs dans sa main a assez de carte de la couleur de l'arete 
+        // les locomotives sont pas comptabilisée
+        //si oui : prendre possession de l'arete et enlever les cartes de la main du joueur et le mettre dans la defausse
+        //si non : afficher un message d'erreur
+
+        
+        if(!verif)
+        {
+            if(cpt != 2)
+            {
+                int nbCarte = 0;
+                for(int i =0 ; i<this.mainJoueur.size() ; i++)
+                {
+                    if(this.mainJoueur.get(i).equals(a.getCouleur()))
+                    {
+                        nbCarte++;
+                    }
+                
+                }
+                if(nbCarte >= a.getNbVoiture())
+                {
+                    for(int i =0 ; i<a.getNbVoiture() ;i++)
+                    {
+                        this.mainJoueur.remove(a.getCouleur());
+                        this.defausse.add(a.getCouleur());
+                    }
+                    a.setPossession(true);
+                    this.cpt++;
+                    if(cpt == 2)
+                    {
+                        cpt = 0;
+                        verif = true;
+                    }
+                }
+                else
+                {
+                    System.out.println("vous n'avez pas assez de carte de la couleur de l'arete");
+                }
+            }
+            
+        }
+        else 
+        {
+            System.out.println("vous avez deja fait une action");
+        }
+
+
+    }
+
+
+
+
+
+
+    //créer une pioche de carte voiture avec les infos du
+
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
     // Afficher les données du fichier XML
     public void AfficherDonnees()
     {
@@ -251,6 +446,7 @@ public class Controleur
         System.out.println("\nNombre de points pour 5 : " + this.nbPoint5);
         System.out.println("\nNombre de points pour 6 : " + this.nbPoint6);
         System.out.println("\nNombre de joueurs avec double voies : " + this.nbJoueurDoublesVoies);
+<<<<<<< HEAD
         System.out.println("\nNombre Wagon par couleur : " + this.nbWagonCouleur);
         System.out.println("\nNombre de carte joker : " + this.nbJoker);
 
@@ -290,6 +486,8 @@ public class Controleur
         System.out.println("Couleur : " + color);
     
 
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
     }
 
     // Lire le fichier XML qu'on rentre en paramètre et assigner les valeurs dans le controleur
@@ -331,12 +529,19 @@ public class Controleur
             Noeud noeudArrive = null;
 
             for (Noeud noeud : this.allNoeuds) {
+<<<<<<< HEAD
                 if (noeud.getNom().equals(arete.getChild("noeudDepart").getAttributeValue("nom"))) 
                 {
                     noeudDepart = noeud;
                 }
                 if (noeud.getNom().equals(arete.getChild("noeudArrive").getAttributeValue("nom"))) 
                 {
+=======
+                if (noeud.getNom().equals(arete.getChild("noeudDepart").getAttributeValue("nom"))) {
+                    noeudDepart = noeud;
+                }
+                if (noeud.getNom().equals(arete.getChild("noeudArrive").getAttributeValue("nom"))) {
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
                     noeudArrive = noeud;
                 }
             };
@@ -361,10 +566,14 @@ public class Controleur
             nbPoint4                = Integer.parseInt(parametre.getChild("nbPoint4").getAttributeValue("nb"));
             nbPoint5                = Integer.parseInt(parametre.getChild("nbPoint5").getAttributeValue("nb"));
             nbPoint6                = Integer.parseInt(parametre.getChild("nbPoint6").getAttributeValue("nb"));
+<<<<<<< HEAD
             nbCarteJoueur            = Integer.parseInt(parametre.getChild("nbCarteJoueur").getAttributeValue("nb"));
             nbJoueurDoublesVoies    = Integer.parseInt(parametre.getChild("nbJoueurDoublesVoies").getAttributeValue("nb"));
             nbWagonCouleur          = Integer.parseInt(parametre.getChild("nbWagonCouleur").getAttributeValue("nb"));
             nbJoker                 = Integer.parseInt(parametre.getChild("nbJoker").getAttributeValue("nb"));
+=======
+            nbJoueurDoublesVoies    = Integer.parseInt(parametre.getChild("nbJoueurDoublesVoies").getAttributeValue("nb"));
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
         }
 
         // On s'occupe des cartes objectifs
@@ -390,11 +599,14 @@ public class Controleur
             e.printStackTrace();
         }
 
+<<<<<<< HEAD
         for(int i = 0; i < couleurCarte.length; i++)
         {
             this.allCartes.add(new Carte(couleurCarte[i],this.allImages.get(i)));
         }
 
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
         // Pour les cartes objectifs
         List<Element> listCartesObjectifs = racine.getChild("listeCarteObjectif").getChildren("CarteObjectif");
         for (Element carteObjectif : listCartesObjectifs) 
@@ -427,6 +639,7 @@ public class Controleur
     public void resizeFrame(int width, int height) 
     {
         this.gui.resizeFrame(width, height);
+<<<<<<< HEAD
     }
 
     public Joueur getJoueur() 
@@ -585,7 +798,35 @@ public class Controleur
     public void supprimerCarteObjectif(CarteObjectif carteObjectif) 
     {
         this.allCartesObjectifs.remove(carteObjectif);
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
     }
+
+    // public static File stringToFile(String encodedString, File file) {
+    //     try {
+    //         byte[] bytes = Base64.getDecoder().decode(encodedString);
+    //         file.createNewFile();
+    //         FileOutputStream w = new FileOutputStream(file);
+    //         w.write(bytes);
+    //         w.close();
+    //         return file;
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
+
+
+    
+
+    public List<Arete> getAllTrajets() {
+        return this.allAretes;
+    }
+
+    public List<Noeud> getAllNoeuds() {
+        return this.allNoeuds;
+    }
+    
 
     public static void main(String[] args) 
     {

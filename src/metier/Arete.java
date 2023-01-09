@@ -19,8 +19,11 @@ public class Arete {
 
     private int nbVoiture;
 
+<<<<<<< HEAD
     private Joueur joueur;
 
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
     public Arete(Noeud noeudDepart, Noeud noeudarrive, int nbVoiture, Color couleur, Boolean sensUnique) 
     {
         this.noeudDepart = noeudDepart;
@@ -28,7 +31,10 @@ public class Arete {
         this.nbVoiture = nbVoiture;
         this.sensUnique = sensUnique;
         this.couleur = couleur;
+<<<<<<< HEAD
         this.joueur = null;
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 
     }
 
@@ -96,6 +102,7 @@ public class Arete {
     {
         this.possession = bo;
     }
+<<<<<<< HEAD
     
     public void setJoueur(Joueur joueurPossedantArete)
     {
@@ -108,6 +115,8 @@ public class Arete {
     }
 
 
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 
     public String toString() 
     {

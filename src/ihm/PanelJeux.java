@@ -3,30 +3,48 @@ package src.ihm;
 // je veux un panel qui contien un espace vide au milieu, une barre qui prend 1/5 de la hauteur en bas et une bar qui commence en haut qui prend 1/5 de largeur 
 
 import java.awt.*;
+<<<<<<< HEAD
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+=======
+import java.util.ArrayList;
+import java.util.List;
+
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 import javax.swing.*;
 
 import src.Controleur;
 import src.metier.Arete;
+<<<<<<< HEAD
 import src.metier.Joueur;
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 import src.metier.Noeud;
 
 public class PanelJeux extends JPanel{
     private Controleur ctrl;
     
+<<<<<<< HEAD
     private JPanel panelMain;
 
     private List<JButton> cartesJoueur ;
+=======
+    private JPanel panelMain, paneltext, panelCarte;
+
+    private JButton[] cartesJoueur ;
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 
     private PanelCarte panelCarte1;
     private List<Arete> allTrajets;
     private List<Noeud> allNoeud;
+<<<<<<< HEAD
     private List<String> allImages;
     private Joueur joueur;
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 
 
     public PanelJeux(Controleur ctrl){
@@ -34,6 +52,7 @@ public class PanelJeux extends JPanel{
         this.ctrl = ctrl;
         this.setLayout(new BorderLayout());
         this.panelMain = new JPanel();
+<<<<<<< HEAD
         this.panelMain.setLayout(new GridLayout(1, 8, 10, 10));
         this.panelMain.setBackground(new Color(35, 31, 32));
 
@@ -46,12 +65,51 @@ public class PanelJeux extends JPanel{
         //création des boutons correspondant aux cartes du joueur
         refreshMain();
         
+=======
+        this.panelMain.setLayout(new GridLayout(2, 1, 10, 10));
+        this.panelMain.setBackground(Color.WHITE);
+
+
+        this.paneltext = new JPanel();
+        this.paneltext.setLayout(new GridLayout(1, 8, 10, 10));
+
+        this.panelCarte = new JPanel();
+        this.panelCarte.setLayout(new GridLayout(1, 8, 10, 10));
+
+        this.cartesJoueur = new JButton[8];
+
+        //création des boutons correspondant aux cartes du joueur
+        for (int i = 0; i < cartesJoueur.length; i++) 
+        {
+            //ajouter une image carte wagons dans les boutons
+            this.cartesJoueur[i] = new JButton(new ImageIcon("src/images/carteWagon.png"));
+        }
+
+
+        this.paneltext.add(  new JLabel("<html>votre main: <html>"));
+
+        //création de Label qui correspondent aux nombres de cartes que possèdent le joueur
+        for (int i = 0; i < cartesJoueur.length-1; i++) 
+        {
+            this.paneltext.add(new JLabel(""));
+        }
+
+        
+        for (int i = 0; i < cartesJoueur.length; i++) {
+            this.cartesJoueur[i] = new JButton("Carte " + i);
+            this.panelCarte.add(cartesJoueur[i]);
+        }
+
+        this.panelMain.add(this.paneltext);
+        this.panelMain.add(this.panelCarte);
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
         this.add(this.panelMain);
 
         // initialisation des List
         this.allTrajets = new ArrayList<Arete>();
         this.allNoeud = new ArrayList<Noeud>();      
     }  
+<<<<<<< HEAD
 
     public void refreshMain()
     {
@@ -98,4 +156,6 @@ public class PanelJeux extends JPanel{
         this.revalidate();
         this.repaint();
     }
+=======
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 }

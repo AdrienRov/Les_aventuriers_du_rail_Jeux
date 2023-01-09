@@ -1,6 +1,7 @@
 package src.ihm;
 
 import javax.swing.*;
+<<<<<<< HEAD
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -44,11 +45,25 @@ public class PanelPioche extends JPanel implements ActionListener
     private JComboBox<String> comboVille1, comboVille2;
 
     private JCheckBox checkObjectif1, checkObjectif2, checkObjectif3;
+=======
+import java.awt.GridLayout;
+import java.awt.*;
+import src.Controleur;
+
+public class PanelPioche extends JPanel
+{
+    private Controleur ctrl;
+
+    private JPanel panelBoutonPioche, panel1Nord, panelSud;
+    private JButton[] cartesTable ;
+    private JButton btnRemplirSection;
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 
     public PanelPioche(Controleur ctrl)
     {
 
         this.ctrl = ctrl;
+<<<<<<< HEAD
         this.table = new JTable(this.donneesTrajets, this.entetesTrajets);
         this.setLayout(new BorderLayout());
         this.panelBoutonPioche = new JPanel();
@@ -163,10 +178,39 @@ public class PanelPioche extends JPanel implements ActionListener
         
         // Mise en place des panels
 
+=======
+        this.setLayout(new BorderLayout());
+        this.panelBoutonPioche = new JPanel();
+        this.panelBoutonPioche.setLayout(new GridLayout(3, 2, 10, 10));
+        //modifier la taille des boutons dans un panel avec un gridlayout 
+
+        this.panel1Nord = new JPanel();
+        
+        this.panel1Nord.setLayout(new GridLayout(2, 1, 10, 10));
+
+        this.cartesTable  = new JButton[6];
+        this.btnRemplirSection = new JButton("Remplir une section");
+
+        
+        for (int i = 0; i < this.cartesTable.length; i++) 
+        {
+            if(i == 0) 
+            { 
+                this.cartesTable[i] = new JButton("Pioche : nombre de carte restante");
+            }
+            else 
+            { 
+                //gérer la taille des boutons
+                this.cartesTable[i] = new JButton("CarteTable" + i);
+            }
+        }
+
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
         for (int i = 0; i < this.cartesTable.length; i++) 
         {
             this.panelBoutonPioche.add(this.cartesTable[i]);
         }
+<<<<<<< HEAD
         JScrollPane scrollPane = new JScrollPane(this.tableObjectif);
         this.panelBoutonPioche.setBackground(new Color(35, 31, 32));
         this.panelGlobal.setBackground(new Color(35, 31, 32));
@@ -347,4 +391,13 @@ public class PanelPioche extends JPanel implements ActionListener
     }
 
    
+=======
+        
+        this.panel1Nord.add(new JLabel("Table :"));
+
+        this.add(this.panel1Nord, BorderLayout.NORTH);
+        this.add(this.panelBoutonPioche, BorderLayout.CENTER);
+        this.add(this.btnRemplirSection, BorderLayout.SOUTH);
+    }
+>>>>>>> ef39959aad131b9c45a2af7a5ea3e9d82626069a
 }
