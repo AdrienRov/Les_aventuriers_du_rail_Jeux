@@ -227,12 +227,41 @@ public class Controleur
         System.out.println("fin de tour");
     }
 
+    private void calculScore()
+    {
+        int somme = 0;
+        int soustraction = 0;  
+
+        for(int i = 0; i < this.joueur1.getAretes().size(); i++)
+        {
+            somme += this.joueur1.getAretes().get(i).getNbVoiture();
+            for(int j = 0; j<this.joueur1.getTabCarteObjectif().size(); j++)
+            {
+                if(this.joueur1.getAretes().get(i).getNoeudDepart().equals(this.joueur1.getTabCarteObjectif().get(j).getNoeud1()) && this.joueur1.getAretes().get(i).getNoeudArrive().equals(this.joueur1.getTabCarteObjectif().get(j).getNoeud2()))
+                {
+                    somme += this.joueur1.getTabCarteObjectif().get(j).getScore();
+                }
+                //si il a la carte mais qu'il n'a pas l'arete de la carte alors on soustrait
+                if(this.joueur1.getAretes().get(i).getNoeudDepart().equals(this.joueur1.getTabCarteObjectif().get(j).getNoeud2()) && this.joueur1.getAretes().get(i).getNoeudArrive().equals(this.joueur1.getTabCarteObjectif().get(j).getNoeud1()))
+                {
+                    soustraction += this.joueur1.getTabCarteObjectif().get(j).getScore();
+                }
+            }
+        }
+
+        System.out.println("Score du Joueurs 1 = "+(somme-soustraction));
+        
+    }
+
     public void finDePartie()
     {
+        System.out.println("Fin de la partie");
+
         if(this.joueur1.getMain().size() < this.nbWagonFin)
         {
             this.gui.notification("C'est la dernière manche");
         }
+        calculScore();
     }
 
     // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
@@ -308,8 +337,6 @@ public class Controleur
         }
 
         System.out.println("Couleur : " + color);
-    
-
     }
     //
     // Lire le fichier XML qu'on rentre en paramètre et assigner les valeurs dans le controleur
