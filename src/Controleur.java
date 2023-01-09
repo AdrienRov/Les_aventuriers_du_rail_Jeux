@@ -291,7 +291,7 @@ public class Controleur
     
 
     }
-
+    //
     // Lire le fichier XML qu'on rentre en paramètre et assigner les valeurs dans le controleur
     public void lireFichierXML(File fichierXML, Controleur controleur)
     {
