@@ -183,6 +183,11 @@ public class Controleur
         
         //refreshTabTrajets();
     }
+
+    public List<Carte> getPioche()
+    {
+        return this.pioche;
+    }
         
     // action du joueur : piocher une carte 
 
@@ -199,16 +204,14 @@ public class Controleur
         System.out.println("Taille de la pioche = "+this.pioche.size());
         
     }
-    
 
     // action du joueur :prendre une carte de la table
-    public void carteTable(int i)
+    public void piocheCarteTable(int i, Joueur joueur)
     {
-        this.joueur1.addMain(this.carteTable.get(i));
-        this.carteTable.remove(i);
-        this.carteTable.add(this.pioche.get(0));
+        this.joueur1.addMain(this.carteTable.get(i-1));
+        this.carteTable.set(i-1, this.pioche.get(0));
         this.pioche.remove(0);
-           
+        this.gui.refreshMain();
     }
 
     public void verifTourDejeux()
@@ -495,30 +498,38 @@ public class Controleur
         return this.allCarteObjectifRandom;
     }
 
-    public boolean prendrePossession(Arete arete) 
+    public int prendrePossession(Arete arete) 
     {
-        for(Carte c : this.allCartes)
+        if(arete.getJoueur() == null)
         {
-            System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
-            if(arete.getCouleur().equals(c.getCouleur()))
+            for(Carte c : this.allCartes)
             {
-                if(this.joueur1.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
+                System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
+                if(arete.getCouleur().equals(c.getCouleur()))
                 {
-                    
-                    this.joueur1.addArete(arete);
-                    for(int i = 0; i < arete.getNbVoiture(); i++)
+                    if(this.joueur1.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
                     {
-                        this.joueur1.removeCarte(c);
+                        
+                        this.joueur1.addArete(arete);
+                        for(int i = 0; i < arete.getNbVoiture(); i++)
+                        {
+                            this.joueur1.removeCarte(c);
+                        }
+                        arete.setJoueur(this.joueur1);
+                        this.gui.refreshMain();
+                        this.gui.refreshCarte();
+                        return 1;
                     }
-                    this.gui.refreshMain();
-                    this.gui.refreshCarte();
-                    return true;
                 }
+                
             }
+            return 3;
+            
         }
-        return false;
+        return 2;
+        
     }
-    
+
     public void refreshTabTrajets()
     {
         this.gui.refreshTableTrajets();
