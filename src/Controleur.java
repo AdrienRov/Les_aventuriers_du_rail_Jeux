@@ -96,6 +96,8 @@ public class Controleur
     private int nbWagonCouleur;
     private int nbJoker;
 
+    private int nbJoueur;
+
     private int cpt ; // compteur pour le nombre de carte sur la table
 
     private ArrayList<Carte> defausse;
@@ -571,6 +573,15 @@ public class Controleur
         return nbJoueurMin;
     }
 
+    public int getNbJoueurMax() {
+        return nbJoueurMax;
+    }
+
+    public void setNbJoueur(int nb)
+    {
+        this.nbJoueur = nb;
+    }
+
     public void setPionMax()
     {
         this.joueur1.setNbPion(this.nbPionMax);
@@ -607,6 +618,11 @@ public class Controleur
     public void supprimerCarteObjectif(CarteObjectif carteObjectif) 
     {
         this.allCartesObjectifs.remove(carteObjectif);
+    }
+
+    public void etatConfig(boolean etat)
+    {
+        this.frameAcceuil.etatConfig(etat);
     }
 
     public static void main(String[] args) 

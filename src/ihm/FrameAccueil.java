@@ -27,6 +27,7 @@ public class FrameAccueil extends JFrame implements ActionListener
     private JPanel panelBoutons;
     private JPanel panelImage;
     private JPanel panelTitre;
+    private PanelConfig panelConfig;
 
 
     public FrameAccueil(Controleur ctrl) 
@@ -88,6 +89,8 @@ public class FrameAccueil extends JFrame implements ActionListener
         this.add(this.panelTitre    , BorderLayout.NORTH);
         this.setVisible(true);
         this.setLocationRelativeTo(null);     
+
+        this.panelConfig = new PanelConfig(ctrl);
     }
 
 
@@ -96,8 +99,34 @@ public class FrameAccueil extends JFrame implements ActionListener
         if(e.getSource() == this.btnJouer)
         {
             //fermer la frame
-            this.ctrl.afficherJeux();
-            this.dispose();
+            this.ctrl.etatConfig(true);
+            //this.ctrl.afficherJeux();
+            //this.dispose();
         }  
+    }
+
+    public void etatConfig(boolean etat) {
+        if (etat == true) 
+        {
+            this.remove(this.lblTitre);
+            this.remove(this.panelImage);
+            this.remove(this.panelBoutons);
+            this.remove(this.panelTitre);
+            this.panelConfig = new PanelConfig(this.ctrl);
+            this.add(this.panelConfig, BorderLayout.CENTER);
+        } 
+        if (etat == false)
+        {
+            this.remove(this.panelConfig);
+            this.add(this.lblTitre, BorderLayout.NORTH);
+            this.add(this.panelImage, BorderLayout.CENTER);
+            this.add(this.panelBoutons, BorderLayout.SOUTH);
+            this.add(this.panelTitre, BorderLayout.NORTH);
+            this.setVisible(true);
+            this.setLocationRelativeTo(null);
+        }
+
+        repaint();
+        revalidate();
     }
 }

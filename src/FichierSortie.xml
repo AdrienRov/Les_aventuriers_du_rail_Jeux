@@ -147,7 +147,7 @@
 	</listeArete>
 	<listeParametres>
 		<parametre>
-			<nbJoueurMin nb="1"/>
+			<nbJoueurMin nb="2"/>
 			<nbJoueurMax nb="3"/>
 			<nbPion nb="100"/>
 			<nbWagonFin nb="3"/>
