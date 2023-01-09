@@ -36,9 +36,9 @@ public class PanelPioche extends JPanel implements ActionListener
     private Object[][] donneesTrajets = {{"", "", ""}};
     private String[] entetesTrajets = {"Départ", "Voiture", "Arrivée", "Validation"};
 
-    private JTable tableObjectif;
     private Object[][] donneesObjectif = {{"", "", ""}};
     private String[] entetesObjectif;
+    private JTable tableObjectif;
     private TableColumn[] tabColObjectif;
     private TableColumn tabColTrajet      = new TableColumn();
     private JComboBox<String> comboVille1, comboVille2;
@@ -157,16 +157,16 @@ public class PanelPioche extends JPanel implements ActionListener
             this.donneesObjectif[i][1] = this.ctrl.getJoueur().getTabCarteObjectif().get(i).getNoeud2();
             this.donneesObjectif[i][2] = this.ctrl.getJoueur().getTabCarteObjectif().get(i).getScore();        
         }
+  
 
         this.entetesObjectif = new String[] {"Départ", "Arrivé", "Points"};
-        this.tableObjectif = new JTable(this.donneesObjectif, this.entetesObjectif);
-        
         // Mise en place des panels
 
         for (int i = 0; i < this.cartesTable.length; i++) 
         {
             this.panelBoutonPioche.add(this.cartesTable[i]);
         }
+
         JScrollPane scrollPane = new JScrollPane(this.tableObjectif);
         this.panelBoutonPioche.setBackground(new Color(35, 31, 32));
         this.panelGlobal.setBackground(new Color(35, 31, 32));
@@ -221,7 +221,13 @@ public class PanelPioche extends JPanel implements ActionListener
             this.donneesObjectif[i][2] = this.ctrl.getJoueur().getTabCarteObjectif().get(i).getScore();       
             System.out.println(this.donneesObjectif[i][0]); 
         }
-        this.tableObjectif = new JTable(this.donneesObjectif, this.entetesObjectif);   
+
+        //rend la table objectif non editable
+        this.tableObjectif = new JTable(this.donneesObjectif, this.entetesObjectif){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
         JScrollPane scrollPane = new JScrollPane(this.tableObjectif);
         this.panelObjectif.removeAll();
         this.panelObjectif.add(this.btnPiocheObjectif);
