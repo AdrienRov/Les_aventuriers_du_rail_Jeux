@@ -80,7 +80,7 @@ public class PanelPioche extends JPanel implements ActionListener
         this.btnRemplirSection = new JButton("Remplir une section");
         this.btnRemplirSection.addActionListener(this);
         this.btnPiocheObjectif.addActionListener(this);
-        
+        //////////////////////////////
         for(Color c: this.ctrl.getTabColor())
         {
             this.lstColor.add(c);
