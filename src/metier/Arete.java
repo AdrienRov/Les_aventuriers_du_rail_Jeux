@@ -1,6 +1,7 @@
 package src.metier;
 
 import java.awt.Color;
+import java.util.function.BooleanSupplier;
 
 public class Arete {
     // Attributs
@@ -10,7 +11,7 @@ public class Arete {
     private int n2x;
 
     private Noeud noeudDepart;
-    private boolean possession = false;
+
     private Noeud noeudarrive;
 
     private boolean sensUnique;
@@ -21,7 +22,7 @@ public class Arete {
 
     private Joueur joueur;
 
-    public Arete(Noeud noeudDepart, Noeud noeudarrive, int nbVoiture, Color couleur, Boolean sensUnique) 
+    public Arete(Noeud noeudDepart, Noeud noeudarrive, int nbVoiture, Color couleur, Boolean sensUnique ) 
     {
         this.noeudDepart = noeudDepart;
         this.noeudarrive = noeudarrive;
@@ -90,11 +91,6 @@ public class Arete {
     public Color getCouleur() 
     {
         return couleur;
-    }
-
-    public void setPossession(boolean bo) 
-    {
-        this.possession = bo;
     }
     
     public void setJoueur(Joueur joueurPossedantArete)

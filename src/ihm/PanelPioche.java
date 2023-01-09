@@ -118,8 +118,11 @@ public class PanelPioche extends JPanel implements ActionListener
             { 
                 //gérer la taille des boutons
                 this.cartesTable[i] = new JButton();
+                this.cartesTable[i].addActionListener(this);
+
+                
                 try {
-                    ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getAllImages().get(i)+".png");
+                    ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getCarteTable().get(i-1).getNomImage()+".png");
                     //changer la taille de l'image
                     Image image = img.getImage(); // transform it
                     Image newimg = image.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
@@ -284,18 +287,44 @@ public class PanelPioche extends JPanel implements ActionListener
         refreshTableObjectifs();
     }
 
+    public void refreshTablePioche()
+    {
+        for (int i = 1; i < this.cartesTable.length; i++) 
+        {
+                try {
+                    ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getCarteTable().get(i-1).getNomImage()+".png");
+                    //changer la taille de l'image
+                    Image image = img.getImage(); // transform it
+                    Image newimg = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                    this.cartesTable[i].setIcon(new ImageIcon(newimg)); 
+                    //this.cartesTable[i].setBorderPainted(false);
+                    this.cartesTable[i].setContentAreaFilled(false);
+                    //this.cartesTable[i].setFocusPainted(false);
+                    //this.cartesTable[i].setOpaque(false);
+                } catch (Exception e) {
+                    // TODO: handle exception
+                } 
+        }
+    }
+
+
+    
+
     @Override
     public void actionPerformed(ActionEvent e) 
     {
-        // TODO Auto-generated method stub
-
-        for(int i = 0 ; i<this.cartesTable.length;i++)
+        for(int i = 1; i < this.cartesTable.length; i++)
         {
+
             if(e.getSource() == this.cartesTable[i])
             {
-                ////////////Faut faire une methode refreshCartesTable qui permet de prendre la carte selectionné et de l'ajouter dans la main puis ajouter une autre carte sur la table
+                this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
+                this.ctrl.joueurSuivant();
+                this.refreshTablePioche();
             }
+
         }
+
 
         if(e.getSource() == this.cartesTable[0])
         {
@@ -331,14 +360,19 @@ public class PanelPioche extends JPanel implements ActionListener
                     if(trajets.get(i).getNoeudDepart().getNom().equals(this.comboVille1.getSelectedItem()) && trajets.get(i).getNoeudArrive().getNom().equals(this.comboVille2.getSelectedItem()) || trajets.get(i).getNoeudDepart().getNom().equals(this.comboVille2.getSelectedItem()) && trajets.get(i).getNoeudArrive().getNom().equals(this.comboVille1.getSelectedItem()))
                     {
                         Arete arete = this.ctrl.getAllTrajets().get(i);
-                        if(this.ctrl.prendrePossession(arete))
+                        if(this.ctrl.prendrePossession(arete) == 1)
                         {
                             this.ctrl.joueurSuivant();
                         }
-                        else
+                        else if(this.ctrl.prendrePossession(arete) == 2)
+                        {
+                            JOptionPane.showMessageDialog(null, "L'arrete est déjà prise ", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else if(this.ctrl.prendrePossession(arete) == 3)
                         {
                             JOptionPane.showMessageDialog(null, "Vous n'avez pas assez de carte de même couleur pour prendre possession de cette arete", "Erreur", JOptionPane.ERROR_MESSAGE);
                         }
+                       
                     }
                 }
             }
