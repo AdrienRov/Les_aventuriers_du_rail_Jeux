@@ -16,6 +16,7 @@ public class Arete {
     private boolean sensUnique;
 
     private Color couleur;
+    private boolean possession = false;
 
     private int nbVoiture;
 
