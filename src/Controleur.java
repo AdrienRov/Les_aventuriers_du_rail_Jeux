@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.DateFormat.Field;
 
 import src.ihm.FrameAccueil;
+import src.ihm.Gui;
 import src.metier.Arete;
 import src.metier.CarteObjectif;
 import src.metier.Noeud;
@@ -29,46 +30,6 @@ import src.metier.Carte;
 import src.metier.Joueur;
 import java.util.HashMap;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.text.AttributeSet.ColorAttribute;
-
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import src.metier.Arete;
-import src.metier.Noeud;
-
-import java.io.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import src.metier.Arete;
-import src.metier.Noeud;
-
-import java.io.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import java.awt.Color;
 
 public class Controleur 
 {
@@ -131,10 +92,10 @@ public class Controleur
 
     public void initPioche()
     {
-        this.pioche = new ArrayList<Color>();
-        this.defausse = new ArrayList<Color>();
-        this.mainJoueur = new ArrayList<Color>();
-        this.carteTable = new ArrayList<Color>();
+        this.pioche = new ArrayList<Carte>();
+        this.defausse = new ArrayList<Carte>();
+        this.mainJoueur = new ArrayList<Carte>();
+        this.carteTable = new ArrayList<Carte>();
 
         
         for(int i =0 ; i<12 ;i++)
