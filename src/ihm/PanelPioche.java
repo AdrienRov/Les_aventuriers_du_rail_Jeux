@@ -295,7 +295,6 @@ public class PanelPioche extends JPanel implements ActionListener
         {
             this.ctrl.pioche(this.ctrl.getJoueur());
             this.ctrl.joueurSuivant();
-            //
         }
         if(e.getSource() == this.btnPiocheObjectif)
         {
