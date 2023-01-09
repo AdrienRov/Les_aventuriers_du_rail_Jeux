@@ -502,6 +502,7 @@ public class Controleur
     {
         if(arete.getJoueur() == null)
         {
+            //uigz
             for(Carte c : this.allCartes)
             {
                 System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
