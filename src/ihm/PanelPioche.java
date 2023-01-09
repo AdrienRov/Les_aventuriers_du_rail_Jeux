@@ -322,6 +322,7 @@ public class PanelPioche extends JPanel implements ActionListener
     {
         if(this.ctrl.getCartePioche().isEmpty())
         {
+
             return;
         }
         else

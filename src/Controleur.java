@@ -230,10 +230,6 @@ public class Controleur
     // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
     public void remelanger()
     {
-        // for(int i =1 ; i<this.carteTable.size() ;i++)
-        // {
-        //     this.carteTable.get(i).setVisible(true);
-        // }
             this.pioche.addAll(this.defausse);
             this.defausse.clear();
             Collections.shuffle(this.pioche);
