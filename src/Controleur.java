@@ -19,48 +19,20 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import src.metier.Arete;
-import src.metier.Carte;
-import src.metier.CarteObjectif;
-import src.metier.Joueur;
-import src.metier.Noeud;
-
-import java.io.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.Image;
-import src.metier.Arete;
-import src.metier.Noeud;
-
-import java.io.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import src.metier.Carte;
+import src.metier.Joueur;
+import java.util.HashMap;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -564,12 +536,11 @@ public class Controleur
     public List<Noeud> getAllNoeuds() {
         return this.allNoeuds;
     }
+    
 
     public static void main(String[] args) 
     {
         new Controleur();
     }
-
- 
 
 }
