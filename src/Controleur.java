@@ -22,6 +22,7 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -101,6 +102,8 @@ public class Controleur
     private Arete choixArete;
     private Joueur joueur1;
 
+    private ArrayList<CarteObjectif> allCarteObjectifRandom;
+
     public Controleur()  
     {
         this.frameAcceuil = new FrameAccueil(this);
@@ -111,10 +114,12 @@ public class Controleur
         this.allImages = new ArrayList<String>();
         this.allCartes = new ArrayList<Carte>();
         this.allCartesObjectifs = new ArrayList<CarteObjectif>();
+        this.allCarteObjectifRandom = new ArrayList<CarteObjectif>();
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
         initPioche();
+        initPiocheObjectif();
         this.AfficherDonnees();
     }
 
@@ -176,16 +181,21 @@ public class Controleur
         
         //refreshTabTrajets();
     }
-   
-
-    
+        
     // action du joueur : piocher une carte 
 
     public void pioche(Joueur joueur)
     {
-        joueur.addMain(this.pioche.get(0));
-        this.pioche.remove(0);
-        this.gui.refreshMain();
+        if(!this.pioche.isEmpty())
+        {
+            joueur1.addMain(this.pioche.get(0));
+            this.pioche.remove(0);
+            this.gui.refreshMain();
+            return;
+        }
+        this.gui.notification("Il n'y a plus de carte dans la pioche");      
+        System.out.println("Taille de la pioche = "+this.pioche.size());
+        
     }
     
 
@@ -216,30 +226,6 @@ public class Controleur
             Collections.shuffle(this.pioche);
         }
     }
-
-    // action du jouer : prendre possession d'une arete
-   
-    /*
-    public boolean prendrePossession(Arete a)
-    {
-        //verif si le joueurs dans sa main a assez de carte de la couleur de l'arete 
-        // les locomotives sont pas comptabilisée
-        //si oui : prendre possession de l'arete et enlever les cartes de la main du joueur et le mettre dans la defausse
-        //si non : afficher un message d'erreur
-        
-        for(Arete arete : this.joueur1.getTabArete())
-        {
-            if(arete == a)
-            {
-                return false;
-            }
-        }     
-        this.joueur1.addArete(a);
-        return true;          
-        
-    }
-    */
-    //créer une pioche de carte voiture avec les infos du
 
     // Afficher les données du fichier XML
     public void AfficherDonnees()
@@ -448,25 +434,62 @@ public class Controleur
         return this.joueur1;
     }
     
-
-    // public static File stringToFile(String encodedString, File file) {
-    //     try {
-    //         byte[] bytes = Base64.getDecoder().decode(encodedString);
-    //         file.createNewFile();
-    //         FileOutputStream w = new FileOutputStream(file);
-    //         w.write(bytes);
-    //         w.close();
-    //         return file;
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return null;
-    //     }
-    // }
     public void joueurSuivant()
     {
         System.out.println("Joueur suivant");
+        initPiocheObjectif();
     }
 
+    public void initPiocheObjectif()
+    {
+         this.allCarteObjectifRandom.clear();
+         
+        // Nouvelle pioche de carte objectif
+        Random random = new Random();
+        // Verifier combien il en reste
+        if(this.allCartesObjectifs.size() >= 3)
+        {
+            int index1 = random.nextInt(this.allCartesObjectifs.size());
+            int index2 = random.nextInt(this.allCartesObjectifs.size());
+            int index3 = random.nextInt(this.allCartesObjectifs.size());
+
+            while(index1 == index2 || index1 == index3 || index2 == index3)
+            {
+                index1 = random.nextInt(this.allCartesObjectifs.size());
+                index2 = random.nextInt(this.allCartesObjectifs.size());
+                index3 = random.nextInt(this.allCartesObjectifs.size());
+            }
+
+            this.allCarteObjectifRandom.add(this.allCartesObjectifs.get(index1));
+            this.allCarteObjectifRandom.add(this.allCartesObjectifs.get(index2));
+            this.allCarteObjectifRandom.add(this.allCartesObjectifs.get(index3));
+        }
+        if(this.allCartesObjectifs.size() == 2)
+        {
+            int index1 = random.nextInt(this.allCartesObjectifs.size());
+            int index2 = random.nextInt(this.allCartesObjectifs.size());
+
+            while(index1 == index2 || index2 == index1)
+            {
+                index1 = random.nextInt(this.allCartesObjectifs.size());
+                index2 = random.nextInt(this.allCartesObjectifs.size());
+            }
+
+            this.allCarteObjectifRandom.add(this.allCartesObjectifs.get(index1));
+            this.allCarteObjectifRandom.add(this.allCartesObjectifs.get(index2));
+        }
+        if(this.allCartesObjectifs.size() == 1)
+        {
+            int index1 = random.nextInt(this.allCartesObjectifs.size());
+
+            this.allCarteObjectifRandom.add(this.allCartesObjectifs.get(index1));
+        }
+    }
+
+    public ArrayList<CarteObjectif> getAllCartesObjectifRandom()
+    {
+        return this.allCarteObjectifRandom;
+    }
 
     public boolean prendrePossession(Arete arete) 
     {
@@ -521,9 +544,6 @@ public class Controleur
     {
         return this.allAretes;
     }
-
-    //vérifier si la main possède moins de 3 carte wagon
-
     
 
     public List<CarteObjectif> getAllCartesObjectifs() {

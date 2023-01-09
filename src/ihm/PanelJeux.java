@@ -20,7 +20,7 @@ public class PanelJeux extends JPanel{
     
     private JPanel panelMain;
 
-    private JButton[] cartesJoueur ;
+    private List<JButton> cartesJoueur ;
 
     private PanelCarte panelCarte1;
     private List<Arete> allTrajets;
@@ -40,50 +40,12 @@ public class PanelJeux extends JPanel{
         this.allImages = new ArrayList<String>();
 
         this.joueur = this.ctrl.getJoueur();
-        this.cartesJoueur = new JButton[this.ctrl.getJoueur().getCartes().size()];
+        this.cartesJoueur = new ArrayList<JButton>();
         System.out.println(this.ctrl.getJoueur().getCartes().size());
         this.allImages = this.ctrl.getAllImages();
         //création des boutons correspondant aux cartes du joueur
-        int cpt = 0;
-        for (int i = 0; i < this.ctrl.getCouleurCarte().length; i++) 
-        {
-            //ajouter une image carte wagons dans les boutons
-            if(this.ctrl.getJoueur().getCartes().containsKey(this.ctrl.getCouleurCarte()[i]))
-            {
-                this.cartesJoueur[cpt] = new JButton();
-                try {
-                    ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getAllImages().get(i)+".png");
-                    //changer la taille de l'image
-                    Image image = img.getImage(); // transform it
-                    Image newimg = image.getScaledInstance(90, 90,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-                    this.cartesJoueur[cpt].setIcon(new ImageIcon(newimg)); 
-                    this.cartesJoueur[cpt].setBorderPainted(false);
-                    this.cartesJoueur[cpt].setContentAreaFilled(false);
-                    this.cartesJoueur[cpt].setFocusPainted(false);
-                    this.cartesJoueur[cpt].setOpaque(false);
-                    //afficher un texte sur le bouton par dessus l'image
-                    //mettre le texte en blanc
-                    this.cartesJoueur[cpt].setForeground(Color.WHITE);
-                    //changer la police du texte
-                    this.cartesJoueur[cpt].setFont(new Font("Arial", Font.BOLD, 15));
-                    this.cartesJoueur[cpt].setText(" " +this.joueur.nbCouleur(this.ctrl.getCouleurCarte()[i]));
-                    cpt++;
-                    
-                } catch (Exception e) {
-                    // TODO: handle exception
-                }   
-            }
-        }
-
-        // liste de color pour les cartes en color 
-        Color[] color = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.BLACK, Color.WHITE, Color.ORANGE, Color.PINK};
+        refreshMain();
         
-
-        //création de Label qui correspondent aux nombres de cartes que possèdent le joueur
-        for (int i = 0; i < cartesJoueur.length; i++) {
-            // this.cartesJoueur[i] = new JButton(" " +this.ctrl.compterCarteCouleur(color[i]));
-            this.panelMain.add(cartesJoueur[i]);
-        }
         this.add(this.panelMain);
 
         // initialisation des List
@@ -94,40 +56,44 @@ public class PanelJeux extends JPanel{
     public void refreshMain()
     {
         this.panelMain.removeAll();
+        this.cartesJoueur.clear();
         int cpt = 0;
         for (int i = 0; i < this.ctrl.getCouleurCarte().length; i++) 
         {
             //ajouter une image carte wagons dans les boutons
             if(this.ctrl.getJoueur().getCartes().containsKey(this.ctrl.getCouleurCarte()[i]))
             {
-                this.cartesJoueur[cpt] = new JButton();
-                try {
-                    ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getAllImages().get(i)+".png");
-                    //changer la taille de l'image
-                    Image image = img.getImage(); // transform it
-                    Image newimg = image.getScaledInstance(90, 90,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-                    this.cartesJoueur[cpt].setIcon(new ImageIcon(newimg)); 
-                    this.cartesJoueur[cpt].setBorderPainted(false);
-                    this.cartesJoueur[cpt].setContentAreaFilled(false);
-                    this.cartesJoueur[cpt].setFocusPainted(false);
-                    this.cartesJoueur[cpt].setOpaque(false);
-                    //afficher un texte sur le bouton par dessus l'image
-                    //mettre le texte en blanc
-                    this.cartesJoueur[cpt].setForeground(Color.WHITE);
-                    //changer la police du texte
-                    this.cartesJoueur[cpt].setFont(new Font("Arial", Font.BOLD, 15));
-                    this.cartesJoueur[cpt].setText(" " +this.joueur.nbCouleur(this.ctrl.getCouleurCarte()[i]));
-                    cpt++;
-                    
-                } catch (Exception e) {
-                    // TODO: handle exception
-                }   
+                if(this.ctrl.getJoueur().nbCouleur(this.ctrl.getCouleurCarte()[i]) != 0)
+                {
+                    this.cartesJoueur.add(new JButton());
+                    try {
+                        ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getAllImages().get(i)+".png");
+                        //changer la taille de l'image
+                        Image image = img.getImage(); // transform it
+                        Image newimg = image.getScaledInstance(90, 90,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                        this.cartesJoueur.get(cpt).setIcon(new ImageIcon(newimg)); 
+                        this.cartesJoueur.get(cpt).setBorderPainted(false);
+                        this.cartesJoueur.get(cpt).setContentAreaFilled(false);
+                        this.cartesJoueur.get(cpt).setFocusPainted(false);
+                        this.cartesJoueur.get(cpt).setOpaque(false);
+                        //afficher un texte sur le bouton par dessus l'image
+                        //mettre le texte en blanc
+                        this.cartesJoueur.get(cpt).setForeground(Color.WHITE);
+                        //changer la police du texte
+                        this.cartesJoueur.get(cpt).setFont(new Font("Arial", Font.BOLD, 15));
+                        this.cartesJoueur.get(cpt).setText(" x" +this.joueur.nbCouleur(this.ctrl.getCouleurCarte()[i]));
+                        cpt++;
+                        
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }   
+                }
+                  
             }
         }
-
-        for (int i = 0; i < cartesJoueur.length; i++) {
+        for (int i = 0; i < this.cartesJoueur.size(); i++) {
             // this.cartesJoueur[i] = new JButton(" " +this.ctrl.compterCarteCouleur(color[i]));
-            this.panelMain.add(cartesJoueur[i]);
+            this.panelMain.add(this.cartesJoueur.get(i));
         }
         this.revalidate();
         this.repaint();

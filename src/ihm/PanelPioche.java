@@ -55,7 +55,7 @@ public class PanelPioche extends JPanel implements ActionListener
         this.lstColor = new ArrayList<Color>();
         this.panelBoutonPioche.setLayout(new GridLayout(3, 3, 10, 10));
         this.panelGlobal = new JPanel();
-        this.panelGlobal.setLayout(new GridLayout(4, 1, 1, 1));
+        this.panelGlobal.setLayout(new GridLayout(5, 1, 1, 1));
         this.panelObjectif = new JPanel();
         this.panelObjectif.setLayout(new GridLayout(1, 2, 1, 1));
         this.tabColObjectif = new TableColumn[3];
@@ -67,12 +67,12 @@ public class PanelPioche extends JPanel implements ActionListener
         this.lblObjectif = new JLabel("Liste des objectifs :");
 
         this.lblTable.setForeground(Color.WHITE);
-        this.lblTable.setFont(new Font("Arial", Font.BOLD, 15));
+        this.lblTable.setFont(new Font("Arial", Font.BOLD, 20));
         //centrer le texte lbl table au centre
         this.lblTable.setHorizontalAlignment(SwingConstants.CENTER);
 
         this.lblObjectif.setForeground(Color.WHITE);
-        this.lblObjectif.setFont(new Font("Arial", Font.BOLD, 15));
+        this.lblObjectif.setFont(new Font("Arial", Font.BOLD, 20));
         this.lblObjectif.setHorizontalAlignment(SwingConstants.CENTER);
         // Création des boutons
         this.btnPiocheObjectif = new JButton();
@@ -171,12 +171,19 @@ public class PanelPioche extends JPanel implements ActionListener
         this.panelBoutonPioche.setBackground(new Color(35, 31, 32));
         this.panelGlobal.setBackground(new Color(35, 31, 32));
         this.panelObjectif.setBackground(new Color(35, 31, 32));
+        this.btnRemplirSection.setPreferredSize(new Dimension(100,60));
+        this.btnRemplirSection.setFont(new Font("Arial", Font.BOLD, 20));
 
         this.panelObjectif.add(this.btnPiocheObjectif);
         this.panelObjectif.add(scrollPane);
 
         this.panelGlobal.add(this.lblTable);
         this.panelGlobal.add(this.panelBoutonPioche);
+        JLabel lbl = new JLabel("80/100");
+        lbl.setForeground(Color.WHITE);
+        lbl.setFont(new Font("Arial", Font.BOLD, 25));
+        this.panelGlobal.add(lbl);
+        lbl.setHorizontalAlignment(SwingConstants.CENTER);
         this.panelGlobal.add(this.lblObjectif);
         this.panelGlobal.add(this.panelObjectif);
         
@@ -226,67 +233,54 @@ public class PanelPioche extends JPanel implements ActionListener
 
     public void piocherCarteObjectif()
     {
-        Random random = new Random();
-        
-        int index1 = random.nextInt(this.ctrl.getAllCartesObjectifs().size());
-        int index2 = random.nextInt(this.ctrl.getAllCartesObjectifs().size());
-        int index3 = random.nextInt(this.ctrl.getAllCartesObjectifs().size());
-
-        // Vérifier si il n'y a pas deux index identiques, on recommence en tirant un nouveau nombre 
-        while(index1 == index2 || index1 == index3 || index2 == index3)
+        // On vérifie si la liste des cartes est vide
+        if(this.ctrl.getAllCartesObjectifRandom().isEmpty())
         {
-            index1 = random.nextInt(this.ctrl.getAllCartesObjectifs().size());
-            index2 = random.nextInt(this.ctrl.getAllCartesObjectifs().size());
-            index3 = random.nextInt(this.ctrl.getAllCartesObjectifs().size());
+            JOptionPane.showMessageDialog(null, "Il ne reste plus de cartes objectifs", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        // On récupère les cartes objectifs
-        CarteObjectif carteRandom1 = this.ctrl.getAllCartesObjectifs().get(index1);
-        CarteObjectif carteRandom2 = this.ctrl.getAllCartesObjectifs().get(index2);
-        CarteObjectif carteRandom3 = this.ctrl.getAllCartesObjectifs().get(index3);
-        
-        // On créer les JCheckBox
-        this.checkObjectif1 = new JCheckBox("Ville de départ : " + carteRandom1.getNoeud1().getNom() + " - Ville d'arrivée : " + carteRandom1.getNoeud2().getNom() + " - Score : " + carteRandom1.getScore());
-        this.checkObjectif2 = new JCheckBox("Ville de départ : " + carteRandom2.getNoeud1().getNom() + " - Ville d'arrivée : " + carteRandom2.getNoeud2().getNom() + " - Score : " + carteRandom2.getScore());
-        this.checkObjectif3 = new JCheckBox("Ville de départ : " + carteRandom3.getNoeud1().getNom() + " - Ville d'arrivée : " + carteRandom3.getNoeud2().getNom() + " - Score : " + carteRandom3.getScore());
+        JPanel panel = new JPanel(new GridLayout(this.ctrl.getAllCartesObjectifRandom().size(),1));
 
-        // Créez un JPanel et ajoutez les JCheckBox
-        JPanel panel = new JPanel(new GridLayout(3, 1));
-        panel.add(this.checkObjectif1);
-        panel.add(this.checkObjectif2);
-        panel.add(this.checkObjectif3);
+        // Création des checkbox nécéssaires avec les infos des cartes objectif random
+        for(int i = 0; i < this.ctrl.getAllCartesObjectifRandom().size(); i++)
+        {
+            CarteObjectif ca = this.ctrl.getAllCartesObjectifRandom().get(i);
+            JCheckBox cb = new JCheckBox("Ville de départ : " + ca.getNoeud1().getNom() + " - Ville d'arrivée : " + ca.getNoeud2().getNom() + " - Score : " + ca.getScore());
+            panel.add(cb);
+        }
 
-        // Afficher la boîte de dialogue
-        int option = JOptionPane.showConfirmDialog(null, panel, "Sélectionner au moins 1 carte objectif", JOptionPane.OK_CANCEL_OPTION);
+        // Check if selected 
+        boolean select = false;
+        int option = JOptionPane.showConfirmDialog(null, panel, "Sélectionner au moins 1 carte objectif", JOptionPane.PLAIN_MESSAGE);
         if (option == JOptionPane.OK_OPTION) 
         {
-            // Récupérez les valeurs des JCheckBox sélectionnées
-            if(this.checkObjectif1.isSelected())
+            // Récupérez les valeurs des JCheckBox sélectionnées dans les components du panel
+            Component[] components = panel.getComponents();
+            for(int i = 0; i<components.length; i++)
             {
-                this.ctrl.getJoueur().addCarteObjectif(carteRandom1);
-                this.ctrl.getAllCartesObjectifs().remove(carteRandom1);
-            }
-            if(this.checkObjectif2.isSelected())
-            {
-                this.ctrl.getJoueur().addCarteObjectif(carteRandom2);
-                this.ctrl.getAllCartesObjectifs().remove(carteRandom2);
-            }
-            if(this.checkObjectif3.isSelected())
-            {
-                this.ctrl.getJoueur().addCarteObjectif(carteRandom3);
-                this.ctrl.getAllCartesObjectifs().remove(carteRandom3);
+                // Si le component est une CheckBox, je vérifie si elle est selectionné
+                if(components[i] instanceof JCheckBox)
+                {
+                    JCheckBox checkbox = (JCheckBox) components[i];
+                    if(checkbox.isSelected())
+                    {
+                        // Si selectionner, alors je l'ajoute au joueur et je la supprime de toutes les cartes objectifs
+                        select = true;
+                        this.ctrl.getJoueur().addCarteObjectif(this.ctrl.getAllCartesObjectifRandom().get(i));
+                        this.ctrl.getAllCartesObjectifs().remove(this.ctrl.getAllCartesObjectifRandom().get(i));
+                    }
+                }
             }
         }
-
-        this.refreshTableObjectifs();
+        // Si rien n'est selectionné ou qu'on ferme la fenetre, on re affiche
+        if(!select)piocherCarteObjectif();
+        refreshTableObjectifs();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) 
     {
-
-        
-
         // TODO Auto-generated method stub
         if(e.getSource() == this.cartesTable[0])
         {

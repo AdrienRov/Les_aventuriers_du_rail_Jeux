@@ -1,6 +1,8 @@
 package src.ihm;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 
 import java.awt.Color;
@@ -65,6 +67,11 @@ public class Gui extends JFrame
         this.panelCarte.repaint();
         this.revalidate();
         this.repaint();
+    }
+
+    public void notification(String message)
+    {
+        JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.ERROR_MESSAGE);
     }
 
     public void piocherCarteObjectif()
