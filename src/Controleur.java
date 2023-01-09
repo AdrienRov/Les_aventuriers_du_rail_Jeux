@@ -145,8 +145,8 @@ public class Controleur
 
     public void initPioche()
     {
-        this.pioche = new ArrayList<Carte>();
-        this.defausse = new ArrayList<Carte>();
+        this.pioche     = new ArrayList<Carte>();
+        this.defausse   = new ArrayList<Carte>();
         this.carteTable = new ArrayList<Carte>();
 
         
@@ -164,7 +164,7 @@ public class Controleur
 
         for(int i =0 ; i<this.nbJoker ;i++){ this.pioche.add(this.allCartes.get(8));} // locomotive
         
-        System.out.println(this.pioche);
+        System.out.println(this.pioche.size());
         Collections.shuffle(this.pioche);
         
         //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
@@ -208,17 +208,31 @@ public class Controleur
     // action du joueur :prendre une carte de la table
     public void piocheCarteTable(int i, Joueur joueur)
     {
+        
         this.joueur1.addMain(this.carteTable.get(i-1));
-        this.carteTable.set(i-1, this.pioche.get(0));
-        this.pioche.remove(0);
+        // verifie si la pioche est vide 
+        if(!this.pioche.isEmpty())
+        {
+            this.carteTable.set(i-1, this.pioche.get(0));
+            this.pioche.remove(0);
+
+        }
         this.gui.refreshMain();
+        System.out.println("Taille des cartes sur la table = "+this.carteTable.size());
+
     }
 
     public void verifTourDejeux()
-    {
-         
+    {    
         System.out.println("fin de tour");
+    }
 
+    public void finDePartie()
+    {
+        if(this.joueur1.getMain().size() < this.nbWagonFin)
+        {
+            this.gui.notification("C'est la dernière manche");
+        }
     }
 
     // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
@@ -503,19 +517,18 @@ public class Controleur
     {
         if(arete.getJoueur() == null)
         {
-            //uigz
             for(Carte c : this.allCartes)
             {
                 System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
                 if(arete.getCouleur().equals(c.getCouleur()))
                 {
                     if(this.joueur1.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
-                    {
-                        
+                    {  
                         this.joueur1.addArete(arete);
                         for(int i = 0; i < arete.getNbVoiture(); i++)
                         {
                             this.joueur1.removeCarte(c);
+                            this.defausse.add(c);
                         }
                         arete.setJoueur(this.joueur1);
                         this.gui.refreshMain();
@@ -571,6 +584,11 @@ public class Controleur
         return nbJoueurMin;
     }
 
+    public List getCartePioche()
+    {
+        return pioche ;
+    }
+
     public void setPionMax()
     {
         this.joueur1.setNbPion(this.nbPionMax);
@@ -586,7 +604,7 @@ public class Controleur
 
     public String[] getCouleurCarte(){return couleurCarte;}
 
-    public ArrayList<Carte> getCarteTable() {
+    public List<Carte> getCarteTable() {
         return this.carteTable;
     }
 

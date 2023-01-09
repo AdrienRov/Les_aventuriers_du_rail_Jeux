@@ -68,11 +68,11 @@ public class PanelConfig extends JPanel implements ActionListener
                     {
                         // Stocker le fichier XML dans le controleur avec methode lirefichierxml
                         // mettre une popup : le fichier à bien été importé
-
                     }
                     else
                     {
                         // Mettre une boite de dialog en disant que ce n'est pas un fichier XML, et rouvrir le JFileChooser
+
 
 
                     }

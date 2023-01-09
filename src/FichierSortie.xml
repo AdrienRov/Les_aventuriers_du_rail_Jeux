@@ -159,7 +159,7 @@
 			<nbPoint6 nb="60"/>
 			<nbCarteJoueur nb="20"/>
 			<nbJoueurDoublesVoies nb="3"/>
-			<nbWagonCouleur nb="14"/>
+			<nbWagonCouleur nb="5"/>
 			<nbJoker nb="16"/>
 		</parametre>
 	</listeParametres>

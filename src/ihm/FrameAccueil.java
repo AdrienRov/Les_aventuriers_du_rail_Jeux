@@ -27,6 +27,7 @@ public class FrameAccueil extends JFrame implements ActionListener
     private JPanel panelBoutons;
     private JPanel panelImage;
     private JPanel panelTitre;
+    private PanelConfig panelConfig;
 
 
     public FrameAccueil(Controleur ctrl) 
@@ -41,6 +42,8 @@ public class FrameAccueil extends JFrame implements ActionListener
         this.lblTitre       = new JLabel("Les aventuriers du rail");
         this.lblImage       = new JLabel(new ImageIcon("images/Image_accueil.png"));
 
+
+        this.panelConfig = new PanelConfig(ctrl);
         
         this.btnJouer       = new JButton("Jouer");
         //centrer le texte du bouton
@@ -95,7 +98,8 @@ public class FrameAccueil extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == this.btnJouer)
         {
-            //fermer la frame
+        
+            // fermer la frame
             this.ctrl.afficherJeux();
             this.dispose();
         }  
