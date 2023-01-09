@@ -81,8 +81,9 @@ public class Controleur
     // Pour lire le fichier XML
     private Document document;
     private static org.jdom2.Element racine;
-    private int nbJoueur;
-    private int nbWagon;
+    private int nbJoueurMin;
+    private int nbJoueurMax;
+    private int nbPionMax;
     private int nbWagonFin;
     private int nbPoint1;
     private int nbPoint2;
@@ -121,6 +122,7 @@ public class Controleur
         initPioche();
         initPiocheObjectif();
         this.AfficherDonnees();
+        this.setPionMax();
     }
 
     public void jouerManche(int numAction)
@@ -241,8 +243,9 @@ public class Controleur
             System.out.println(a.getNoeudDepart() + " - " + a.getNoeudArrive() +  " : " + a.getNbVoiture() + " " + a.getCouleur());
         }   
         System.out.println("\n----------------- Les Paramètres -----------------\n");
-        System.out.println("\nNombre de joueurs : " + this.nbJoueur);
-        System.out.println("\nNombre de wagons : " + this.nbWagon);
+        System.out.println("\nNombre de joueurs minimium : " + this.nbJoueurMin);
+        System.out.println("\nNombre de joueurs minimium : " + this.nbJoueurMax);
+        System.out.println("\nNombre de pions : " + this.nbPionMax);
         System.out.println("\nNombre de wagons pour finir : " + this.nbWagonFin);
         System.out.println("\nNombre de points pour 1 : " + this.nbPoint1);
         System.out.println("\nNombre de points pour 2 : " + this.nbPoint2);
@@ -352,8 +355,9 @@ public class Controleur
         List<Element> parametres = racine.getChild("listeParametres").getChildren("parametre");
         for(Element parametre : parametres)
         {
-            nbJoueur                = Integer.parseInt(parametre.getChild("nbJoueur").getAttributeValue("nb"));
-            nbWagon                 = Integer.parseInt(parametre.getChild("nbWagon").getAttributeValue("nb"));
+            nbJoueurMin                = Integer.parseInt(parametre.getChild("nbJoueurMin").getAttributeValue("nb"));
+            nbJoueurMax                 = Integer.parseInt(parametre.getChild("nbJoueurMax").getAttributeValue("nb"));
+            nbPionMax               = Integer.parseInt(parametre.getChild("nbPion").getAttributeValue("nb"));
             nbWagonFin              = Integer.parseInt(parametre.getChild("nbWagonFin").getAttributeValue("nb"));
             nbPoint1                = Integer.parseInt(parametre.getChild("nbPoint1").getAttributeValue("nb"));
             nbPoint2                = Integer.parseInt(parametre.getChild("nbPoint2").getAttributeValue("nb"));
@@ -550,12 +554,17 @@ public class Controleur
         return this.allCartesObjectifs;
     }
 
-    public int getNbJoueur() {
-        return nbJoueur;
+    public int getNbJoueurMin() {
+        return nbJoueurMin;
     }
 
-    public int getNbWagon() {
-        return nbWagon;
+    public void setPionMax()
+    {
+        this.joueur1.setNbPion(this.nbPionMax);
+    }
+
+    public int getNbPionMax() {
+        return nbPionMax;
     }
 
     public int getNbWagonFin() {

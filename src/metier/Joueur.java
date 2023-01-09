@@ -13,7 +13,7 @@ public class Joueur {
     private ArrayList<CarteObjectif> tabCarteObjectif = new ArrayList<CarteObjectif>();
     //hashmap pour les cartes String couleur, String couleur
     private HashMap<String, ArrayList<Carte>> cartes = new HashMap<String, ArrayList<Carte>>();
-
+    private int nbPion;
 
 
     public Joueur(String nom) 
@@ -24,6 +24,7 @@ public class Joueur {
         this.tabArete = new ArrayList<Arete>();
         this.cartes = new HashMap<String, ArrayList<Carte>>();
         this.tabCarteObjectif = new ArrayList<CarteObjectif>();
+        this.nbPion = 0;
     }
 
     public String getNom() {
@@ -137,6 +138,21 @@ public class Joueur {
     public ArrayList<CarteObjectif> getTabCarteObjectif() 
     {
         return tabCarteObjectif;
+    }
+
+    public void setNbPion(int nb)
+    {
+        this.nbPion = nb;
+    }
+
+    public void decrementeNbPion(int nb)
+    {
+        this.nbPion -= nb;
+    }
+
+    public int getNbPion()
+    {
+        return this.nbPion;
     }
 
 }

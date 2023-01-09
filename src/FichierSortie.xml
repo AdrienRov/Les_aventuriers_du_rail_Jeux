@@ -82,8 +82,9 @@
 	</listeArete>
 	<listeParametres>
 		<parametre>
-			<nbJoueur nb="1"/>
-			<nbWagon nb="5"/>
+			<nbJoueurMin nb="1"/>
+			<nbJoueurMax nb = "3"/>
+			<nbPion nb="5"/>
 			<nbWagonFin nb="3"/>
 			<nbPoint1 nb="1"/>
 			<nbPoint2 nb="2"/>
