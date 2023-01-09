@@ -147,8 +147,8 @@ public class Controleur
 
     public void initPioche()
     {
-        this.pioche = new ArrayList<Carte>();
-        this.defausse = new ArrayList<Carte>();
+        this.pioche     = new ArrayList<Carte>();
+        this.defausse   = new ArrayList<Carte>();
         this.carteTable = new ArrayList<Carte>();
 
         
@@ -166,9 +166,9 @@ public class Controleur
 
         for(int i =0 ; i<this.nbJoker ;i++){ this.pioche.add(this.allCartes.get(8));} // locomotive
         
-        System.out.println(this.pioche);
-        Collections.shuffle(this.pioche);
         
+        Collections.shuffle(this.pioche);
+        System.out.println(this.pioche);
         //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
         for(int i =0 ; i<this.nbCarteJoueur ;i++)
         {
@@ -204,34 +204,41 @@ public class Controleur
         }
         this.gui.notification("Il n'y a plus de carte dans la pioche");      
         System.out.println("Taille de la pioche = "+this.pioche.size());
+        System.out.println(this.pioche);
         
     }
 
     // action du joueur :prendre une carte de la table
     public void piocheCarteTable(int i, Joueur joueur)
     {
+        
         this.joueur1.addMain(this.carteTable.get(i-1));
-        this.carteTable.set(i-1, this.pioche.get(0));
-        this.pioche.remove(0);
+        // verifie si la pioche est vide 
+        if(!this.pioche.isEmpty())
+        {
+            this.carteTable.set(i-1, this.pioche.get(0));
+            this.pioche.remove(0);
+
+        }
         this.gui.refreshMain();
+        System.out.println(this.pioche);
     }
 
     public void verifTourDejeux()
-    {
-         
+    {    
         System.out.println("fin de tour");
-
     }
 
     // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
     public void remelanger()
     {
-        if(this.pioche.isEmpty())
-        {
+        // for(int i =1 ; i<this.carteTable.size() ;i++)
+        // {
+        //     this.carteTable.get(i).setVisible(true);
+        // }
             this.pioche.addAll(this.defausse);
             this.defausse.clear();
             Collections.shuffle(this.pioche);
-        }
     }
 
     // Afficher les données du fichier XML
@@ -447,8 +454,18 @@ public class Controleur
     public void joueurSuivant()
     {
         System.out.println("Joueur suivant");
+        if(this.joueur1.getNbPion() < this.nbWagonFin)
+        {
+            this.gui.notification("C'est la dernière manche");
+            // this.afficherScore();
+        }
         initPiocheObjectif();
     }
+
+    // public void afficherScore()
+    // {
+    //     this.gui.afficherScore();
+    // }
 
     public void initPiocheObjectif()
     {
@@ -505,28 +522,30 @@ public class Controleur
     {
         if(arete.getJoueur() == null)
         {
-            //uigz
             for(Carte c : this.allCartes)
             {
                 System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
                 if(arete.getCouleur().equals(c.getCouleur()))
                 {
                     if(this.joueur1.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
-                    {
-                        
+                    {  
                         this.joueur1.addArete(arete);
                         for(int i = 0; i < arete.getNbVoiture(); i++)
                         {
                             this.joueur1.removeCarte(c);
+                            this.defausse.add(c);
                         }
+                        System.out.println(this.defausse);
                         arete.setJoueur(this.joueur1);
                         this.gui.refreshMain();
                         this.gui.refreshCarte();
+                        this.remelanger();
                         return 1;
                     }
                 }
                 
             }
+            
             return 3;
             
         }
@@ -573,6 +592,11 @@ public class Controleur
         return nbJoueurMin;
     }
 
+    public List getCartePioche()
+    {
+        return pioche ;
+    }
+
     public int getNbJoueurMax() {
         return nbJoueurMax;
     }
@@ -597,7 +621,7 @@ public class Controleur
 
     public String[] getCouleurCarte(){return couleurCarte;}
 
-    public ArrayList<Carte> getCarteTable() {
+    public List<Carte> getCarteTable() {
         return this.carteTable;
     }
 

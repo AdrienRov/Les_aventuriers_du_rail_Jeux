@@ -42,6 +42,8 @@ public class FrameAccueil extends JFrame implements ActionListener
         this.lblTitre       = new JLabel("Les aventuriers du rail");
         this.lblImage       = new JLabel(new ImageIcon("images/Image_accueil.png"));
 
+
+        this.panelConfig = new PanelConfig(ctrl);
         
         this.btnJouer       = new JButton("Jouer");
         //centrer le texte du bouton

@@ -320,8 +320,14 @@ public class PanelPioche extends JPanel implements ActionListener
 
     public void refreshTablePioche()
     {
-        for (int i = 1; i < this.cartesTable.length; i++) 
+        if(this.ctrl.getCartePioche().isEmpty())
         {
+            return;
+        }
+        else
+        {
+            for (int i = 1; i < this.cartesTable.length; i++) 
+            {
                 try {
                     ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getCarteTable().get(i-1).getNomImage()+".png");
                     //changer la taille de l'image
@@ -335,6 +341,8 @@ public class PanelPioche extends JPanel implements ActionListener
                 } catch (Exception e) {
                     // TODO: handle exception
                 } 
+
+            }
         }
     }
 
@@ -349,18 +357,34 @@ public class PanelPioche extends JPanel implements ActionListener
 
             if(e.getSource() == this.cartesTable[i])
             {
+                
                 this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
                 this.ctrl.joueurSuivant();
+                if(this.ctrl.getPioche().isEmpty())
+                {
+                    //enlever le bouton du panel 
+                    this.cartesTable[i].setVisible(false);
+                    
+                }
+                System.out.println("test"+i);
                 this.refreshTablePioche();
             }
 
         }
-
-
+        
         if(e.getSource() == this.cartesTable[0])
         {
+
             this.ctrl.pioche(this.ctrl.getJoueur());
             this.ctrl.joueurSuivant();
+            if(this.ctrl.getPioche().isEmpty())
+            {
+                //enlever le bouton du panel 
+                this.cartesTable[0].setVisible(false);
+                
+            }
+            this.refreshTablePioche();
+              
         }
         if(e.getSource() == this.btnPiocheObjectif)
         {
