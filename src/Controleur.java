@@ -535,16 +535,6 @@ public class Controleur
         return false;
     }    
 
-    public List<Noeud> getAllNoeuds() 
-    {
-        return this.allNoeuds;
-    }
-    
-    public List<Arete> getAllTrajets() 
-    {
-        return this.allAretes;
-    }
-    
 
     public List<CarteObjectif> getAllCartesObjectifs() {
         return this.allCartesObjectifs;
@@ -586,6 +576,16 @@ public class Controleur
     {
         this.allCartesObjectifs.remove(carteObjectif);
     }
+
+
+    public List<Arete> getAllTrajets() {
+        return this.allAretes;
+    }
+
+    public List<Noeud> getAllNoeuds() {
+        return this.allNoeuds;
+    }
+    
 
     public static void main(String[] args) 
     {
