@@ -16,6 +16,7 @@ public class Gui extends JFrame
     private PanelJeux panelJeux;
     private PanelCarte panelCarte;
     private PanelPioche panelPioche;
+    private PanelConfig panelConfig;
     
     public Gui(Controleur ctrl) 
     {
@@ -78,5 +79,5 @@ public class Gui extends JFrame
     {
         this.panelPioche.piocherCarteObjectif();
     }
-    
+
 }

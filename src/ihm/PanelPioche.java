@@ -322,7 +322,6 @@ public class PanelPioche extends JPanel implements ActionListener
     {
         if(this.ctrl.getCartePioche().isEmpty())
         {
-            JOptionPane.showMessageDialog(null, "Il ne reste plus de cartes dans la pioche", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
         else

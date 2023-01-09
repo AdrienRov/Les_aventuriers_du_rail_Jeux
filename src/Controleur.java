@@ -96,6 +96,8 @@ public class Controleur
     private int nbWagonCouleur;
     private int nbJoker;
 
+    private int nbJoueur;
+
     private int cpt ; // compteur pour le nombre de carte sur la table
 
     private ArrayList<Carte> defausse;
@@ -164,9 +166,9 @@ public class Controleur
 
         for(int i =0 ; i<this.nbJoker ;i++){ this.pioche.add(this.allCartes.get(8));} // locomotive
         
-        System.out.println(this.pioche.size());
-        Collections.shuffle(this.pioche);
         
+        Collections.shuffle(this.pioche);
+        System.out.println(this.pioche);
         //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
         for(int i =0 ; i<this.nbCarteJoueur ;i++)
         {
@@ -202,6 +204,7 @@ public class Controleur
         }
         this.gui.notification("Il n'y a plus de carte dans la pioche");      
         System.out.println("Taille de la pioche = "+this.pioche.size());
+        System.out.println(this.pioche);
         
     }
 
@@ -218,8 +221,7 @@ public class Controleur
 
         }
         this.gui.refreshMain();
-        System.out.println("Taille des cartes sur la table = "+this.carteTable.size());
-
+        System.out.println(this.pioche);
     }
 
     public void verifTourDejeux()
@@ -267,12 +269,13 @@ public class Controleur
     // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
     public void remelanger()
     {
-        if(this.pioche.isEmpty())
-        {
+        // for(int i =1 ; i<this.carteTable.size() ;i++)
+        // {
+        //     this.carteTable.get(i).setVisible(true);
+        // }
             this.pioche.addAll(this.defausse);
             this.defausse.clear();
             Collections.shuffle(this.pioche);
-        }
     }
 
     // Afficher les données du fichier XML
@@ -486,8 +489,18 @@ public class Controleur
     public void joueurSuivant()
     {
         System.out.println("Joueur suivant");
+        if(this.joueur1.getNbPion() < this.nbWagonFin)
+        {
+            this.gui.notification("C'est la dernière manche");
+            // this.afficherScore();
+        }
         initPiocheObjectif();
     }
+
+    // public void afficherScore()
+    // {
+    //     this.gui.afficherScore();
+    // }
 
     public void initPiocheObjectif()
     {
@@ -557,14 +570,17 @@ public class Controleur
                             this.joueur1.removeCarte(c);
                             this.defausse.add(c);
                         }
+                        System.out.println(this.defausse);
                         arete.setJoueur(this.joueur1);
                         this.gui.refreshMain();
                         this.gui.refreshCarte();
+                        this.remelanger();
                         return 1;
                     }
                 }
                 
             }
+            
             return 3;
             
         }
@@ -616,6 +632,15 @@ public class Controleur
         return pioche ;
     }
 
+    public int getNbJoueurMax() {
+        return nbJoueurMax;
+    }
+
+    public void setNbJoueur(int nb)
+    {
+        this.nbJoueur = nb;
+    }
+
     public void setPionMax()
     {
         this.joueur1.setNbPion(this.nbPionMax);
@@ -652,6 +677,11 @@ public class Controleur
     public void supprimerCarteObjectif(CarteObjectif carteObjectif) 
     {
         this.allCartesObjectifs.remove(carteObjectif);
+    }
+
+    public void etatConfig(boolean etat)
+    {
+        this.frameAcceuil.etatConfig(etat);
     }
 
     public static void main(String[] args) 
