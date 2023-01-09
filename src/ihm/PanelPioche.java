@@ -287,7 +287,7 @@ public class PanelPioche extends JPanel implements ActionListener
         {
             if(e.getSource() == this.cartesTable[i])
             {
-                ////////////Faut faire une methode refresh cartesTable qui permet de prendre la carte selectionné et de l'ajouter dans la main puis ajouter une autre carte sur la table
+                ////////////Faut faire une methode refreshCartesTable qui permet de prendre la carte selectionné et de l'ajouter dans la main puis ajouter une autre carte sur la table
             }
         }
 
