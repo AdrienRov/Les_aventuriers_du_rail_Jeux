@@ -4,7 +4,6 @@ import java.io.File;
 import java.text.DateFormat.Field;
 
 import src.ihm.FrameAccueil;
-import src.ihm.Gui;
 import src.metier.Arete;
 import src.metier.CarteObjectif;
 import src.metier.Noeud;
@@ -19,9 +18,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -51,6 +47,23 @@ import javax.swing.text.AttributeSet.ColorAttribute;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.Image;
+import src.metier.Arete;
+import src.metier.Noeud;
+
+import java.io.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import src.metier.Arete;
 import src.metier.Noeud;
 
