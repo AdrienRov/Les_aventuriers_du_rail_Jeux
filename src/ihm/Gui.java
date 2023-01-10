@@ -59,6 +59,13 @@ public class Gui extends JFrame
         this.repaint();
     }
 
+    public void refreshPanelPion()
+    {
+        this.panelPioche.refreshPanelPion();
+        this.revalidate();
+        this.repaint();
+    }
+
     public void refreshMain()
     {
         this.panelJeux.refreshMain();

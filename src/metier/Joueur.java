@@ -7,6 +7,7 @@ import java.util.List;
 public class Joueur {
     private String nom;
     private int score;
+    private Color couleur;
 
     private ArrayList<Carte> main;
     private ArrayList<Arete> tabArete = new ArrayList<Arete>();
@@ -16,9 +17,10 @@ public class Joueur {
     private int nbPion;
 
 
-    public Joueur(String nom) 
+    public Joueur(String nom, Color couleur) 
     {
         this.nom = nom;
+        this.couleur = couleur;
         this.score = 0;
         this.main = new ArrayList<Carte>();
         this.tabArete = new ArrayList<Arete>();
@@ -29,6 +31,11 @@ public class Joueur {
 
     public String getNom() {
         return nom;
+    }
+
+    public Color getCouleur()
+    {
+        return couleur;
     }
 
     public int getScore() {
