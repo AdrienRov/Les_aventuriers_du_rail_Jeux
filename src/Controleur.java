@@ -323,6 +323,7 @@ public class Controleur
         System.out.println("Fin de la partie");
         //this.gui.notification("C'est la dernière manche");
         calculScore();
+        this.gui.afficherPanelFinPartie(true);
     }
 
     // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
@@ -686,19 +687,6 @@ public class Controleur
         return this.tabColors;
     }
 
-    //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
-    public boolean finPartie()
-    {
-        if(this.joueur1.getMain().size() < nbWagonFin)
-        {
-            // On ouvre une popup disant que c'est la fin de partie, et dès qu'il clique sur ok on met le panel de fin
-            JOptionPane.showMessageDialog(null, "Fin de la partie !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
-            this.frameAcceuil.finPartie();
-            return true;
-        }
-        return false;
-    }    
-
     public List<Noeud> getAllNoeuds() 
     {
         return this.allNoeuds;
@@ -777,6 +765,11 @@ public class Controleur
     public void etatConfig(boolean etat)
     {
         this.frameAcceuil.etatConfig(etat);
+    }
+
+    public void enleverPanelFin(boolean etat)
+    {
+        this.frameAcceuil.enleverPanelFin(etat);
     }
 
     public FrameAccueil getFrameAccueil()
