@@ -129,7 +129,6 @@ public class Controleur
         this.joueurSelect = new Joueur("");
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
         //this.AfficherDonnees();
-        this.setPionMax();
     }
 
     public void jouerManche(int numAction)
@@ -153,6 +152,11 @@ public class Controleur
     {
         this.initPioche();
         this.initPiocheObjectif();
+
+        for(Joueur j : this.tabJoueur)
+        {
+            j.setNbPion(nbPionMax);
+        }
     }
     public void initPioche()
     {
@@ -684,38 +688,27 @@ public class Controleur
                 //System.out.println(this.joueurSelect.nbCouleur(c.getNomCarte()));
                 if(arete.getCouleur().equals(c.getCouleur()))
                 {
-<<<<<<< HEAD
-                    if(this.joueurSelect.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
+                    System.out.println(c.getNomCarte());
+                    System.out.println(" " + (this.joueurSelect.nbCouleur(c.getNomCarte()) + this.joueurSelect.nbCouleur("grey")) + " = " + arete.getNbVoiture());
+
+                    if(this.joueurSelect.nbCouleur(c.getNomCarte()) + this.joueurSelect.nbCouleur("grey") >= arete.getNbVoiture())
                     {  
                         this.joueurSelect.addArete(arete);
-                        for(int i = 0; i < arete.getNbVoiture(); i++)
-                        {
-                            this.joueurSelect.removeCarte(c);
-                            this.defausse.add(c);
-
-=======
-                    System.out.println(c.getNomCarte());
-                    System.out.println(" " + (this.joueur1.nbCouleur(c.getNomCarte()) + this.joueur1.nbCouleur("grey")) + " = " + arete.getNbVoiture());
-
-                    if(this.joueur1.nbCouleur(c.getNomCarte()) + this.joueur1.nbCouleur("grey") >= arete.getNbVoiture())
-                    {  
-                        this.joueur1.addArete(arete);
-                        int nbCartesALaBase = this.joueur1.nbCouleur(c.getNomCarte());
+                        int nbCartesALaBase = this.joueurSelect.nbCouleur(c.getNomCarte());
                         int cpt = 0;
                         for(int i = 0; i < arete.getNbVoiture(); i++)
                         {
-                            System.out.println(this.joueur1.getCartes().get("grey"));
+                            System.out.println(this.joueurSelect.getCartes().get("grey"));
                             if(i +1 > nbCartesALaBase )
                             {
-                                this.defausse.add(this.joueur1.getCartes().get("grey").remove(i-cpt - nbCartesALaBase));
+                                this.defausse.add(this.joueurSelect.getCartes().get("grey").remove(i-cpt - nbCartesALaBase));
                                 cpt ++;
                             }
                             else 
                             {
-                                this.joueur1.removeCarte(c);
+                                this.joueurSelect.removeCarte(c);
                                 this.defausse.add(c);
                             }
->>>>>>> ba450b3d06475d055f2c7511b7fca6197048ec03
                         }
                         
                         this.remelanger();
@@ -746,7 +739,6 @@ public class Controleur
         return this.tabColors;
     }
 
-<<<<<<< HEAD
     //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
     public boolean finPartie()
     {
@@ -754,14 +746,11 @@ public class Controleur
         {
             // On ouvre une popup disant que c'est la fin de partie, et dès qu'il clique sur ok on met le panel de fin
             JOptionPane.showMessageDialog(null, "Fin de la partie !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
-            this.frameAcceuil.finPartie();
             return true;
         }
         return false;
     }    
 
-=======
->>>>>>> 227d5da96542b08b46dd44583a0feeff6d9a79d8
     public List<Noeud> getAllNoeuds() 
     {
         return this.allNoeuds;
@@ -797,11 +786,6 @@ public class Controleur
 
     public int getNbJoueur() {
         return nbJoueur;
-    }
-
-    public void setPionMax()
-    {
-        this.joueurSelect.setNbPion(this.nbPionMax);
     }
 
     public int getNbPionMax() {
