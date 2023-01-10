@@ -157,6 +157,7 @@ public class PanelConfig extends JPanel implements ActionListener
                 System.out.println("Nombre de joueurs : " + comboNbJoueurs.getSelectedItem());
                 this.ctrl.setNbJoueur(comboNbJoueurs.getSelectedIndex() + 1);
                 this.ctrl.etatConfig(false);
+                this.ctrl.getFrameAccueil().dispose();
                 this.ctrl.afficherJeux();
             }
         }

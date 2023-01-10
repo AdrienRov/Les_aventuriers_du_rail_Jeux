@@ -42,6 +42,7 @@ public class PanelPioche extends JPanel implements ActionListener
     private TableColumn[] tabColObjectif;
     private TableColumn tabColTrajet      = new TableColumn();
     private JComboBox<String> comboVille1, comboVille2;
+    private boolean verif =  true ; 
 
     private JCheckBox checkObjectif1, checkObjectif2, checkObjectif3;
 
@@ -316,13 +317,14 @@ public class PanelPioche extends JPanel implements ActionListener
         // Si rien n'est selectionné ou qu'on ferme la fenetre, on re affiche
         if(!select)piocherCarteObjectif();
         refreshTableObjectifs();
+        
     }
 
     public void refreshTablePioche()
     {
         if(this.ctrl.getCartePioche().isEmpty())
         {
-            return;
+            return ;
         }
         else
         {
@@ -338,6 +340,10 @@ public class PanelPioche extends JPanel implements ActionListener
                     this.cartesTable[i].setContentAreaFilled(false);
                     //this.cartesTable[i].setFocusPainted(false);
                     //this.cartesTable[i].setOpaque(false);
+                    if(this.ctrl.getCarteTable().get(i-1) != null)
+                    {
+                        this.cartesTable[i].setVisible(true);
+                    }
                 } catch (Exception e) {
                     // TODO: handle exception
                 } 
@@ -360,11 +366,16 @@ public class PanelPioche extends JPanel implements ActionListener
                 
                 this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
                 this.ctrl.joueurSuivant();
-                if(this.ctrl.getPioche().isEmpty())
+                
+                this.cartesTable[i].setVisible(verif);
+                
+                if(this.ctrl.getPioche().isEmpty() )
                 {
-                    //enlever le bouton du panel 
-                    this.cartesTable[i].setVisible(false);
-                    
+                    verif = false ;
+                }
+                else
+                {
+                    verif = true ;
                 }
                 System.out.println("test"+i);
                 this.refreshTablePioche();
@@ -374,15 +385,15 @@ public class PanelPioche extends JPanel implements ActionListener
         
         if(e.getSource() == this.cartesTable[0])
         {
-
+            
             this.ctrl.pioche(this.ctrl.getJoueur());
             this.ctrl.joueurSuivant();
             if(this.ctrl.getPioche().isEmpty())
             {
-                //enlever le bouton du panel 
-                this.cartesTable[0].setVisible(false);
-                
+                JOptionPane.showMessageDialog(null, "La pioche est vide", "Erreur", JOptionPane.ERROR_MESSAGE);
+
             }
+
             this.refreshTablePioche();
               
         }
@@ -420,14 +431,18 @@ public class PanelPioche extends JPanel implements ActionListener
                             this.ctrl.joueurSuivant();
                             this.ctrl.getJoueur().decrementeNbPion(arete.getNbVoiture());
                             this.refreshPanelPion();
+                            refreshTablePioche();
+                            return ;
                         }
                         else if(this.ctrl.prendrePossession(arete) == 2)
                         {
                             JOptionPane.showMessageDialog(null, "L'arrete est déjà prise ", "Erreur", JOptionPane.ERROR_MESSAGE);
+                            return ;
                         }
                         else if(this.ctrl.prendrePossession(arete) == 3)
                         {
                             JOptionPane.showMessageDialog(null, "Vous n'avez pas assez de carte de même couleur pour prendre possession de cette arete", "Erreur", JOptionPane.ERROR_MESSAGE);
+                            return ;
                         }
                        
                     }
