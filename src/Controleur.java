@@ -556,7 +556,7 @@ public class Controleur
         System.out.println("Joueur "+ this.joueur1.getNbPion()  + " / " + this.nbWagonFin);
         System.out.println("Pioche tabcart" + this.carteTable.size());
         this.gui.refreshTablePioche();
-        if(this.joueur1.getNbPion() < this.nbWagonFin)
+        if(this.joueur1.getNbPion() <= 0)
         {
             //finPartie();
             System.out.print("Fin de partie Calul des score");
