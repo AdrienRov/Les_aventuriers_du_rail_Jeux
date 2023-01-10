@@ -10,6 +10,7 @@ import src.Controleur;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import java.awt.Font;
@@ -35,20 +36,26 @@ public class PanelFinPartie extends JPanel implements ActionListener
         this.ctrl = controleur;
         // Paramètre du panel
         this.setSize(800, 600);
-        this.setLayout(new GridLayout(4, 1, 10, 10));
+        this.setLayout(new GridLayout(5, 1, 10, 10));
         this.setBackground(new Color(35, 31, 32));
         // Création des composants
         this.panelGagnant = new JPanel(new GridLayout(2, 1, 10, 10));
         this.panelListeJoueurs = new JPanel(new GridLayout(this.ctrl.getNbJoueur(), 1, 10, 10));
 
         this.lblTitrePanel = new JLabel("Fin de la partie");
-        this.lblGagnant = new JLabel("Le gagnant est : ");
-        this.lblScoreGagnant = new JLabel("Score du gagnant : ");
+        this.lblGagnant = new JLabel("Le gagnant est : LE JOUEUR JSP QUOI");
+        this.lblScoreGagnant = new JLabel("Score du gagnant : SON SCORE");
 
         this.lblListeJoueurs = new JLabel("Liste des joueurs : ");
         
         this.btnRetourAccueil = new JButton("Retour à l'accueil");
         // Configuration des composants
+        this.btnRetourAccueil.addActionListener(this);
+        this.btnRetourAccueil.setPreferredSize(new Dimension(100,30));
+
+        this.panelGagnant.setBackground(new Color(35, 31, 32));
+        this.panelListeJoueurs.setBackground(new Color(35, 31, 32));
+
         this.lblTitrePanel.setHorizontalAlignment(SwingConstants.CENTER);
         this.lblTitrePanel.setFont(new Font("Arial", Font.BOLD, 30));
         this.lblTitrePanel.setForeground(Color.WHITE);
@@ -70,18 +77,19 @@ public class PanelFinPartie extends JPanel implements ActionListener
         this.panelGagnant.add(this.lblGagnant);
         this.panelGagnant.add(this.lblScoreGagnant);
 
-        this.panelListeJoueurs.add(this.lblListeJoueurs);
         for(int i = 0; i<this.ctrl.getNbJoueur(); i++)
         {
-            this.panelListeJoueurs.add(new JLabel("Score du joueur " + i + " : le score mageul"));
+            JLabel lblNomJoueur = new JLabel("Joueur " + i + " : SON SCORE ICI" );
+            lblNomJoueur.setHorizontalAlignment(SwingConstants.CENTER);
+            lblNomJoueur.setForeground(Color.WHITE);
+            this.panelListeJoueurs.add(lblNomJoueur);
         }
 
         this.add(this.lblTitrePanel);
         this.add(this.panelGagnant);
+        this.add(this.lblListeJoueurs);
         this.add(this.panelListeJoueurs);
         this.add(this.btnRetourAccueil);
-
-
     }
 
 
@@ -92,8 +100,9 @@ public class PanelFinPartie extends JPanel implements ActionListener
     {
         if(e.getSource() == this.btnRetourAccueil)
         {
-            // On re affiche le menu accueil de l'application
-            this.ctrl.finPartie();
+            // On re affiche le menu accueil de l'application en enlevant le tableau de fin de partie
+            this.ctrl.enleverPanelFin(true);
+            
         }
         
     }

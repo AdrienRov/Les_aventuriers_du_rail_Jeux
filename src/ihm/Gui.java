@@ -13,10 +13,12 @@ import src.Controleur;
 public class Gui extends JFrame
 {
     private Controleur ctrl;
+    private FrameAccueil frameAccueil;
     private PanelJeux panelJeux;
     private PanelCarte panelCarte;
     private PanelPioche panelPioche;
     private PanelConfig panelConfig;
+    private PanelFinPartie panelFinPartie;
     
     public Gui(Controleur ctrl) 
     {
@@ -24,6 +26,8 @@ public class Gui extends JFrame
         this.panelJeux = new PanelJeux(this.ctrl);
         this.panelCarte = new PanelCarte(this.ctrl);
         this.panelPioche = new PanelPioche(this.ctrl);
+        this.panelFinPartie = new PanelFinPartie(this.ctrl);
+        this.frameAccueil = new FrameAccueil(this.ctrl);
 
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,6 +88,23 @@ public class Gui extends JFrame
     public void piocherCarteObjectif()
     {
         this.panelPioche.piocherCarteObjectif();
+    }
+
+    public void afficherPanelFinPartie(boolean etat)
+    {
+        if(etat == true)
+        {
+            this.remove(this.panelCarte);
+            this.remove(this.panelJeux);
+            this.remove(this.panelPioche);
+            this.add(this.panelFinPartie);
+        }
+        else
+        {
+            this.remove(this.panelFinPartie);
+            this.add(this.frameAccueil);
+        }
+
     }
 
 }
