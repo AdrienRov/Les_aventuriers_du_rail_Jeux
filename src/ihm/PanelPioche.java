@@ -374,8 +374,6 @@ public class PanelPioche extends JPanel implements ActionListener
     }
 
 
-    
-
     @Override
     public void actionPerformed(ActionEvent e) 
     {
@@ -389,6 +387,7 @@ public class PanelPioche extends JPanel implements ActionListener
                 
                 System.out.println("test"+i);
                 this.refreshTablePioche();
+                this.ctrl.joueurSuivant();
             }
         }
         

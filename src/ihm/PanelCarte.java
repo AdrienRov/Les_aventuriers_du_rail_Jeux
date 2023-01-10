@@ -77,11 +77,14 @@ public class PanelCarte extends JPanel {
                 int y2_2 = y2 + (int) (distanceAuBord * Math.sin(angle2));
 
                 // Dessine le second trajet en utilisant les coordonnées décalées
-
-                if (arete.getCouleur() == Color.BLACK)
+                if (arete.getCouleur().equals(Color.BLACK))
+                {
                     g2d.setColor(Color.WHITE);
+                }
                 else
+                {
                     g2d.setColor(Color.BLACK);
+                }
 
                 g2d.setStroke(new BasicStroke(15));
                 g2d.drawLine(x1_2 + 15, y1_2 + 15, x2_2 + 15, y2_2 + 15);

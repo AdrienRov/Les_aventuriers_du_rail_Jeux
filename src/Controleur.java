@@ -103,20 +103,20 @@ public class Controleur
     private int tour = 1;
 
     private int nbJoueur;
-
+    private int idJoueur = 0;
     private int cpt ; // compteur pour le nombre de carte sur la table
 
     private ArrayList<Carte> defausse;
     private ArrayList<Carte> carteTable ; //carte sur la table
     private Arete choixArete;
-    private Joueur joueur1;
+    private Joueur[] tabJoueur;
+    private Joueur joueurSelect;
 
     private ArrayList<CarteObjectif> allCarteObjectifRandom;
 
     public Controleur()  
     {
         this.frameAcceuil = new FrameAccueil(this);
-        this.joueur1 = new Joueur("Joueur 1");
         this.allNoeuds = new ArrayList<Noeud>();
         this.allAretes = new ArrayList<Arete>();
         this.allParametres = new ArrayList<Integer>();
@@ -126,9 +126,8 @@ public class Controleur
         this.allCarteObjectifRandom = new ArrayList<CarteObjectif>();
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
+        this.joueurSelect = new Joueur("");
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
-        initPioche();
-        initPiocheObjectif();
         //this.AfficherDonnees();
         this.setPionMax();
     }
@@ -150,14 +149,25 @@ public class Controleur
             
         }
     }
-
+    public void initJeux()
+    {
+        this.initPioche();
+        this.initPiocheObjectif();
+    }
     public void initPioche()
     {
         this.pioche     = new ArrayList<Carte>();
         this.defausse   = new ArrayList<Carte>();
         this.carteTable = new ArrayList<Carte>();
+        this.tabJoueur  = new Joueur[this.nbJoueur];
 
+         // Initialisation des joueurs
+        for(int i = 0 ; i < this.nbJoueur ; i++)
+        {
+            this.tabJoueur[i] = new Joueur("Joueur "+(i+1));
+        }
         
+        joueurSelect = tabJoueur[0];
         for(int i =0 ; i<this.nbWagonCouleur ;i++)
         {
                 this.pioche.add(this.allCartes.get(0));
@@ -175,12 +185,16 @@ public class Controleur
         
         Collections.shuffle(this.pioche);
         //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
-        for(int i =0 ; i<this.nbCarteJoueur ;i++)
-        {
-            this.joueur1.addMain(this.pioche.get(i));
-            this.pioche.remove(i);
-        }
 
+        for(Joueur j: this.tabJoueur)
+        {
+            for(int i =0 ; i<this.nbCarteJoueur ;i++)
+            {
+                j.addMain(this.pioche.get(i));
+                this.pioche.remove(i);
+            }
+        }
+            
         // mettres  5 cartes sur la table et les enlever de la pioche
         
         for(int i =0 ; i<5 ;i++)
@@ -189,8 +203,6 @@ public class Controleur
             this.carteTable.add(this.pioche.get(i));
             this.pioche.remove(i);
         }     
-
-        
         
         //refreshTabTrajets();
     }
@@ -253,16 +265,16 @@ public class Controleur
 
         int[] tabScore = {nbPoint1,nbPoint2,nbPoint3,nbPoint4,nbPoint5,nbPoint6};
 
-        for(Arete arete : this.joueur1.getTabArete())
+        for(Arete arete : this.joueurSelect.getTabArete())
         {
             somme += tabScore[arete.getNbVoiture()-1];
         }
 
         //parcourir les cartes objectif du joueur , si il possède la ville de départ et arriver de la carte objectif on ajoute des points
-        for(CarteObjectif carte : this.joueur1.getTabCarteObjectif())
+        for(CarteObjectif carte : this.joueurSelect.getTabCarteObjectif())
         {
             Set<Noeud> noeudsVisites = new HashSet<>();
-            boolean possedeRoute = possedeRoute(carte.getNoeud1(), carte.getNoeud2(), "nomJoueur", this.joueur1.getTabArete(), noeudsVisites);
+            boolean possedeRoute = possedeRoute(carte.getNoeud1(), carte.getNoeud2(), "nomJoueur", this.joueurSelect.getTabArete(), noeudsVisites);
             
 
             if(possedeRoute)
@@ -376,22 +388,22 @@ public class Controleur
 
         System.out.println("\n----------------- Main du joueur -----------------\n");
 
-        System.out.println("Joueur 1 : " + joueur1);
-        System.out.println("NB carte : " + joueur1.getMain().size());
-        System.out.println("NB carte HashMap: " + joueur1.getCartes().size());
+        System.out.println("Joueur 1 : " + joueurSelect);
+        System.out.println("NB carte : " + joueurSelect.getMain().size());
+        System.out.println("NB carte HashMap: " + joueurSelect.getCartes().size());
 
         System.out.println("\n----------------- Verif nb carte par couleur -----------------\n");
-        System.out.println("Bleu: " + joueur1.nbCouleur("Bleu"));
-        System.out.println("Rouge : " + joueur1.nbCouleur("Rouge"));
-        System.out.println("Vert : " + joueur1.nbCouleur("Vert"));
-        System.out.println("Jaune : " + joueur1.nbCouleur("Jaune"));
-        System.out.println("Noir : " + joueur1.nbCouleur("Noir"));
-        System.out.println("Blanc : " + joueur1.nbCouleur("Blanc"));
-        System.out.println("Orange : " + joueur1.nbCouleur("Orange"));
-        System.out.println("Violet : " + joueur1.nbCouleur("Violet"));
-        System.out.println("rien : " + joueur1.nbCouleur("fergreg"));
-        System.out.println("Marron : " + joueur1.nbCouleur("Marron"));
-        System.out.println("Gris : " + joueur1.nbCouleur("Gris"));
+        System.out.println("Bleu: " + joueurSelect.nbCouleur("Bleu"));
+        System.out.println("Rouge : " + joueurSelect.nbCouleur("Rouge"));
+        System.out.println("Vert : " + joueurSelect.nbCouleur("Vert"));
+        System.out.println("Jaune : " + joueurSelect.nbCouleur("Jaune"));
+        System.out.println("Noir : " + joueurSelect.nbCouleur("Noir"));
+        System.out.println("Blanc : " + joueurSelect.nbCouleur("Blanc"));
+        System.out.println("Orange : " + joueurSelect.nbCouleur("Orange"));
+        System.out.println("Violet : " + joueurSelect.nbCouleur("Violet"));
+        System.out.println("rien : " + joueurSelect.nbCouleur("fergreg"));
+        System.out.println("Marron : " + joueurSelect.nbCouleur("Marron"));
+        System.out.println("Gris : " + joueurSelect.nbCouleur("Gris"));
 
         Color color;
         try {
@@ -543,30 +555,50 @@ public class Controleur
 
     public Joueur getJoueur() 
     {
-        return this.joueur1;
+        return this.joueurSelect;
     }
     
     public void joueurSuivant()
     {
         System.out.println("Joueur suivant");
         System.out.println("Tour "+ ++this.tour);
-        System.out.println("Joueur "+ this.joueur1.getNbPion()  + " / " + this.nbWagonFin);
+        System.out.println("Joueur "+ this.joueurSelect.getNbPion()  + " / " + this.nbWagonFin);
         System.out.println("Pioche tabcart" + this.carteTable.size());
-        this.gui.refreshTablePioche();
-        if(this.joueur1.getNbPion() < this.nbWagonFin)
+
+        if(joueurSelect == this.tabJoueur[this.nbJoueur-1])
+        {
+            idJoueur = 0;
+            joueurSelect = this.tabJoueur[idJoueur];
+        }
+        else
+        {
+            idJoueur++;
+            joueurSelect = tabJoueur[idJoueur];
+        }
+
+        
+        if(this.joueurSelect.getNbPion() < this.nbWagonFin)
         {
             //finPartie();
             System.out.print("Fin de partie Calul des score");
             finDePartie();
         }
-        /*
-        if(this.joueur1.getNbPion() < this.nbWagonFin)
-        {
-           // this.gui.notification("C'est la dernière manche");
-            // this.afficherScore();
-
-        }*/
         initPiocheObjectif();
+
+        System.out.println("Joueur suivant : " + this.tabJoueur[1].getNom());
+        for(Carte c : this.tabJoueur[1].getMain())
+        {
+            System.out.println(c.getNomCarte());
+        }
+        this.gui.refreshTablePioche();
+        this.gui.refreshMain();
+        this.gui.refreshTableTrajets();
+        this.gui.refreshCarte();
+        this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
+
+        
+        
+        //this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
     }
 
     public void initPiocheObjectif()
@@ -646,15 +678,15 @@ public class Controleur
         {
             for(Carte c : this.allCartes)
             {
-                //System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
+                //System.out.println(this.joueurSelect.nbCouleur(c.getNomCarte()));
                 if(arete.getCouleur().equals(c.getCouleur()))
                 {
-                    if(this.joueur1.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
+                    if(this.joueurSelect.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
                     {  
-                        this.joueur1.addArete(arete);
+                        this.joueurSelect.addArete(arete);
                         for(int i = 0; i < arete.getNbVoiture(); i++)
                         {
-                            this.joueur1.removeCarte(c);
+                            this.joueurSelect.removeCarte(c);
                             this.defausse.add(c);
 
                         }
@@ -662,7 +694,7 @@ public class Controleur
                         
                         this.placerCarte();
                         
-                        arete.setJoueur(this.joueur1);
+                        arete.setJoueur(this.joueurSelect);
                         this.gui.refreshTablePioche();
                         this.gui.refreshMain();
                         this.gui.refreshCarte();
@@ -689,7 +721,7 @@ public class Controleur
     //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
     public boolean finPartie()
     {
-        if(this.joueur1.getMain().size() < nbWagonFin)
+        if(this.joueurSelect.getMain().size() < nbWagonFin)
         {
             // On ouvre une popup disant que c'est la fin de partie, et dès qu'il clique sur ok on met le panel de fin
             JOptionPane.showMessageDialog(null, "Fin de la partie !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
@@ -738,7 +770,7 @@ public class Controleur
 
     public void setPionMax()
     {
-        this.joueur1.setNbPion(this.nbPionMax);
+        this.joueurSelect.setNbPion(this.nbPionMax);
     }
 
     public int getNbPionMax() {
@@ -755,8 +787,8 @@ public class Controleur
         return this.carteTable;
     }
 
-    public Joueur getJoueur1() {
-        return joueur1;
+    public Joueur getjoueurSelect() {
+        return joueurSelect;
     }
 
     public List<String> getAllImages() 
