@@ -278,8 +278,8 @@ public class Controleur
         //parcourir les cartes objectif du joueur , si il possède la ville de départ et arriver de la carte objectif on ajoute des points
         for(CarteObjectif carte : this.joueurSelect.getTabCarteObjectif())
         {
-            Set<Noeud> noeudsVisites = new HashSet<>();
-            boolean possedeRoute = possedeRoute(carte.getNoeud1(), carte.getNoeud2(), "nomJoueur", this.joueurSelect.getTabArete(), noeudsVisites);
+            Set<Noeud> noeudsVisites = new HashSet<Noeud>();
+            boolean possedeRoute = possedeRoute(carte.getNoeud1(), carte.getNoeud2(), this.joueurSelect.getNom(), this.joueurSelect.getTabArete(), noeudsVisites);
             
 
             if(possedeRoute)
@@ -296,6 +296,7 @@ public class Controleur
         
 
         System.out.println("Score du Joueurs 1 = "+(somme-soustraction));
+        System.out.println("nb arete joueur = "+ this.joueurSelect.getAretes().size());
         
     }
     public static boolean possedeRoute(Noeud depart, Noeud arrive, String nomJoueur, List<Arete> aretes, Set<Noeud> noeudsVisites) {
@@ -303,24 +304,34 @@ public class Controleur
         if (depart == arrive) {
           return true;
         }
-      
+        System.out.println("dans le 0 "+depart.getNom()+" "+arrive.getNom());
         // Ajout du noeud de départ aux noeuds visités
         noeudsVisites.add(depart);
       
         // Parcours de la liste d'arêtes
         for (Arete arete : aretes) {
           // Vérification si l'arête est possédée par le joueur
-          if (arete.getJoueur().getNom().equals(nomJoueur)) {
+          if (arete.getJoueur().getNom().equals(nomJoueur)) 
+          {
+            System.out.println("dans le 1");
             // Vérification si l'un des noeuds de l'arête est le noeud de départ
-            if (arete.getNoeudDepart() == depart || arete.getNoeudArrive() == depart) {
-              // Récupération du noeud qui n'est pas le noeud de départ
-              Noeud noeudSuivant = (arete.getNoeudDepart() == depart) ? arete.getNoeudArrive() : arete.getNoeudDepart();
-              // Vérification si le noeud n'a pas déjà été visité
-              if (!noeudsVisites.contains(noeudSuivant)) {
-                // Appel récursif sur le noeud qui n'est pas le noeud de départ
-                if (possedeRoute(noeudSuivant, arrive, nomJoueur, aretes, noeudsVisites)) {
-                  return true;
-                }
+            System.out.println("arete.getNoeudDepart() = "+arete.getNoeudDepart().getNom() + " | " +depart.getNom());
+            System.out.println("arete.getNoeudArrive() = "+arete.getNoeudArrive().getNom() + " | " +depart.getNom());
+            if (arete.getNoeudDepart().equals(depart) || arete.getNoeudArrive().equals(depart)) 
+            {
+                System.out.println("dans le 2");
+                // Récupération du noeud qui n'est pas le noeud de départ
+                Noeud noeudSuivant = (arete.getNoeudDepart() == depart) ? arete.getNoeudArrive() : arete.getNoeudDepart();
+                // Vérification si le noeud n'a pas déjà été visité
+                if (!noeudsVisites.contains(noeudSuivant)) 
+                {
+                    // Appel récursif sur le noeud qui n'est pas le noeud de départ
+                    System.out.println("DANNNNS LA CONDITIONNNNNNN");
+                    if (possedeRoute(noeudSuivant, arrive, nomJoueur, aretes, noeudsVisites)) 
+                    {
+                        System.out.println("CAAAA MARCHEEEEEEEEEEEEEEEEEEEE");
+                    return true;
+                    }
               }
             }
           }
@@ -570,6 +581,9 @@ public class Controleur
         return this.joueurSelect;
     }
     
+    /**
+     * 
+     */
     public void joueurSuivant()
     {
         System.out.println("Joueur suivant");
@@ -596,12 +610,6 @@ public class Controleur
             finDePartie();
         }
         initPiocheObjectif();
-
-        System.out.println("Joueur suivant : " + this.tabJoueur[1].getNom());
-        for(Carte c : this.tabJoueur[1].getMain())
-        {
-            System.out.println(c.getNomCarte());
-        }
         this.gui.refreshTablePioche();
         this.gui.refreshMain();
         this.gui.refreshTableTrajets();
