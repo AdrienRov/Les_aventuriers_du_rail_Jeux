@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
@@ -557,6 +558,11 @@ public class Controleur
         
         if(this.joueur1.getNbPion() < this.nbWagonFin)
         {
+            finPartie();
+        }
+
+        if(this.joueur1.getNbPion() < this.nbWagonFin)
+        {
            // this.gui.notification("C'est la dernière manche");
             // this.afficherScore();
 
@@ -677,7 +683,20 @@ public class Controleur
     public Color[] getTabColor() 
     {
         return this.tabColors;
-    } 
+    }
+
+    //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
+    public boolean finPartie()
+    {
+        if(this.joueur1.getMain().size() < nbWagonFin)
+        {
+            // On ouvre une popup disant que c'est la fin de partie, et dès qu'il clique sur ok on met le panel de fin
+            JOptionPane.showMessageDialog(null, "Fin de la partie !", "Fin de partie", JOptionPane.INFORMATION_MESSAGE);
+            this.frameAcceuil.finPartie();
+            return true;
+        }
+        return false;
+    }    
 
     public List<Noeud> getAllNoeuds() 
     {
@@ -710,6 +729,10 @@ public class Controleur
     public void setNbJoueur(int nb)
     {
         this.nbJoueur = nb;
+    }
+
+    public int getNbJoueur() {
+        return nbJoueur;
     }
 
     public void setPionMax()

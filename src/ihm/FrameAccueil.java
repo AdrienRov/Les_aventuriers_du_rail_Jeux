@@ -28,6 +28,9 @@ public class FrameAccueil extends JFrame implements ActionListener
     private JPanel panelImage;
     private JPanel panelTitre;
     private PanelConfig panelConfig;
+    private PanelFinPartie panelFinPartie;
+    private PanelCarte panelCarte;
+    private PanelPioche panelPioche;
 
 
     public FrameAccueil(Controleur ctrl) 
@@ -44,6 +47,7 @@ public class FrameAccueil extends JFrame implements ActionListener
 
 
         this.panelConfig = new PanelConfig(ctrl);
+        this.panelFinPartie = new PanelFinPartie(ctrl);
         
         this.btnJouer       = new JButton("Jouer");
         //centrer le texte du bouton
@@ -130,5 +134,15 @@ public class FrameAccueil extends JFrame implements ActionListener
 
         repaint();
         revalidate();
+    }
+
+    public void finPartie()
+    {
+        this.panelCarte = new PanelCarte(ctrl);
+        this.panelPioche = new PanelPioche(ctrl);
+        this.remove(this.panelPioche);
+        this.remove(this.panelCarte);
+        this.panelFinPartie = new PanelFinPartie(this.ctrl);
+        this.add(this.panelFinPartie, BorderLayout.CENTER);
     }
 }
