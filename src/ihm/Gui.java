@@ -89,7 +89,7 @@ public class Gui extends JFrame
 
     public void notification(String message)
     {
-        JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void piocherCarteObjectif()
