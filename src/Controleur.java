@@ -226,6 +226,7 @@ public class Controleur
         }
         this.gui.notification("La pioche est vide !");
     }
+
     // action du joueur :prendre une carte de la table
     public void piocheCarteTable(int i, Joueur joueur)
     {
@@ -341,6 +342,7 @@ public class Controleur
     }
 
     // Afficher les données du fichier XML
+
     public void AfficherDonnees()
     {
         System.out.println("\n----------------- Les Noeuds -----------------\n");
@@ -649,17 +651,30 @@ public class Controleur
                 //System.out.println(this.joueur1.nbCouleur(c.getNomCarte()));
                 if(arete.getCouleur().equals(c.getCouleur()))
                 {
-                    if(this.joueur1.nbCouleur(c.getNomCarte()) >= arete.getNbVoiture())
+                    System.out.println(c.getNomCarte());
+                    System.out.println(" " + (this.joueur1.nbCouleur(c.getNomCarte()) + this.joueur1.nbCouleur("grey")) + " = " + arete.getNbVoiture());
+
+                    if(this.joueur1.nbCouleur(c.getNomCarte()) + this.joueur1.nbCouleur("grey") >= arete.getNbVoiture())
                     {  
                         this.joueur1.addArete(arete);
+                        int nbCartesALaBase = this.joueur1.nbCouleur(c.getNomCarte());
+                        int cpt = 0;
                         for(int i = 0; i < arete.getNbVoiture(); i++)
                         {
-                            this.joueur1.removeCarte(c);
-                            this.defausse.add(c);
-
+                            System.out.println(this.joueur1.getCartes().get("grey"));
+                            if(i +1 > nbCartesALaBase )
+                            {
+                                this.defausse.add(this.joueur1.getCartes().get("grey").remove(i-cpt - nbCartesALaBase));
+                                cpt ++;
+                            }
+                            else 
+                            {
+                                this.joueur1.removeCarte(c);
+                                this.defausse.add(c);
+                            }
                         }
-                        this.remelanger();
                         
+                        this.remelanger();
                         this.placerCarte();
                         
                         arete.setJoueur(this.joueur1);
@@ -668,6 +683,7 @@ public class Controleur
                         this.gui.refreshCarte();
                         return 1;
                     }
+
                 }
                
             }
