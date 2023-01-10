@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -127,7 +129,7 @@ public class Controleur
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
         initPioche();
         initPiocheObjectif();
-        this.AfficherDonnees();
+        //this.AfficherDonnees();
         this.setPionMax();
     }
 
@@ -172,7 +174,6 @@ public class Controleur
         
         
         Collections.shuffle(this.pioche);
-        System.out.println(this.pioche);
         //distribuer 4 cartes de la pioche au joueur et les enlever de la pioche et les mettre dans la main du joueur
         for(int i =0 ; i<this.nbCarteJoueur ;i++)
         {
@@ -232,6 +233,9 @@ public class Controleur
         this.joueur1.addMain(this.carteTable.get(i-1));
         if(!this.pioche.isEmpty())
         {
+            System.out.println("------------pioche carte table 1 " + this.pioche.get(0) );
+            
+            System.out.println("indice = "+i);
             this.carteTable.set(i-1, this.pioche.get(0));
             this.pioche.remove(0);
         }
@@ -270,25 +274,71 @@ public class Controleur
         int somme        = 0;
         int soustraction = 0;  
 
-        for(int i = 0; i < this.joueur1.getAretes().size(); i++)
+        int[] tabScore = {nbPoint1,nbPoint2,nbPoint3,nbPoint4,nbPoint5,nbPoint6};
+
+        for(Arete arete : this.joueur1.getTabArete())
         {
-            somme += this.joueur1.getAretes().get(i).getNbVoiture();
-            for(int j = 0; j<this.joueur1.getTabCarteObjectif().size(); j++)
+            somme += tabScore[arete.getNbVoiture()-1];
+        }
+
+        //parcourir les cartes objectif du joueur , si il possède la ville de départ et arriver de la carte objectif on ajoute des points
+        for(CarteObjectif carte : this.joueur1.getTabCarteObjectif())
+        {
+            Set<Noeud> noeudsVisites = new HashSet<>();
+            boolean possedeRoute = possedeRoute(carte.getNoeud1(), carte.getNoeud2(), "nomJoueur", this.joueur1.getTabArete(), noeudsVisites);
+            
+
+            if(possedeRoute)
             {
-                if(this.joueur1.getAretes().get(i).getNoeudDepart().equals(this.joueur1.getTabCarteObjectif().get(j).getNoeud1()) && this.joueur1.getAretes().get(i).getNoeudArrive().equals(this.joueur1.getTabCarteObjectif().get(j).getNoeud2()))
-                {
-                    somme += this.joueur1.getTabCarteObjectif().get(j).getScore();
-                }
-                //si il a la carte mais qu'il n'a pas l'arete de la carte alors on soustrait
-                if(this.joueur1.getAretes().get(i).getNoeudDepart().equals(this.joueur1.getTabCarteObjectif().get(j).getNoeud2()) && this.joueur1.getAretes().get(i).getNoeudArrive().equals(this.joueur1.getTabCarteObjectif().get(j).getNoeud1()))
-                {
-                    soustraction += this.joueur1.getTabCarteObjectif().get(j).getScore();
-                }
+                somme += carte.getScore();
+                System.out.println("il possède = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
+            }
+            else
+            {
+                soustraction += carte.getScore();
+                System.out.println("il possède pas = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
             }
         }
+        
 
         System.out.println("Score du Joueurs 1 = "+(somme-soustraction));
         
+    }
+    public static boolean possedeRoute(Noeud depart, Noeud arrive, String nomJoueur, List<Arete> aretes, Set<Noeud> noeudsVisites) {
+        // Si le noeud de départ est le même que le noeud d'arrivée, alors le joueur possède une route
+        if (depart == arrive) {
+          return true;
+        }
+      
+        // Ajout du noeud de départ aux noeuds visités
+        noeudsVisites.add(depart);
+      
+        // Parcours de la liste d'arêtes
+        for (Arete arete : aretes) {
+          // Vérification si l'arête est possédée par le joueur
+          if (arete.getJoueur().getNom().equals(nomJoueur)) {
+            // Vérification si l'un des noeuds de l'arête est le noeud de départ
+            if (arete.getNoeudDepart() == depart || arete.getNoeudArrive() == depart) {
+              // Récupération du noeud qui n'est pas le noeud de départ
+              Noeud noeudSuivant = (arete.getNoeudDepart() == depart) ? arete.getNoeudArrive() : arete.getNoeudDepart();
+              // Vérification si le noeud n'a pas déjà été visité
+              if (!noeudsVisites.contains(noeudSuivant)) {
+                // Appel récursif sur le noeud qui n'est pas le noeud de départ
+                if (possedeRoute(noeudSuivant, arrive, nomJoueur, aretes, noeudsVisites)) {
+                  return true;
+                }
+              }
+            }
+          }
+        }
+      
+        // Si aucune route n'a été trouvée, alors le joueur ne possède pas de route
+        return false;
+      }
+    public boolean recTrajet(Noeud depart, Noeud arrivee, Noeud actuel)
+    {
+        
+        return false;
     }
 
     public void finDePartie()
@@ -490,8 +540,6 @@ public class Controleur
         List<Element> listCartesObjectifs = racine.getChild("listeCarteObjectif").getChildren("CarteObjectif");
         for (Element carteObjectif : listCartesObjectifs) 
         {
-            String NomNoeudDepart = carteObjectif.getAttributeValue("nom");
-            String NomNoeudArrive = carteObjectif.getAttributeValue("nom");
             Noeud noeudDepart = null;
             Noeud noeudArrive = null;
             // Trouver les noeuds correspondant dans la liste des noeuds
@@ -543,11 +591,6 @@ public class Controleur
         }
         initPiocheObjectif();
     }
-
-    // public void afficherScore()
-    // {
-    //     this.gui.afficherScore();
-    // }
 
     public void initPiocheObjectif()
     {
@@ -697,7 +740,7 @@ public class Controleur
         return nbJoueurMin;
     }
 
-    public List getCartePioche()
+    public List<Carte> getCartePioche()
     {
         return pioche ;
     }
