@@ -226,7 +226,6 @@ public class Controleur
         }
         this.gui.notification("La pioche est vide !");
     }
-
     // action du joueur :prendre une carte de la table
     public void piocheCarteTable(int i, Joueur joueur)
     {
@@ -322,12 +321,7 @@ public class Controleur
     public void finDePartie()
     {
         System.out.println("Fin de la partie");
-
-        if(this.joueur1.getMain().size() < this.nbWagonFin)
-        {
-            //this.gui.notification("C'est la dernière manche");
-            return;
-        }
+        //this.gui.notification("C'est la dernière manche");
         calculScore();
     }
 
@@ -341,7 +335,8 @@ public class Controleur
 
     public void poserCarteSurTable(int i)
     {
-        this.carteTable.set(i-1, this.pioche.get(0));
+        this.carteTable.set(i, this.pioche.get(0));
+        System.out.println("1111111111111111111111  "+this.carteTable.get(0));
         this.pioche.remove(0);
     }
 
@@ -555,18 +550,22 @@ public class Controleur
     {
         System.out.println("Joueur suivant");
         System.out.println("Tour "+ ++this.tour);
-        
+        System.out.println("Joueur "+ this.joueur1.getNbPion()  + " / " + this.nbWagonFin);
+        System.out.println("Pioche tabcart" + this.carteTable.size());
+        this.gui.refreshTablePioche();
         if(this.joueur1.getNbPion() < this.nbWagonFin)
         {
-            finPartie();
+            //finPartie();
+            System.out.print("Fin de partie Calul des score");
+            finDePartie();
         }
-
+        /*
         if(this.joueur1.getNbPion() < this.nbWagonFin)
         {
            // this.gui.notification("C'est la dernière manche");
             // this.afficherScore();
 
-        }
+        }*/
         initPiocheObjectif();
     }
 
@@ -626,15 +625,17 @@ public class Controleur
         int cpt = 0 ;
         for(Carte carte : this.carteTable)
         {
-            cpt++;
+            System.out.println("00000000000000000000000  "+carte);
             if(carte == null) 
             {
                 if(!this.pioche.isEmpty())
                 {
+                    System.out.println("4444444444444444444 ");
                     this.poserCarteSurTable(cpt);  
                 }
                     
             }
+            cpt++;
           
         }
     }
@@ -657,12 +658,12 @@ public class Controleur
                             this.defausse.add(c);
 
                         }
-                        if(this.pioche.isEmpty())
-                        {
-                            this.placerCarte();
-                        }
                         this.remelanger();
+                        
+                        this.placerCarte();
+                        
                         arete.setJoueur(this.joueur1);
+                        this.gui.refreshTablePioche();
                         this.gui.refreshMain();
                         this.gui.refreshCarte();
                         return 1;

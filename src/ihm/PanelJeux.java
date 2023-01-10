@@ -20,7 +20,7 @@ public class PanelJeux extends JPanel{
     
     private JPanel panelMain;
 
-    private List<JButton> cartesJoueur ;
+    private List<JLabel> cartesJoueur ;
 
     private PanelCarte panelCarte1;
     private List<Arete> allTrajets;
@@ -40,7 +40,7 @@ public class PanelJeux extends JPanel{
         this.allImages = new ArrayList<String>();
 
         this.joueur = this.ctrl.getJoueur();
-        this.cartesJoueur = new ArrayList<JButton>();
+        this.cartesJoueur = new ArrayList<JLabel>();
         System.out.println(this.ctrl.getJoueur().getCartes().size());
         this.allImages = this.ctrl.getAllImages();
         //création des boutons correspondant aux cartes du joueur
@@ -65,16 +65,13 @@ public class PanelJeux extends JPanel{
             {
                 if(this.ctrl.getJoueur().nbCouleur(this.ctrl.getCouleurCarte()[i]) != 0)
                 {
-                    this.cartesJoueur.add(new JButton());
+                    this.cartesJoueur.add(new JLabel());
                     try {
                         ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getAllImages().get(i)+".png");
                         //changer la taille de l'image
                         Image image = img.getImage(); // transform it
                         Image newimg = image.getScaledInstance(90, 90,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                         this.cartesJoueur.get(cpt).setIcon(new ImageIcon(newimg)); 
-                        this.cartesJoueur.get(cpt).setBorderPainted(false);
-                        this.cartesJoueur.get(cpt).setContentAreaFilled(false);
-                        this.cartesJoueur.get(cpt).setFocusPainted(false);
                         this.cartesJoueur.get(cpt).setOpaque(false);
                         //afficher un texte sur le bouton par dessus l'image
                         //mettre le texte en blanc

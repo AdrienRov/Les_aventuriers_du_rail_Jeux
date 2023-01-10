@@ -324,19 +324,29 @@ public class PanelPioche extends JPanel implements ActionListener
     {
         if(this.ctrl.getCartePioche().isEmpty())
         {
+            this.cartesTable[0].setVisible(false);
             for(int i = 1; i<this.cartesTable.length; i++)
             {
-                System.out.println("TEST" + this.ctrl.getCarteTable().get(i-1));
                 if(this.ctrl.getCarteTable().get(i-1) == null)
                 {
-                    System.out.println("DANS LA CONDITION");
                     this.cartesTable[i].setVisible(false);
+                }
+                else
+                {
+                    ImageIcon img= new ImageIcon( "./images/"+this.ctrl.getCarteTable().get(i-1).getNomImage()+".png");
+                    //changer la taille de l'image
+                    Image image = img.getImage(); // transform it
+                    Image newimg = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                    this.cartesTable[i].setIcon(new ImageIcon(newimg));
+                    this.cartesTable[i].setVisible(true);
                 }
             }
             return ;
         }
-        else
+        if(!this.ctrl.getCarteTable().isEmpty())
         {
+            this.cartesTable[0].setVisible(true);
+
             for (int i = 1; i < this.cartesTable.length; i++) 
             {
                 try {
@@ -349,16 +359,18 @@ public class PanelPioche extends JPanel implements ActionListener
                     this.cartesTable[i].setContentAreaFilled(false);
                     //this.cartesTable[i].setFocusPainted(false);
                     //this.cartesTable[i].setOpaque(false);
-                    if(this.ctrl.getCarteTable().get(i-1) != null)
-                    {
-                        this.cartesTable[i].setVisible(true);
-                    }
+                    
+                    this.cartesTable[i].setVisible(true);
+                    
+                    
                 } catch (Exception e) {
                     // TODO: handle exception
                 } 
 
             }
         }
+            
+        
     }
 
 
@@ -369,7 +381,6 @@ public class PanelPioche extends JPanel implements ActionListener
     {
         for(int i = 1; i < this.cartesTable.length; i++)
         {
-
             if(e.getSource() == this.cartesTable[i])
             {
                 
@@ -379,23 +390,13 @@ public class PanelPioche extends JPanel implements ActionListener
                 System.out.println("test"+i);
                 this.refreshTablePioche();
             }
-
         }
         
         if(e.getSource() == this.cartesTable[0])
         {
-            
             this.ctrl.piocherCarte(this.ctrl.getJoueur());
             this.ctrl.joueurSuivant();
-            
-            if(this.ctrl.getPioche().isEmpty())
-            {
-                JOptionPane.showMessageDialog(null, "La pioche est vide", "Erreur", JOptionPane.ERROR_MESSAGE);
-
-            }
-
             this.refreshTablePioche();
-              
         }
         if(e.getSource() == this.btnPiocheObjectif)
         {
@@ -428,8 +429,8 @@ public class PanelPioche extends JPanel implements ActionListener
                         Arete arete = this.ctrl.getAllTrajets().get(i);
                         if(this.ctrl.prendrePossession(arete) == 1)
                         {
-                            this.ctrl.joueurSuivant();
                             this.ctrl.getJoueur().decrementeNbPion(arete.getNbVoiture());
+                            this.ctrl.joueurSuivant();
                             this.refreshPanelPion();
                             refreshTablePioche();
                             return ;
