@@ -203,11 +203,23 @@ public class Controleur
             joueur1.addMain(this.pioche.get(0));
             this.pioche.remove(0);
             this.gui.refreshMain();
-            return;
+    
         }
-        this.gui.notification("Il n'y a plus de carte dans la pioche");      
-        System.out.println("Taille de la pioche = "+this.pioche.size());
-        System.out.println(this.pioche);
+        if(this.pioche.isEmpty())
+        {
+            if(this.defausse.size() > 0)
+            {
+                this.remelanger();
+            }
+            this.gui.refreshMain();
+    
+        }
+
+        System.out.println(this.carteTable);
+        System.out.println();
+        System.out.println("-----------------------------------------------------------------------------------");
+    
+        
         
     }
 
@@ -219,14 +231,32 @@ public class Controleur
         this.joueur1.addMain(this.carteTable.get(i-1));
         if(!this.pioche.isEmpty())
         {
-
             this.carteTable.set(i-1, this.pioche.get(0));
             this.pioche.remove(0);
+        }
+        else
+        {
+            if(this.defausse.size() > 0)
+            {
+                this.remelanger();
+                this.carteTable.set(i-1, this.pioche.get(0));
+                this.pioche.remove(0);
+            }
+            else
+            {
+                this.gui.notification("Il n'y a plus de carte dans la pioche");
+                this.carteTable.set(i-1, null);
+            }
             
         }
         this.gui.refreshMain();
-
-        System.out.println(this.pioche);
+       
+        System.out.println("----------------------------------Carte table -------------------------------------");
+        System.out.println();
+        System.out.println(this.carteTable);
+        System.out.println();
+        System.out.println("-----------------------------------------------------------------------------------");
+    
     }
 
     public void verifTourDejeux()
@@ -266,7 +296,8 @@ public class Controleur
 
         if(this.joueur1.getMain().size() < this.nbWagonFin)
         {
-            this.gui.notification("C'est la dernière manche");
+            //this.gui.notification("C'est la dernière manche");
+            return;
         }
         calculScore();
     }
@@ -277,6 +308,12 @@ public class Controleur
             this.pioche.addAll(this.defausse);
             this.defausse.clear();
             Collections.shuffle(this.pioche);
+    }
+
+    public void poserCarteSurTable(int i)
+    {
+        this.carteTable.set(i-1, this.pioche.get(0));
+        this.pioche.remove(0);
     }
 
     // Afficher les données du fichier XML
@@ -494,8 +531,9 @@ public class Controleur
         
         if(this.joueur1.getNbPion() < this.nbWagonFin)
         {
-            this.gui.notification("C'est la dernière manche");
+           // this.gui.notification("C'est la dernière manche");
             // this.afficherScore();
+
         }
         initPiocheObjectif();
     }
@@ -574,11 +612,33 @@ public class Controleur
                             this.defausse.add(c);
 
                         }
+                        if(this.pioche.isEmpty())
+                        {
+                            this.remelanger();
+                            System.out.println(this.pioche.size());
+                            int cpt = 0 ;
+                            for(Carte carte : this.carteTable)
+                            {
+                                cpt++;
+                            
+                                try
+                                {
+                                    if(carte == null) this.poserCarteSurTable(cpt);
+                                }
+                                catch(Exception e)
+                                {
+                                    
+                                }
+                              
+                            }
+                            System.out.println(this.pioche);
+
+                            
+                        }
                         // System.out.println(this.defausse);
                         arete.setJoueur(this.joueur1);
                         this.gui.refreshMain();
                         this.gui.refreshCarte();
-                        this.remelanger();
                         return 1;
                     }
                 }
