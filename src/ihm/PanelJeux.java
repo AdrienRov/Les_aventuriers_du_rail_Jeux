@@ -26,7 +26,7 @@ public class PanelJeux extends JPanel{
     private List<Arete> allTrajets;
     private List<Noeud> allNoeud;
     private List<String> allImages;
-    private Joueur joueur;
+    
 
 
     public PanelJeux(Controleur ctrl){
@@ -39,7 +39,6 @@ public class PanelJeux extends JPanel{
 
         this.allImages = new ArrayList<String>();
 
-        this.joueur = this.ctrl.getJoueur();
         this.cartesJoueur = new ArrayList<JLabel>();
         System.out.println(this.ctrl.getJoueur().getCartes().size());
         this.allImages = this.ctrl.getAllImages();
@@ -78,7 +77,7 @@ public class PanelJeux extends JPanel{
                         this.cartesJoueur.get(cpt).setForeground(Color.WHITE);
                         //changer la police du texte
                         this.cartesJoueur.get(cpt).setFont(new Font("Arial", Font.BOLD, 15));
-                        this.cartesJoueur.get(cpt).setText(" x" +this.joueur.nbCouleur(this.ctrl.getCouleurCarte()[i]));
+                        this.cartesJoueur.get(cpt).setText(" x" +this.ctrl.getJoueur().nbCouleur(this.ctrl.getCouleurCarte()[i]));
                         cpt++;
                         
                     } catch (Exception e) {
