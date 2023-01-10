@@ -16,6 +16,7 @@ import java.awt.*;
 import src.Controleur;
 import src.metier.Arete;
 import src.metier.CarteObjectif;
+import src.metier.Joueur;
 
 
 
@@ -32,6 +33,7 @@ public class PanelPioche extends JPanel implements ActionListener
     private JComboBox<Color> comboColor;
     private JRadioButton rdTrajets[];
     private JLabel lblTable, lblObjectif;
+    private JLabel lblNomJoueur;
     private JTable table;
     private Object[][] donneesTrajets = {{"", "", ""}};
     private String[] entetesTrajets = {"Départ", "Voiture", "Arrivée", "Validation"};
@@ -67,6 +69,11 @@ public class PanelPioche extends JPanel implements ActionListener
         // Création des labels
         this.lblTable = new JLabel("Cartes sur la table : ");
         this.lblObjectif = new JLabel("Liste des objectifs :");
+        this.lblNomJoueur = new JLabel(this.ctrl.getJoueur().getNom());
+
+        this.lblNomJoueur.setForeground(this.ctrl.getJoueur().getCouleur());
+        this.lblNomJoueur.setFont(new Font("Arial", Font.BOLD, 20));
+        this.lblNomJoueur.setHorizontalAlignment(SwingConstants.CENTER);
 
         this.lblTable.setForeground(Color.WHITE);
         this.lblTable.setFont(new Font("Arial", Font.BOLD, 20));
@@ -186,7 +193,7 @@ public class PanelPioche extends JPanel implements ActionListener
         this.panelGlobal.add(this.panelBoutonPioche);
         
         // Panel des pions restants du joueur
-        this.panelPion = new JPanel(new GridLayout(1, 2));
+        this.panelPion = new JPanel(new GridLayout(2, 2));
         this.panelPion.setBackground(new Color(35, 31, 32));
         JLabel lblTextPion = new JLabel("Nombre de pion : ");
         JLabel lblNbPion = new JLabel(String.valueOf(this.ctrl.getJoueur().getNbPion() + " / " + this.ctrl.getNbPionMax()));
@@ -194,6 +201,8 @@ public class PanelPioche extends JPanel implements ActionListener
         lblTextPion.setFont(new Font("Arial", Font.BOLD, 20));
         lblNbPion.setForeground(Color.WHITE);
         lblNbPion.setFont(new Font("Arial", Font.BOLD, 20));
+        this.panelPion.add(lblNomJoueur);
+        this.panelPion.add(new JLabel());
         this.panelPion.add(lblTextPion);
         this.panelPion.add(lblNbPion);
         lblNbPion.setHorizontalAlignment(SwingConstants.CENTER);
@@ -256,14 +265,22 @@ public class PanelPioche extends JPanel implements ActionListener
     public void refreshPanelPion()
     {
         this.panelGlobal.remove(this.panelPion);
-        this.panelPion = new JPanel(new GridLayout(1, 2));
+        this.panelPion = new JPanel(new GridLayout(2, 2));
         this.panelPion.setBackground(new Color(35, 31, 32));
         JLabel lblTextPion = new JLabel("Nombre de pion : ");
         JLabel lblNbPion = new JLabel(String.valueOf(this.ctrl.getJoueur().getNbPion() + " / " + this.ctrl.getNbPionMax()));
+
+        this.lblNomJoueur.setText(this.ctrl.getJoueur().getNom());
+        this.lblNomJoueur.setForeground(this.ctrl.getJoueur().getCouleur());
+        this.lblNomJoueur.setFont(new Font("Arial", Font.BOLD, 20));
+        this.lblNomJoueur.setHorizontalAlignment(SwingConstants.CENTER);
+
         lblTextPion.setForeground(Color.WHITE);
         lblTextPion.setFont(new Font("Arial", Font.BOLD, 20));
         lblNbPion.setForeground(Color.WHITE);
         lblNbPion.setFont(new Font("Arial", Font.BOLD, 20));
+        this.panelPion.add(this.lblNomJoueur);
+        this.panelPion.add(new JLabel());
         this.panelPion.add(lblTextPion);
         this.panelPion.add(lblNbPion);
         lblNbPion.setHorizontalAlignment(SwingConstants.CENTER);

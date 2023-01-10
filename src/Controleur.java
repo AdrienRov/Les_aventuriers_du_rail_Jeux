@@ -126,7 +126,7 @@ public class Controleur
         this.allCarteObjectifRandom = new ArrayList<CarteObjectif>();
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
-        this.joueurSelect = new Joueur("");
+        this.joueurSelect = new Joueur("", Color.BLACK);
         this.lireFichierXML(new File("src/FichierSortie.xml"), this);
         //this.AfficherDonnees();
     }
@@ -168,7 +168,7 @@ public class Controleur
          // Initialisation des joueurs
         for(int i = 0 ; i < this.nbJoueur ; i++)
         {
-            this.tabJoueur[i] = new Joueur("Joueur "+(i+1));
+            this.tabJoueur[i] = new Joueur("Joueur "+(i+1), this.tabColors[i]);
         }
         
         joueurSelect = tabJoueur[0];
@@ -560,6 +560,11 @@ public class Controleur
         this.gui.resizeFrame(width, height);
     }
 
+    public Joueur[] getTabJoueur() 
+    {
+        return this.tabJoueur;
+    }
+
     public Joueur getJoueur() 
     {
         return this.joueurSelect;
@@ -601,6 +606,7 @@ public class Controleur
         this.gui.refreshMain();
         this.gui.refreshTableTrajets();
         this.gui.refreshCarte();
+        this.gui.refreshPanelPion();
         this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
 
         
@@ -800,10 +806,6 @@ public class Controleur
 
     public ArrayList<Carte> getCarteTable() {
         return this.carteTable;
-    }
-
-    public Joueur getjoueurSelect() {
-        return joueurSelect;
     }
 
     public List<String> getAllImages() 

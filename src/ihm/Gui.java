@@ -59,6 +59,13 @@ public class Gui extends JFrame
         this.repaint();
     }
 
+    public void refreshPanelPion()
+    {
+        this.panelPioche.refreshPanelPion();
+        this.revalidate();
+        this.repaint();
+    }
+
     public void refreshMain()
     {
         this.panelJeux.refreshMain();
@@ -82,7 +89,7 @@ public class Gui extends JFrame
 
     public void notification(String message)
     {
-        JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void piocherCarteObjectif()

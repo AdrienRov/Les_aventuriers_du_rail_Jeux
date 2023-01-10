@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import src.Controleur;
 import src.metier.Arete;
+import src.metier.Joueur;
 import src.metier.Noeud;
 public class PanelCarte extends JPanel {
     private Controleur ctrl;
@@ -136,27 +137,30 @@ public class PanelCarte extends JPanel {
                     g2d.drawString(noeud.getNom(), noeud.getXNom(), noeud.getY()-13);
 
             }
-
-            if(!this.ctrl.getJoueur().getAretes().isEmpty())
+            for(Joueur j : this.ctrl.getTabJoueur())
             {
-                for(Arete a : this.ctrl.getJoueur().getAretes())
+                if(!j.getAretes().isEmpty())
                 {
-                    int x1 = a.getNoeudDepart().getX();
-                    int y1 = a.getNoeudDepart().getY();
-                    int x2 = a.getNoeudArrive().getX();
-                    int y2 = a.getNoeudArrive().getY();
+                    for(Arete a : j.getAretes())
+                    {
+                        int x1 = a.getNoeudDepart().getX();
+                        int y1 = a.getNoeudDepart().getY();
+                        int x2 = a.getNoeudArrive().getX();
+                        int y2 = a.getNoeudArrive().getY();
 
-                    //calcul des coordonnées du centre du trajet
-                    int xCentre = (x1 + x2) / 2;
-                    int yCentre = (y1 + y2) / 2;
+                        //calcul des coordonnées du centre du trajet
+                        int xCentre = (x1 + x2) / 2;
+                        int yCentre = (y1 + y2) / 2;
 
 
-                    g2d.setColor(Color.black);
-                    //dessiner un cercle noir autour du trajet
-                    g2d.drawOval(xCentre, yCentre, 40, 40);
+                        g2d.setColor(j.getCouleur());
+                        //dessiner un cercle noir autour du trajet
+                        g2d.drawOval(xCentre, yCentre, 40, 40);
 
-                }
-            }   
+                    }
+                }   
+            }
+            
         }
     }
 
