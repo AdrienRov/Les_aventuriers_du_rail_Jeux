@@ -136,13 +136,20 @@ public class FrameAccueil extends JFrame implements ActionListener
         revalidate();
     }
 
-    public void finPartie()
+    public void enleverPanelFin(boolean etat)
     {
-        this.panelCarte = new PanelCarte(ctrl);
-        this.panelPioche = new PanelPioche(ctrl);
-        this.remove(this.panelPioche);
-        this.remove(this.panelCarte);
-        this.panelFinPartie = new PanelFinPartie(this.ctrl);
-        this.add(this.panelFinPartie, BorderLayout.CENTER);
+        if(etat == true)
+        {
+            this.remove(this.panelFinPartie);
+            this.add(this.lblTitre, BorderLayout.NORTH);
+            this.add(this.panelImage, BorderLayout.CENTER);
+            this.add(this.panelBoutons, BorderLayout.SOUTH);
+            this.add(this.panelTitre, BorderLayout.NORTH);
+            this.setVisible(true);
+            this.setLocationRelativeTo(null);
+        }
+
+        repaint();
+        revalidate();
     }
 }

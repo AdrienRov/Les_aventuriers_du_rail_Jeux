@@ -335,6 +335,7 @@ public class Controleur
         System.out.println("Fin de la partie");
         //this.gui.notification("C'est la dernière manche");
         calculScore();
+        this.gui.afficherPanelFinPartie(true);
     }
 
     // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
@@ -718,6 +719,7 @@ public class Controleur
         return this.tabColors;
     }
 
+<<<<<<< HEAD
     //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
     public boolean finPartie()
     {
@@ -731,6 +733,8 @@ public class Controleur
         return false;
     }    
 
+=======
+>>>>>>> 227d5da96542b08b46dd44583a0feeff6d9a79d8
     public List<Noeud> getAllNoeuds() 
     {
         return this.allNoeuds;
@@ -809,6 +813,11 @@ public class Controleur
     public void etatConfig(boolean etat)
     {
         this.frameAcceuil.etatConfig(etat);
+    }
+
+    public void enleverPanelFin(boolean etat)
+    {
+        this.frameAcceuil.enleverPanelFin(etat);
     }
 
     public FrameAccueil getFrameAccueil()
