@@ -324,6 +324,15 @@ public class PanelPioche extends JPanel implements ActionListener
     {
         if(this.ctrl.getCartePioche().isEmpty())
         {
+            for(int i = 1; i<this.cartesTable.length; i++)
+            {
+                System.out.println("TEST" + this.ctrl.getCarteTable().get(i-1));
+                if(this.ctrl.getCarteTable().get(i-1) == null)
+                {
+                    System.out.println("DANS LA CONDITION");
+                    this.cartesTable[i].setVisible(false);
+                }
+            }
             return ;
         }
         else
@@ -365,18 +374,8 @@ public class PanelPioche extends JPanel implements ActionListener
             {
                 
                 this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
-                this.ctrl.joueurSuivant();
+                //this.ctrl.joueurSuivant();
                 
-                this.cartesTable[i].setVisible(verif);
-                
-                if(this.ctrl.getPioche().isEmpty() )
-                {
-                    verif = false ;
-                }
-                else
-                {
-                    verif = true ;
-                }
                 System.out.println("test"+i);
                 this.refreshTablePioche();
             }
@@ -386,8 +385,9 @@ public class PanelPioche extends JPanel implements ActionListener
         if(e.getSource() == this.cartesTable[0])
         {
             
-            this.ctrl.pioche(this.ctrl.getJoueur());
+            this.ctrl.piocherCarte(this.ctrl.getJoueur());
             this.ctrl.joueurSuivant();
+            
             if(this.ctrl.getPioche().isEmpty())
             {
                 JOptionPane.showMessageDialog(null, "La pioche est vide", "Erreur", JOptionPane.ERROR_MESSAGE);

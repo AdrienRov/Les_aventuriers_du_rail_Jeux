@@ -181,11 +181,15 @@ public class Controleur
         }
 
         // mettres  5 cartes sur la table et les enlever de la pioche
+        
         for(int i =0 ; i<5 ;i++)
         {
+            System.out.print(i);
             this.carteTable.add(this.pioche.get(i));
             this.pioche.remove(i);
         }     
+
+        
         
         //refreshTabTrajets();
     }
@@ -197,31 +201,29 @@ public class Controleur
         
     // action du joueur : piocher une carte 
 
-    public void pioche(Joueur joueur)
+    public Carte pioche()
+    {
+        Carte carte = null;
+
+        if(!this.pioche.isEmpty())
+        {
+            carte = this.pioche.get(0);
+            this.pioche.remove(0);
+            return carte;
+        }
+
+        return carte;
+    }
+
+    public void piocherCarte(Joueur joueur)
     {
         if(!this.pioche.isEmpty())
         {
-            joueur1.addMain(this.pioche.get(0));
-            this.pioche.remove(0);
+            joueur.addMain(this.pioche());
             this.gui.refreshMain();
-    
+            return;
         }
-        if(this.pioche.isEmpty())
-        {
-            if(this.defausse.size() > 0)
-            {
-                this.remelanger();
-            }
-            this.gui.refreshMain();
-    
-        }
-
-        System.out.println(this.carteTable);
-        System.out.println();
-        System.out.println("-----------------------------------------------------------------------------------");
-    
-        
-        
+        this.gui.notification("La pioche est vide !");
     }
 
     // action du joueur :prendre une carte de la table
@@ -229,38 +231,14 @@ public class Controleur
     {
         
         // verifie si la pioche est vide 
-        this.joueur1.addMain(this.carteTable.get(i-1));
-        if(!this.pioche.isEmpty())
+        System.out.println("piocheCarteTable" + this.carteTable.get(i-1));
+        if(this.carteTable.get(i-1) == null)
         {
-            System.out.println("------------pioche carte table 1 " + this.pioche.get(0) );
-            
-            System.out.println("indice = "+i);
-            this.carteTable.set(i-1, this.pioche.get(0));
-            this.pioche.remove(0);
+            return;
         }
-        else
-        {
-            if(this.defausse.size() > 0)
-            {
-                this.remelanger();
-                this.carteTable.set(i-1, this.pioche.get(0));
-                this.pioche.remove(0);
-            }
-            else
-            {
-                this.gui.notification("Il n'y a plus de carte dans la pioche");
-                this.carteTable.set(i-1, null);
-            }
-            
-        }
-        this.gui.refreshMain();
-       
-        System.out.println("----------------------------------Carte table -------------------------------------");
-        System.out.println();
-        System.out.println(this.carteTable);
-        System.out.println();
-        System.out.println("-----------------------------------------------------------------------------------");
-    
+        joueur.addMain(this.carteTable.get(i-1));
+        this.carteTable.set(i-1, this.pioche());
+        this.gui.refreshMain();    
     }
 
     public void verifTourDejeux()
@@ -675,10 +653,9 @@ public class Controleur
                         }
                         if(this.pioche.isEmpty())
                         {
-                            this.remelanger();
                             this.placerCarte();
                         }
-                        // System.out.println(this.defausse);
+                        this.remelanger();
                         arete.setJoueur(this.joueur1);
                         this.gui.refreshMain();
                         this.gui.refreshCarte();
@@ -700,17 +677,7 @@ public class Controleur
     public Color[] getTabColor() 
     {
         return this.tabColors;
-    }
-
-    //si le joueur a moins de nbWagonFin, alors la fin de partie est déclanché
-    public boolean finPartie()
-    {
-        if(this.joueur1.getMain().size() < nbWagonFin)
-        {
-            return true;
-        }
-        return false;
-    }    
+    } 
 
     public List<Noeud> getAllNoeuds() 
     {
@@ -760,7 +727,7 @@ public class Controleur
 
     public String[] getCouleurCarte(){return couleurCarte;}
 
-    public List<Carte> getCarteTable() {
+    public ArrayList<Carte> getCarteTable() {
         return this.carteTable;
     }
 

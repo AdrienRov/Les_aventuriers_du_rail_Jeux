@@ -147,7 +147,7 @@
 	</listeArete>
 	<listeParametres>
 		<parametre>
-			<nbJoueurMin nb="2"/>
+			<nbJoueurMin nb="1"/>
 			<nbJoueurMax nb="3"/>
 			<nbPion nb="10"/>
 			<nbWagonFin nb="3"/>
@@ -157,10 +157,10 @@
 			<nbPoint4 nb="40"/>
 			<nbPoint5 nb="50"/>
 			<nbPoint6 nb="60"/>
-			<nbCarteJoueur nb="20"/>
+			<nbCarteJoueur nb="3"/>
 			<nbJoueurDoublesVoies nb="3"/>
 			<nbWagonCouleur nb="5"/>
-			<nbJoker nb="16"/>
+			<nbJoker nb="3"/>
 		</parametre>
 	</listeParametres>
 	<listeImage>
