@@ -41,7 +41,6 @@ public class PanelConfig extends JPanel implements ActionListener
 
     private Controleur ctrl;
 
-    private JFileChooser fc = new JFileChooser();
 
     public PanelConfig(Controleur controleur)
     {
@@ -89,20 +88,20 @@ public class PanelConfig extends JPanel implements ActionListener
         this.btnValider.addActionListener(this);
         this.btnRetour.addActionListener(this);
     }
+    
+    private File getFileDialog() 
+    {
+        JFileChooser fc = new JFileChooser();
+        File fichier = new File(System.getProperty("user.dir"));
+        fc.setCurrentDirectory(fichier);
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.btnImportXML) 
-        {
-            System.out.println("Import XML");
-            this.fc.setDialogType(JFileChooser.OPEN_DIALOG);
-            int valeurFC = this.fc.showDialog(this, "Ouvrir un fichier XML");
+        int valeurFC = fc.showOpenDialog(this);
 
             if (valeurFC == JFileChooser.APPROVE_OPTION) 
             {
-
-                File fichier = fc.getSelectedFile();
+                fichier = fc.getSelectedFile();
                 String nomFichier = fichier.getName();
+                System.out.println("---------"+nomFichier);
                 String extension = nomFichier.substring(nomFichier.lastIndexOf("."));
 
                 if (extension.equals(".xml")) 
@@ -110,12 +109,25 @@ public class PanelConfig extends JPanel implements ActionListener
                     this.ctrl.lireFichierXML(fichier, ctrl);
                     JOptionPane.showMessageDialog(this, "Fichier XML importé avec succès", "Succès", JOptionPane.INFORMATION_MESSAGE);
                     this.xmlImporte = true;
+                    return fc.getSelectedFile();
                 }
                 else
                 {
                     JOptionPane.showMessageDialog(this, "Le fichier importé n'est pas un fichier XML", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    
                 }
             }
+            return null;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == this.btnImportXML) 
+        {
+            System.out.println("Import XML");
+            File f = this.getFileDialog();
+            
+            
         } 
         else if (e.getSource() == this.btnValider) 
         {
