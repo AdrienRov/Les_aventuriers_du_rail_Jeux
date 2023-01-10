@@ -43,6 +43,7 @@ public class PanelPioche extends JPanel implements ActionListener
     private TableColumn tabColTrajet      = new TableColumn();
     private JComboBox<String> comboVille1, comboVille2;
     private boolean verif =  true ; 
+    private int cpt = 0;
 
     private JCheckBox checkObjectif1, checkObjectif2, checkObjectif3;
 
@@ -381,18 +382,43 @@ public class PanelPioche extends JPanel implements ActionListener
         {
             if(e.getSource() == this.cartesTable[i])
             {
+                if(this.ctrl.getCarteTable().get(i-1).getNomImage().equals("Locomotive"))
+                {
+                    this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
+                    this.ctrl.joueurSuivant();
+                    this.refreshTablePioche();
+                }
+                else
+                {
+                    this.cpt ++;
+                    this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
+                    this.refreshTablePioche();
+                    if(this.cpt == 2)
+                    {   
+                        if(this.ctrl.getCarteTable().get(i-1).getNomImage().equals("Locomotive"))
+                        {
+                            //faire apparaitre une erreur car une carte locomotive ne peut pas etre pioché
+                            JOptionPane.showMessageDialog(null, "Vous ne pouvez pas choisir une locomotive aprés une carte wagon", "Information", JOptionPane.ERROR_MESSAGE);
+
+                        }
+                        else
+                        {
+                            this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
+                            this.ctrl.joueurSuivant();
+                            this.refreshTablePioche();
+                            this.cpt = 0 ;
+                        }
+                       
+                    }
+                }    
                 
-                this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
-                //this.ctrl.joueurSuivant();
-                
-                System.out.println("test"+i);
-                this.refreshTablePioche();
-                this.ctrl.joueurSuivant();
             }
         }
         
         if(e.getSource() == this.cartesTable[0])
         {
+            
+            
             this.ctrl.piocherCarte(this.ctrl.getJoueur());
             this.ctrl.joueurSuivant();
             this.refreshTablePioche();

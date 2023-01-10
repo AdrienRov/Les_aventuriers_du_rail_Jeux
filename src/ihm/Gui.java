@@ -23,11 +23,11 @@ public class Gui extends JFrame
     public Gui(Controleur ctrl) 
     {
         this.ctrl = ctrl;
-        this.panelJeux = new PanelJeux(this.ctrl);
-        this.panelCarte = new PanelCarte(this.ctrl);
-        this.panelPioche = new PanelPioche(this.ctrl);
+        this.panelJeux      = new PanelJeux(this.ctrl);
+        this.panelCarte     = new PanelCarte(this.ctrl);
+        this.panelPioche    = new PanelPioche(this.ctrl);
         this.panelFinPartie = new PanelFinPartie(this.ctrl);
-        this.frameAccueil = new FrameAccueil(this.ctrl);
+        this.frameAccueil   = new FrameAccueil(this.ctrl);
 
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
