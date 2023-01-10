@@ -594,6 +594,24 @@ public class Controleur
         return this.allCarteObjectifRandom;
     }
 
+    public void placerCarte()
+    {
+        int cpt = 0 ;
+        for(Carte carte : this.carteTable)
+        {
+            cpt++;
+            if(carte == null) 
+            {
+                if(!this.pioche.isEmpty())
+                {
+                    this.poserCarteSurTable(cpt);  
+                }
+                    
+            }
+          
+        }
+    }
+
     public int prendrePossession(Arete arete) 
     {
         if(arete.getJoueur() == null)
@@ -615,25 +633,7 @@ public class Controleur
                         if(this.pioche.isEmpty())
                         {
                             this.remelanger();
-                            System.out.println(this.pioche.size());
-                            int cpt = 0 ;
-                            for(Carte carte : this.carteTable)
-                            {
-                                cpt++;
-                            
-                                try
-                                {
-                                    if(carte == null) this.poserCarteSurTable(cpt);
-                                }
-                                catch(Exception e)
-                                {
-                                    
-                                }
-                              
-                            }
-                            System.out.println(this.pioche);
-
-                            
+                            this.placerCarte();
                         }
                         // System.out.println(this.defausse);
                         arete.setJoueur(this.joueur1);
