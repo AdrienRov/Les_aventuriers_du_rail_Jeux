@@ -45,7 +45,7 @@ public class PanelPioche extends JPanel implements ActionListener
     private TableColumn tabColTrajet      = new TableColumn();
     private JComboBox<String> comboVille1, comboVille2;
     private boolean verif =  true ; 
-    private int cpt = 0;
+    private int action = 0;
 
     private JCheckBox checkObjectif1, checkObjectif2, checkObjectif3;
 
@@ -298,6 +298,11 @@ public class PanelPioche extends JPanel implements ActionListener
             JOptionPane.showMessageDialog(null, "Il ne reste plus de cartes objectifs", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if(this.action > 0 && this.ctrl.getTabJoueur().length > 1)
+        {
+            JOptionPane.showMessageDialog(null, "Vous avez déjà effectué une action", "Information", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         JPanel panel = new JPanel(new GridLayout(this.ctrl.getAllCartesObjectifRandom().size(),1));
 
@@ -335,6 +340,56 @@ public class PanelPioche extends JPanel implements ActionListener
         // Si rien n'est selectionné ou qu'on ferme la fenetre, on re affiche
         if(!select)piocherCarteObjectif();
         refreshTableObjectifs();
+        
+    }
+
+    public void premTourCarteObjectif()
+    {
+        JPanel panel = new JPanel(new GridLayout(this.ctrl.getAllCartesObjectifRandom().size(),1));
+
+        // Création des checkbox nécéssaires avec les infos des cartes objectif random
+        for(int i = 0; i < this.ctrl.getAllCartesObjectifRandom().size(); i++)
+        {
+            CarteObjectif ca = this.ctrl.getAllCartesObjectifRandom().get(i);
+            JCheckBox cb = new JCheckBox("Ville de départ : " + ca.getNoeud1().getNom() + " - Ville d'arrivée : " + ca.getNoeud2().getNom() + " - Score : " + ca.getScore());
+            panel.add(cb);
+        }
+
+        int nbSelect = 0;
+        int option = JOptionPane.showConfirmDialog(null, panel, "Sélectionner au moins 2 carte objectif", JOptionPane.PLAIN_MESSAGE);
+        // Check si 2 checkbox uniquement sont selectionner dans le panel quand il clique sur OK, on les ajoute au joueur et on les supprime de la liste des cartes objectifs sinon on re affiche. Si on a plus de 2 checkbox selectionner, on affiche une popup
+        if(option == JOptionPane.OK_OPTION)
+        {
+            Component[] components = panel.getComponents();
+            for(int i = 0; i<components.length; i++)
+            {
+                if(components[i] instanceof JCheckBox)
+                {
+                    JCheckBox checkbox = (JCheckBox) components[i];
+                    if(checkbox.isSelected())
+                    {
+                        nbSelect++;
+                        if(nbSelect > 2)
+                        {
+                            JOptionPane.showMessageDialog(null, "Vous ne pouvez pas selectionner plus de 2 cartes objectifs", "Erreur", JOptionPane.ERROR_MESSAGE);
+                            premTourCarteObjectif();
+                            return;
+                        }
+                        this.ctrl.getJoueur().addCarteObjectif(this.ctrl.getAllCartesObjectifRandom().get(i));
+                        this.ctrl.getAllCartesObjectifs().remove(this.ctrl.getAllCartesObjectifRandom().get(i));
+                    }
+                }
+            }
+            if(nbSelect < 2)
+            {
+                JOptionPane.showMessageDialog(null, "Vous devez selectionner au moins 2 cartes objectifs", "Erreur", JOptionPane.ERROR_MESSAGE);
+                premTourCarteObjectif();
+            }
+        }
+        else
+        {
+            premTourCarteObjectif();
+        }
         
     }
 
@@ -387,10 +442,8 @@ public class PanelPioche extends JPanel implements ActionListener
 
             }
         }
-            
-        
+        refreshTableObjectifs(); 
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) 
@@ -399,36 +452,46 @@ public class PanelPioche extends JPanel implements ActionListener
         {
             if(e.getSource() == this.cartesTable[i])
             {
-                if(this.ctrl.getCarteTable().get(i-1).getNomImage().equals("Locomotive"))
+                if(this.ctrl.getTabJoueur().length == 1 )
+                {
+                    this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
+                    this.refreshTablePioche();
+                    return;
+                }
+                
+                if(this.ctrl.getCarteTable().get(i-1).getNomImage().equals("Locomotive") && this.action <1)
                 {
                     this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
                     this.ctrl.joueurSuivant();
                     this.refreshTablePioche();
+                    this.action = 0;
                 }
                 else
-                {
-                    this.cpt ++;
-                    this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
-                    this.refreshTablePioche();
-                    if(this.cpt == 2)
+                {  
+                    if(this.action == 0)
+                    {
+                        this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
+                        this.refreshTablePioche();
+                        this.action++;
+                    }
+                    else
                     {   
                         if(this.ctrl.getCarteTable().get(i-1).getNomImage().equals("Locomotive"))
                         {
                             //faire apparaitre une erreur car une carte locomotive ne peut pas etre pioché
                             JOptionPane.showMessageDialog(null, "Vous ne pouvez pas choisir une locomotive aprés une carte wagon", "Information", JOptionPane.ERROR_MESSAGE);
-
                         }
-                        else
+                        else if (! this.ctrl.getCarteTable().get(i-1).getNomImage().equals("Locomotive"))
                         {
                             this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
                             this.ctrl.joueurSuivant();
                             this.refreshTablePioche();
-                            this.cpt = 0 ;
+                            this.action = 0 ;
                         }
-                       
-                    }
+                        
+                    }    
                 }    
-                
+               
             }
         }
         
@@ -439,11 +502,6 @@ public class PanelPioche extends JPanel implements ActionListener
             this.ctrl.piocherCarte(this.ctrl.getJoueur());
             this.ctrl.joueurSuivant();
             this.refreshTablePioche();
-        }
-        if(e.getSource() == this.btnPiocheObjectif)
-        {
-            this.ctrl.jouerManche(1);
-            this.ctrl.joueurSuivant();
         }
 
         if(e.getSource() == this.btnRemplirSection)
@@ -458,14 +516,18 @@ public class PanelPioche extends JPanel implements ActionListener
             panel.add(this.comboColor);
             //mettre une condition si on clique sur ok ou annuler
             //si on clique sur ok, on récupère les deux villes choisies et on les envoie au controleur
+            if(this.action > 0 && this.ctrl.getTabJoueur().length > 1)
+            {
+                JOptionPane.showMessageDialog(null, "Vous avez déjà effectué une action","Information", JOptionPane.ERROR_MESSAGE);
+                return ;
+            }
             int result = JOptionPane.showConfirmDialog(null, panel, "Trajet", JOptionPane.OK_CANCEL_OPTION);
             ArrayList<Arete> trajets = (ArrayList<Arete>) this.ctrl.getAllTrajets();
-
             if (result == JOptionPane.OK_OPTION) {
                 // L'utilisateur a appuyé sur "OK"
                 // Exécutez le code voulu ici
                 for(int i = 0; i <this.ctrl.getAllTrajets().size(); i++)
-                {
+                { 
                     if(trajets.get(i).getNoeudDepart().getNom().equals(this.comboVille1.getSelectedItem()) && trajets.get(i).getNoeudArrive().getNom().equals(this.comboVille2.getSelectedItem()) || trajets.get(i).getNoeudDepart().getNom().equals(this.comboVille2.getSelectedItem()) && trajets.get(i).getNoeudArrive().getNom().equals(this.comboVille1.getSelectedItem()))
                     {
                         Arete arete = this.ctrl.getAllTrajets().get(i);
@@ -496,10 +558,13 @@ public class PanelPioche extends JPanel implements ActionListener
                 // Exécutez le code voulu ici
                 return;
             }
-
-            
+        }
+        if(e.getSource() == this.btnPiocheObjectif)
+        {
+            this.ctrl.jouerManche(1);
+            this.ctrl.joueurSuivant();
+        
         }
     }
-
    
 }

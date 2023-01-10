@@ -33,41 +33,6 @@ import javax.swing.JOptionPane;
 import javax.swing.text.AttributeSet.ColorAttribute;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.awt.Image;
-import src.metier.Arete;
-import src.metier.Noeud;
-
-import java.io.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import src.metier.Arete;
-import src.metier.Noeud;
-
-import java.io.*;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import java.awt.Color;
 
 public class Controleur 
 {
@@ -255,7 +220,14 @@ public class Controleur
         }
         joueur.addMain(this.carteTable.get(i-1));
         this.carteTable.set(i-1, this.pioche());
-        this.gui.refreshMain();    
+        this.gui.refreshMain(); 
+
+        if(this.pioche.isEmpty())
+        {
+            this.remelanger();
+            this.placerCarte();
+        }
+                        
     }
 
     public void verifTourDejeux()
@@ -564,6 +536,10 @@ public class Controleur
     public void afficherJeux() 
     {
         this.gui = new Gui(this);
+        initPiocheObjectif();
+        this.gui.premierTourCarteObjectif();
+        this.gui.refreshTableCarteObjectif();
+        this.tabJoueur[0].setPremierTour(false);
     }
 
     public void resizeFrame(int width, int height) 
@@ -602,6 +578,12 @@ public class Controleur
             joueurSelect = tabJoueur[idJoueur];
         }
 
+        if(this.joueurSelect.getPremierTour() == true)
+        {
+            this.joueurSelect.setPremierTour(false);
+            this.gui.premierTourCarteObjectif();
+        }
+
         
         if(this.joueurSelect.getNbPion() < this.nbWagonFin)
         {
@@ -616,9 +598,6 @@ public class Controleur
         this.gui.refreshCarte();
         this.gui.refreshPanelPion();
         this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
-
-        
-        
         //this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
     }
 
@@ -693,6 +672,32 @@ public class Controleur
         }
     }
 
+    public void verifLocoTable()
+    {
+        // verif si il y a 3 loco sur la table
+        int nbLocoTable = 0;
+        for(Carte carte : this.carteTable)
+        {
+            
+            if(carte.getNomCarte().equals("Locomotive"))
+            {
+                nbLocoTable++;
+            }
+            
+        }
+        if(nbLocoTable == 3)
+        {
+            // defausser toute les cartes sur la table
+            for(Carte carte : this.carteTable)
+            {
+                this.defausse.add(carte);
+                carte = null ; 
+            }
+            this.placerCarte();
+
+        }
+    }
+
     public int prendrePossession(Arete arete) 
     {
         if(arete.getJoueur() == null)
@@ -702,9 +707,6 @@ public class Controleur
                 //System.out.println(this.joueurSelect.nbCouleur(c.getNomCarte()));
                 if(arete.getCouleur().equals(c.getCouleur()))
                 {
-                    System.out.println(c.getNomCarte());
-                    System.out.println(" " + (this.joueurSelect.nbCouleur(c.getNomCarte()) + this.joueurSelect.nbCouleur("grey")) + " = " + arete.getNbVoiture());
-
                     if(this.joueurSelect.nbCouleur(c.getNomCarte()) + this.joueurSelect.nbCouleur("grey") >= arete.getNbVoiture())
                     {  
                         this.joueurSelect.addArete(arete);
@@ -712,7 +714,6 @@ public class Controleur
                         int cpt = 0;
                         for(int i = 0; i < arete.getNbVoiture(); i++)
                         {
-                            System.out.println(this.joueurSelect.getCartes().get("grey"));
                             if(i +1 > nbCartesALaBase )
                             {
                                 this.defausse.add(this.joueurSelect.getCartes().get("grey").remove(i-cpt - nbCartesALaBase));
@@ -724,10 +725,6 @@ public class Controleur
                                 this.defausse.add(c);
                             }
                         }
-                        
-                        this.remelanger();
-                        this.placerCarte();
-                        
                         arete.setJoueur(this.joueurSelect);
                         this.gui.refreshTablePioche();
                         this.gui.refreshMain();
@@ -824,6 +821,11 @@ public class Controleur
     public List<Carte> getAllCartes() 
     {
         return this.allCartes;
+    }
+
+    public int getNbJoueurDoublesVoies()
+    {
+        return this.nbJoueurDoublesVoies;
     }
 
     public void supprimerCarteObjectif(CarteObjectif carteObjectif) 

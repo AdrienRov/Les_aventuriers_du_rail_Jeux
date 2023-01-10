@@ -93,6 +93,13 @@ public class Gui extends JFrame
         this.repaint();
     }
 
+    public void refreshTableCarteObjectif()
+    {
+        this.panelPioche.refreshTableObjectifs();
+        this.revalidate();
+        this.repaint();
+    }
+
     public void notification(String message)
     {
         JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -101,6 +108,11 @@ public class Gui extends JFrame
     public void piocherCarteObjectif()
     {
         this.panelPioche.piocherCarteObjectif();
+    }
+
+    public void premierTourCarteObjectif()
+    {
+        this.panelPioche.premTourCarteObjectif();
     }
 
     public void afficherPanelFinPartie(boolean etat)

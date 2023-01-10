@@ -15,7 +15,7 @@ public class Joueur {
     //hashmap pour les cartes String couleur, String couleur
     private HashMap<String, ArrayList<Carte>> cartes = new HashMap<String, ArrayList<Carte>>();
     private int nbPion;
-
+    private boolean premierTour;
 
     public Joueur(String nom, Color couleur) 
     {
@@ -27,6 +27,7 @@ public class Joueur {
         this.cartes = new HashMap<String, ArrayList<Carte>>();
         this.tabCarteObjectif = new ArrayList<CarteObjectif>();
         this.nbPion = 0;
+        this.premierTour = true;
     }
 
     public String getNom() {
@@ -161,6 +162,16 @@ public class Joueur {
     public int getNbPion()
     {
         return this.nbPion;
+    }
+
+    public boolean getPremierTour()
+    {
+        return this.premierTour;
+    }
+
+    public void setPremierTour(boolean etat)
+    {
+        this.premierTour = etat;
     }
 
 }
