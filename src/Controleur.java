@@ -216,9 +216,9 @@ public class Controleur
     }
     
     // action du joueur :prendre une carte de la table
+
     public void piocheCarteTable(int i, Joueur joueur)
     {
-        
         // verifie si la pioche est vide 
         System.out.println("piocheCarteTable" + this.carteTable.get(i-1));
         if(this.carteTable.get(i-1) == null)
@@ -229,18 +229,17 @@ public class Controleur
         this.carteTable.set(i-1, this.pioche());
         this.gui.refreshMain(); 
 
-        if(this.pioche.isEmpty())
+        if(this.pioche.isEmpty() )
         {
             this.remelanger();
             this.placerCarte();
         }
         else
         {
-            this.verifVide = false ; 
-            System.out.println("" + this.verifVide);
+            this.verifVide =  false ;
         }
 
-         
+                        
     }
 
     public void verifTourDejeux()
@@ -258,32 +257,32 @@ public class Controleur
         for(Joueur joueur : this.tabJoueur)
         {
             for(Arete arete : joueur.getTabArete())
-            {
-                somme += tabScore[arete.getNbVoiture()-1];
-            }
+        {
+            somme += tabScore[arete.getNbVoiture()-1];
+        }
 
             //parcourir les cartes objectif du joueur, si il possède la ville de départ et arrivée de la carte objectif on ajoute des points
             for(CarteObjectif carte : joueur.getTabCarteObjectif())
+        {
+            Set<Noeud> noeudsVisites = new HashSet<Noeud>();
+            boolean possedeRoute = possedeRoute(carte.getNoeud1(), carte.getNoeud2(), this.joueurSelect.getNom(), this.joueurSelect.getTabArete(), noeudsVisites);
+            
+
+            if(possedeRoute)
             {
-                Set<Noeud> noeudsVisites = new HashSet<Noeud>();
-                boolean possedeRoute = possedeRoute(carte.getNoeud1(), carte.getNoeud2(), this.joueurSelect.getNom(), this.joueurSelect.getTabArete(), noeudsVisites);
-                
-
-                if(possedeRoute)
-                {
-                    somme += carte.getScore();
-                    System.out.println("il possède = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
-                }
-                else
-                {
-                    soustraction += carte.getScore();
-                    System.out.println("il possède pas = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
-                }
+                somme += carte.getScore();
+                System.out.println("il possède = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
             }
-
+            else
+            {
+                soustraction += carte.getScore();
+                System.out.println("il possède pas = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
+            }
+        }
+        
             joueur.setScore(somme-soustraction);
             System.out.println("Score "+joueur.getNom()+" "+(somme-soustraction));
-            System.out.println("nb arete joueur = "+ this.joueurSelect.getAretes().size());
+        System.out.println("nb arete joueur = "+ this.joueurSelect.getAretes().size());
         }
     }
 /*
@@ -703,7 +702,7 @@ public class Controleur
         }
         if(this.getTabJoueur().length != 1)
         {
-            this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
+        this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
         }
         if (this.joueurSelect.getPremierTour() == true) 
         {
