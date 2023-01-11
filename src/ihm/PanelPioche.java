@@ -498,11 +498,27 @@ public class PanelPioche extends JPanel implements ActionListener
         
         if(e.getSource() == this.cartesTable[0])
         {
+            if(this.ctrl.getTabJoueur().length == 1 )
+            {
+                    this.ctrl.piocherCarte(this.ctrl.getJoueur());
+                    this.ctrl.verifLocoTable();
+                    this.refreshTablePioche();
+                    return;
+            }
             
-            
-            this.ctrl.piocherCarte(this.ctrl.getJoueur());
-            this.ctrl.joueurSuivant();
-            this.refreshTablePioche();
+            if(action < 1)
+           {
+                this.ctrl.piocherCarte(this.ctrl.getJoueur());
+                this.refreshTablePioche();
+                this.action++;
+            }
+            else
+            {
+                this.ctrl.piocherCarte(this.ctrl.getJoueur());
+                this.ctrl.joueurSuivant();
+                this.refreshTablePioche();
+                this.action = 0;
+           }
         }
 
         if(e.getSource() == this.btnRemplirSection)

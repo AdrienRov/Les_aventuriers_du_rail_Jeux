@@ -65,6 +65,8 @@ public class Controleur
     private int nbWagonCouleur;
     private int nbJoker;
 
+    private Color couleurNoeud;
+
     private int tour = 1;
 
     private int nbJoueur;
@@ -554,6 +556,10 @@ public class Controleur
                 // On créer la carte avec les valeurs récupérées
                 this.allCartesObjectifs.add(new CarteObjectif(noeudDepart,noeudArrive,points));
             }
+
+            // On s'occupe de la couleur des noeuds
+            //couleurNoeud = new Color(Integer.parseInt(racine.getChild("CouleurNoeud").getAttributeValue("couleur")));
+
         }
     
     }
@@ -584,6 +590,11 @@ public class Controleur
     {
         return this.joueurSelect;
     }
+
+    public Color getCouleurNoeud()
+    {
+        return this.couleurNoeud;
+    }
     
     /**
      * 
@@ -605,27 +616,25 @@ public class Controleur
             idJoueur++;
             joueurSelect = tabJoueur[idJoueur];
         }
-
-        if(this.joueurSelect.getPremierTour() == true)
-        {
-            this.joueurSelect.setPremierTour(false);
-            this.gui.premierTourCarteObjectif();
-        }
-
-        
         if(this.joueurSelect.getNbPion() < this.nbWagonFin)
         {
             //finPartie();
             System.out.print("Fin de partie Calul des score");
             finDePartie();
         }
-        initPiocheObjectif();
         this.gui.refreshTablePioche();
         this.gui.refreshMain();
         this.gui.refreshTableTrajets();
         this.gui.refreshCarte();
         this.gui.refreshPanelPion();
         this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
+        
+        initPiocheObjectif();
+
+        if (this.joueurSelect.getPremierTour() == true) {
+            this.joueurSelect.setPremierTour(false);
+            this.gui.premierTourCarteObjectif();
+        }
         //this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
     }
 
