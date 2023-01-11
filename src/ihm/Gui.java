@@ -46,9 +46,9 @@ public class Gui extends JFrame
         //Ajuster la taille de la fenetre
         this.setSize(width+(width/3)+50, height+190);
 
-        this.panelPioche    .setPreferredSize(new Dimension((width/3)+30,  height+190   ));
-        this.panelJeux      .setPreferredSize(new Dimension(width+650, 150      ));
-        this.panelCarte     .setSize(width, height);
+        this.panelPioche.setPreferredSize(new Dimension((width/3)+30, height+190));
+        this.panelJeux  .setPreferredSize(new Dimension(width+650, 150));
+        this.panelCarte .setSize(width, height);
         this.setBackground(Color.RED);  
 
         if(tailleDebut != this.getWidth())
@@ -61,43 +61,43 @@ public class Gui extends JFrame
     public void refreshTableTrajets()
     {
         this.panelPioche.refreshTableTrajets();
-        this.revalidate ();
-        this.repaint    ();
+        this.revalidate();
+        this.repaint   ();
     }
 
     public void refreshPanelPion()
     {
         this.panelPioche.refreshPanelPion();
-        this.revalidate ();
-        this.repaint    ();
+        this.revalidate();
+        this.repaint   ();
     }
 
     public void refreshMain()
     {
         this.panelJeux.refreshMain();
-        this.revalidate ();
-        this.repaint    ();
+        this.revalidate();
+        this.repaint   ();
     }
 
     public void refreshTablePioche()
     {
         this.panelPioche.refreshTablePioche();
-        this.revalidate ();
-        this.repaint    ();
+        this.revalidate();
+        this.repaint   ();
     }
 
     public void refreshCarte()
     {
         this.panelCarte.repaint();
-        this.revalidate ();
-        this.repaint    ();
+        this.revalidate();
+        this.repaint   ();
     }
 
     public void refreshTableCarteObjectif()
     {
         this.panelPioche.refreshTableObjectifs();
-        this.revalidate ();
-        this.repaint    ();
+        this.revalidate();
+        this.repaint   ();
     }
 
     public void notification(String message)
@@ -119,9 +119,9 @@ public class Gui extends JFrame
     {
         if(etat == true)
         {
-            this.remove(this.panelCarte    );
-            this.remove(this.panelJeux     );
-            this.remove(this.panelPioche   );
+            this.remove(this.panelCarte );
+            this.remove(this.panelJeux  );
+            this.remove(this.panelPioche);
 
             this.add(this.panelFinPartie = new PanelFinPartie(this.ctrl));
         }

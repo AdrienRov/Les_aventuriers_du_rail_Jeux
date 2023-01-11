@@ -23,7 +23,7 @@ public class ColorListCellRenderer extends DefaultListCellRenderer
         this.setOpaque      (true);
 
         JLabel c = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        c.setText       ("  zdadzd  ");  
+        c.setText       ("             ");  
         c.setBackground ((Color) value);
         c.setBorder     (BorderFactory.createLineBorder(Color.BLACK));
         c.setForeground (Color.BLACK);

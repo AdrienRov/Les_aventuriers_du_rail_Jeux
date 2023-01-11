@@ -117,7 +117,7 @@ public class FrameAccueil extends JFrame implements ActionListener
         } 
         if (etat == false)
         {
-            this.remove (this.panelConfig);
+            this.remove (this.panelConfig                       );
             this.add    (this.lblTitre, BorderLayout.NORTH      );
             this.add    (this.panelImage, BorderLayout.CENTER   );
             this.add    (this.panelBoutons, BorderLayout.SOUTH  );
@@ -126,19 +126,19 @@ public class FrameAccueil extends JFrame implements ActionListener
             this.setVisible(true);
             this.setLocationRelativeTo(null);
         }
-        repaint();
-        revalidate();
+        repaint     ();
+        revalidate  ();
     }
 
     public void enleverPanelFin(boolean etat)
     {
         if(etat == true)
         {
-            this.dispose();
-            this.ctrl.getGui().dispose();
+            this.dispose                            ();
+            this.ctrl.getGui().dispose              ();
             this.frameAccueil = new FrameAccueil(ctrl);
         }
-        repaint();
-        revalidate();
+        repaint     ();
+        revalidate  ();
     }
 }

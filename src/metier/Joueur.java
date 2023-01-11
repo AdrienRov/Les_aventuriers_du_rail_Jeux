@@ -4,33 +4,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Joueur {
-    private String nom;
-    private int score;
-    private Color couleur;
+public class Joueur 
+{
+    private String          nom;
+    private int             score, nbPion;
+    private Color           couleur;
+    private boolean         premierTour;
 
-    private ArrayList<Carte> main;
-    private ArrayList<Arete> tabArete = new ArrayList<Arete>();
-    private ArrayList<CarteObjectif> tabCarteObjectif = new ArrayList<CarteObjectif>();
-    //hashmap pour les cartes String couleur, String couleur
-    private HashMap<String, ArrayList<Carte>> cartes = new HashMap<String, ArrayList<Carte>>();
-    private int nbPion;
-    private boolean premierTour;
+    private ArrayList<Carte>                    main;
+    private ArrayList<Arete>                    tabArete            = new ArrayList<Arete>                  ();
+    private ArrayList<CarteObjectif>            tabCarteObjectif    = new ArrayList<CarteObjectif>          ();
+    private HashMap<String, ArrayList<Carte>>   cartes              = new HashMap<String, ArrayList<Carte>> ();
+
 
     public Joueur(String nom, Color couleur) 
     {
-        this.nom = nom;
-        this.couleur = couleur;
-        this.score = 0;
-        this.main = new ArrayList<Carte>();
-        this.tabArete = new ArrayList<Arete>();
-        this.cartes = new HashMap<String, ArrayList<Carte>>();
-        this.tabCarteObjectif = new ArrayList<CarteObjectif>();
-        this.nbPion = 0;
-        this.premierTour = true;
+        this.nom                = nom;
+        this.couleur            = couleur;
+        this.score              = 0;
+        this.main               = new ArrayList<Carte>                  ();
+        this.tabArete           = new ArrayList<Arete>                  ();
+        this.cartes             = new HashMap<String, ArrayList<Carte>> ();
+        this.tabCarteObjectif   = new ArrayList<CarteObjectif>          ();
+        this.nbPion             = 0;
+        this.premierTour        = true;
     }
 
-    public String getNom() {
+    public String getNom() 
+    {
         return nom;
     }
 
@@ -39,7 +40,8 @@ public class Joueur {
         return couleur;
     }
 
-    public int getScore() {
+    public int getScore() 
+    {
         return score;
     }
 
@@ -86,7 +88,8 @@ public class Joueur {
         if(this.cartes.containsKey(couleur)) 
         {
             return this.cartes.get(couleur).size();
-        } else {
+        } else 
+        {
             return 0;
         }
         
@@ -104,7 +107,8 @@ public class Joueur {
         {
             this.cartes.get(carte.getNomCarte()).add(carte);
             this.main.add(carte);
-        } else {
+        } else 
+        {
             ArrayList<Carte> list = new ArrayList<Carte>();
             list.add(carte);
             this.cartes.put(carte.getNomCarte(), list);
@@ -114,11 +118,13 @@ public class Joueur {
     }
 
 
-    public HashMap<String, ArrayList<Carte>> getCartes() {
+    public HashMap<String, ArrayList<Carte>> getCartes() 
+    {
         return cartes;
     }
 
-    public void removeMain(int index) {
+    public void removeMain(int index) 
+    {
         this.main.remove(index);
     }
 

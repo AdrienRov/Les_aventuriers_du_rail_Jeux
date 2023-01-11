@@ -5,32 +5,22 @@ import java.util.function.BooleanSupplier;
 
 public class Arete {
     // Attributs
-    private int n1y;
-    private int n1x;
-    private int n2y;
-    private int n2x;
+    private int         n1y, n1x, n2y, n2x, nbVoiture   ;
+    private Noeud       noeudDepart, noeudarrive        ;
 
-    private Noeud noeudDepart;
-
-    private Noeud noeudarrive;
-
-    private boolean sensUnique;
-    private boolean actifDouble = true;
-
-    private Color couleur;
-
-    private int nbVoiture;
-
-    private Joueur joueur;
+    private boolean     sensUnique                      ;
+    private boolean     actifDouble = true              ;
+    private Color       couleur                         ;
+    private Joueur      joueur                          ;
 
     public Arete(Noeud noeudDepart, Noeud noeudarrive, int nbVoiture, Color couleur, Boolean sensUnique ) 
     {
-        this.noeudDepart = noeudDepart;
-        this.noeudarrive = noeudarrive;
-        this.nbVoiture = nbVoiture;
-        this.sensUnique = sensUnique;
-        this.couleur = couleur;
-        this.joueur = null;
+        this.noeudDepart    = noeudDepart   ;
+        this.noeudarrive    = noeudarrive   ;
+        this.nbVoiture      = nbVoiture     ;
+        this.sensUnique     = sensUnique    ;
+        this.couleur        = couleur       ;
+        this.joueur         = null          ;
 
     }
 

@@ -2,26 +2,25 @@ package src.metier;
 
 public class Noeud 
 {
-    private String nom;
-    private int x;
-    private int y;
-    private int xNom;
-    private int yNom;
+    private String      nom                 ;
+    private int         x, y, xNom, yNom    ;
 
     public Noeud(String nom, int x, int y, int xNom, int yNom)
     {
-        this.nom = nom;
-        this.x = x;
-        this.y = y;
-        this.xNom = xNom;
-        this.yNom = yNom;
+        this.nom    = nom   ;
+        this.x      = x     ;
+        this.y      = y     ;
+        this.xNom   = xNom  ;
+        this.yNom   = yNom  ;
     }    
 
-    public String getNom() {
+    public String getNom() 
+    {
         return nom;
     }
 
-    public int getX() {
+    public int getX() 
+    {
         return x;
     }
 
@@ -29,17 +28,20 @@ public class Noeud
         return y;
     }
 
-    public int getXNom() {
+    public int getXNom() 
+    {
         return xNom;
     }
 
-    public int getYNom() {
+    public int getYNom() 
+    {
         return yNom;
     }
 
     //to string
     @Override
-    public String toString() {
+    public String toString() 
+    {
         return "Noeud [nom=" + nom + ", x=" + x + ", y=" + y + ", xNom=" + xNom + ", yNom=" + yNom + "]";
     }
 }

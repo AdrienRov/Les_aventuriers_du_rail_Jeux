@@ -6,15 +6,14 @@ import java.awt.Color;
 public class Carte 
 {
 
-    private String nomCarte;
-    private String nomImage;
-    private Color color;
+    private String  nomCarte, nomImage  ;
+    private Color   color               ;
 
     public Carte(String nomCarte, String nomImage)
     {
-        this.nomCarte = nomCarte;
-        this.nomImage = nomImage;
-        this.color = setColor(nomCarte);
+        this.nomCarte   = nomCarte          ;
+        this.nomImage   = nomImage          ;
+        this.color      = setColor(nomCarte);
     }
 
     private Color setColor(String nomCarte)

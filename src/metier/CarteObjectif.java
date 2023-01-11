@@ -2,15 +2,14 @@ package src.metier;
 
 public class CarteObjectif 
 {
-    private Noeud noeud1;
-    private Noeud noeud2;
-    private int score;
+    private Noeud       noeud1, noeud2  ;
+    private int         score           ;
 
     public CarteObjectif(Noeud noeud1, Noeud noeud2, int score) 
     {
-        this.noeud1 = noeud1;
-        this.noeud2 = noeud2;
-        this.score = score;
+        this.noeud1     = noeud1;
+        this.noeud2     = noeud2;
+        this.score      = score ;
     }
 
     public Noeud getNoeud1() 

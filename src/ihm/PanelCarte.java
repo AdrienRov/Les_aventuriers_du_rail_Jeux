@@ -7,10 +7,10 @@ import java.util.List;
 
 import javax.swing.*;
 
-import src.Controleur;
-import src.metier.Arete;
+import src.Controleur   ;
+import src.metier.Arete ;
 import src.metier.Joueur;
-import src.metier.Noeud;
+import src.metier.Noeud ;
 
 public class PanelCarte extends JPanel 
 {
@@ -152,25 +152,29 @@ public class PanelCarte extends JPanel
                 // Place les voitures sur le second trajet
                 for (int i = 1; i < areteP.getNbVoiture() + 1; i++) 
                 {
-                    int pion  = (int) ((x1_2P +  ((distanceEntreVoitureP / 2)   * Math.cos(angle2P)))  + ((i - 1) * distanceEntreVoitureP ) * Math.cos(angleP));
-                    int pion2 = (int) ((y1_2P +  ((distanceEntreVoitureP / 2)   * Math.sin(angle2P)))  + ((i - 1) * distanceEntreVoitureP ) * Math.sin(angleP));
+                    int pion  = (int) ((x1_2P +  ((distanceEntreVoitureP / 2)   * Math.cos(angleP)))  + ((i - 1) * distanceEntreVoitureP ) * Math.cos(angleP));
+                    int pion2 = (int) ((y1_2P +  ((distanceEntreVoitureP / 2)   * Math.sin(angleP)))  + ((i - 1) * distanceEntreVoitureP ) * Math.sin(angleP));
 
-                    System.out.println(""+ distanceEntreVoitureP / 2);
-                    
                     for(Joueur j : this.ctrl.getTabJoueur())
                     {
                         for(Arete ar : j.getTabArete())
                         {
                             if(ar.equals(areteP))
                             {
+                                System.out.println(""+ distanceEntreVoitureP / 2);
+                                g2d.setStroke(new BasicStroke(5));
                                 g2d.setColor(j.getCouleur());
-                                g2d.drawOval(pion + 15, pion2 + 15, 5, 5);
+                                g2d.fillOval(pion +7, pion2 + 7, 15, 15);
+                            
+                                g2d.setStroke(new BasicStroke(2));
+                                g2d.setColor(Color.BLACK);
+                                g2d.drawOval(pion +7 , pion2+7 , 15, 15);
+
                             }
                         }
                     }
                 }
             }
-            
             // dessine les noms des noeuds
             for (Noeud noeud : this.allNoeud) 
             {
@@ -182,24 +186,18 @@ public class PanelCarte extends JPanel
                     g2d.fillRect(noeud.getXNom(), noeud.getYNom(), nbLettre * 12, 20);
                     g2d.setColor(Color.WHITE);
                     
-                    
-
                     //dessiner les noeuds
                     g2d.setColor(this.ctrl.getCouleurNoeud());
                     g2d.fillOval(noeud.getX(), noeud.getY(), 35, 35);
 
                     //dessiner un cercle noir autour du noeud
-                    g2d.setColor(this.ctrl.getCouleurNoeud());
+                    g2d.setColor(Color.BLACK);
                     g2d.drawOval(noeud.getX(), noeud.getY(), 35, 35);
                     
                     //agrandir le texte du nom du noeud 
                     g2d.setFont(new Font("Arial", Font.BOLD, 20));
-
                     g2d.drawString(noeud.getNom(), noeud.getXNom(), noeud.getYNom()+15);
-
-            }
-                
+            }       
         }
     }
-
 }
