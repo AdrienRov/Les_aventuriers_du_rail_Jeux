@@ -92,8 +92,8 @@ public class Controleur
         this.document  = new org.jdom2.Document();
         this.racine    = new org.jdom2.Element("racine");
         this.joueurSelect = new Joueur("", Color.BLACK);
-        this.lireFichierXML(new File("src/FichierSortie.xml"), this);
         //this.AfficherDonnees();
+       
     }
 
     public void jouerManche(int numAction)
@@ -227,6 +227,8 @@ public class Controleur
             this.remelanger();
             this.placerCarte();
         }
+        
+        this.verifLocoTable();
                         
     }
 
@@ -407,7 +409,7 @@ public class Controleur
     }
     //
     // Lire le fichier XML qu'on rentre en paramètre et assigner les valeurs dans le controleur
-    public void lireFichierXML(File fichierXML, Controleur controleur)
+    public void lireFichierXML(File fichierXML, Controleur controleur, boolean verif)
     {
         try {
             // On cree un nouveau document JDOM avec en argument le fichier XML
@@ -422,119 +424,143 @@ public class Controleur
             e.printStackTrace();
         }
 
-        // On crée une Liste regroupant toutes les balises <noeud> contenu dans la racine
-        List<Element> listNoeuds = racine.getChild("listeNoeuds").getChildren("noeud");
-        for (Element noeud : listNoeuds) 
+        if(verif)
         {
-            String nom = noeud.getAttributeValue("nom");
-            int x = Integer.parseInt(noeud.getChild("coordonnees").getAttributeValue("x"));
-            int y = Integer.parseInt(noeud.getChild("coordonnees").getAttributeValue("y"));
-            int xNom = Integer.parseInt(noeud.getChild("coordonneesTexte").getAttributeValue("x"));
-            int yNom = Integer.parseInt(noeud.getChild("coordonneesTexte").getAttributeValue("y"));
-            // On créer le noeud avec les valeurs récupérées
-            this.allNoeuds.add(new Noeud(nom, x, y, xNom, yNom));
-        }
-
-        // String nom = noeud.getChild("nom").getText();
-
-        // On crée une Liste regroupant toutes les balises <arete> contenu dans la racine
-        List<Element> listAretes = racine.getChild("listeArete").getChildren("arete");
-        for (Element arete : listAretes) 
-        {
-            Noeud noeudDepart = null;
-            Noeud noeudArrive = null;
-
-            for (Noeud noeud : this.allNoeuds) {
-                if (noeud.getNom().equals(arete.getChild("noeudDepart").getAttributeValue("nom"))) 
-                {
-                    noeudDepart = noeud;
-                }
-                if (noeud.getNom().equals(arete.getChild("noeudArrive").getAttributeValue("nom"))) 
-                {
-                    noeudArrive = noeud;
-                }
-            };
-            int nbWagon = Integer.parseInt(arete.getChild("nbWagon").getAttributeValue("nb"));
-            // Récupération de la couleur de l'arête
-            Color couleur = new Color (Integer.parseInt(arete.getChild("couleur").getAttributeValue("couleur")));
-            boolean sensUnique = Boolean.parseBoolean(arete.getChild("sens").getAttributeValue("sens"));
-            // On créer l'arete avec les valeurs récupérées
-            this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, sensUnique));
-        }
-        // On crée une Liste regroupant toutes les balises <arete> contenu dans la
-        // racine
-
-        List<Element> parametres = racine.getChild("listeParametres").getChildren("parametre");
-        for(Element parametre : parametres)
-        {
-            nbJoueurMin                = Integer.parseInt(parametre.getChild("nbJoueurMin").getAttributeValue("nb"));
-            nbJoueurMax                 = Integer.parseInt(parametre.getChild("nbJoueurMax").getAttributeValue("nb"));
-            nbPionMax               = Integer.parseInt(parametre.getChild("nbPion").getAttributeValue("nb"));
-            nbWagonFin              = Integer.parseInt(parametre.getChild("nbWagonFin").getAttributeValue("nb"));
-            nbPoint1                = Integer.parseInt(parametre.getChild("nbPoint1").getAttributeValue("nb"));
-            nbPoint2                = Integer.parseInt(parametre.getChild("nbPoint2").getAttributeValue("nb"));
-            nbPoint3                = Integer.parseInt(parametre.getChild("nbPoint3").getAttributeValue("nb"));
-            nbPoint4                = Integer.parseInt(parametre.getChild("nbPoint4").getAttributeValue("nb"));
-            nbPoint5                = Integer.parseInt(parametre.getChild("nbPoint5").getAttributeValue("nb"));
-            nbPoint6                = Integer.parseInt(parametre.getChild("nbPoint6").getAttributeValue("nb"));
-            nbCarteJoueur            = Integer.parseInt(parametre.getChild("nbCarteJoueur").getAttributeValue("nb"));
-            nbJoueurDoublesVoies    = Integer.parseInt(parametre.getChild("nbJoueurDoublesVoies").getAttributeValue("nb"));
-            nbWagonCouleur          = Integer.parseInt(parametre.getChild("nbWagonCouleur").getAttributeValue("nb"));
-            nbJoker                 = Integer.parseInt(parametre.getChild("nbJoker").getAttributeValue("nb"));
-        }
-
-        // On s'occupe des cartes objectifs
-
-        // Pour les images présentent dans le XML
-        
-        
-        try {
-            List<Element> listImages = racine.getChild("listeImage").getChildren("image");
-            for (int i = 0; i < listImages.size(); i++) 
+            List<Element> listAretes = racine.getChild("listeArete").getChildren("arete");
+            for (Element arete : listAretes) 
             {
-                String idImage = listImages.get(i).getAttributeValue("idImage");
-                String nom = listImages.get(i).getAttributeValue("nom");
-                this.allImages.add(nom);
-                
-                byte[] decodedBytes = Base64.getDecoder().decode(idImage);
-                FileOutputStream fos = new FileOutputStream("images/"+ nom + ".png");
-                fos.write(decodedBytes);
-                fos.close();
-            }    
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        for(int i = 0; i < couleurCarte.length; i++)
-        {
-            this.allCartes.add(new Carte(couleurCarte[i],this.allImages.get(i)));
-        }
-
-        // Pour les cartes objectifs
-        List<Element> listCartesObjectifs = racine.getChild("listeCarteObjectif").getChildren("CarteObjectif");
-        for (Element carteObjectif : listCartesObjectifs) 
-        {
-            Noeud noeudDepart = null;
-            Noeud noeudArrive = null;
-            // Trouver les noeuds correspondant dans la liste des noeuds
-            for (Noeud noeud : this.allNoeuds) {
-                if (noeud.getNom().equals(carteObjectif.getChild("noeudDepart").getAttributeValue("nom"))) {
-                    noeudDepart = noeud;
+                Noeud noeudDepart = null;
+                Noeud noeudArrive = null;
+    
+                for (Noeud noeud : this.allNoeuds) {
+                    if (noeud.getNom().equals(arete.getChild("noeudDepart").getAttributeValue("nom"))) 
+                    {
+                        noeudDepart = noeud;
+                    }
+                    if (noeud.getNom().equals(arete.getChild("noeudArrive").getAttributeValue("nom"))) 
+                    {
+                        noeudArrive = noeud;
+                    }
+                };
+                int nbWagon = Integer.parseInt(arete.getChild("nbWagon").getAttributeValue("nb"));
+                // Récupération de la couleur de l'arête
+                Color couleur = new Color (Integer.parseInt(arete.getChild("couleur").getAttributeValue("couleur")));
+                boolean sensUnique = Boolean.parseBoolean(arete.getChild("sens").getAttributeValue("sens"));
+                // On créer l'arete avec les valeurs récupérées
+                if(sensUnique && this.nbJoueur < this.nbJoueurDoublesVoies)
+                {
+                    System.out.println("" + this.nbJoueur + "| " + this.nbJoueurDoublesVoies);
+                    this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, sensUnique));
                 }
-                if (noeud.getNom().equals(carteObjectif.getChild("noeudArrive").getAttributeValue("nom"))) {
-                    noeudArrive = noeud;
+                if(this.nbJoueur >= this.nbJoueurDoublesVoies)
+                {
+                    System.out.println("" + this.nbJoueur + "| " + this.nbJoueurDoublesVoies);
+                    this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, sensUnique));
+    
                 }
-            };
-            int points = Integer.parseInt(carteObjectif.getChild("point").getAttributeValue("pts"));
-            // On créer la carte avec les valeurs récupérées
-            this.allCartesObjectifs.add(new CarteObjectif(noeudDepart,noeudArrive,points));
+            }
+            
         }
+        else
+        {
+
+            // On crée une Liste regroupant toutes les balises <noeud> contenu dans la racine
+            List<Element> listNoeuds = racine.getChild("listeNoeuds").getChildren("noeud");
+            for (Element noeud : listNoeuds) 
+            {
+                String nom = noeud.getAttributeValue("nom");
+                int x = Integer.parseInt(noeud.getChild("coordonnees").getAttributeValue("x"));
+                int y = Integer.parseInt(noeud.getChild("coordonnees").getAttributeValue("y"));
+                int xNom = Integer.parseInt(noeud.getChild("coordonneesTexte").getAttributeValue("x"));
+                int yNom = Integer.parseInt(noeud.getChild("coordonneesTexte").getAttributeValue("y"));
+                // On créer le noeud avec les valeurs récupérées
+                this.allNoeuds.add(new Noeud(nom, x, y, xNom, yNom));
+            }
+
+            // String nom = noeud.getChild("nom").getText();
+
+            // On crée une Liste regroupant toutes les balises <arete> contenu dans la racine
         
+            // On crée une Liste regroupant toutes les balises <arete> contenu dans la
+            // racine
+
+            List<Element> parametres = racine.getChild("listeParametres").getChildren("parametre");
+            for(Element parametre : parametres)
+            {
+                nbJoueurMin                = Integer.parseInt(parametre.getChild("nbJoueurMin").getAttributeValue("nb"));
+                nbJoueurMax                 = Integer.parseInt(parametre.getChild("nbJoueurMax").getAttributeValue("nb"));
+                nbPionMax               = Integer.parseInt(parametre.getChild("nbPion").getAttributeValue("nb"));
+                nbWagonFin              = Integer.parseInt(parametre.getChild("nbWagonFin").getAttributeValue("nb"));
+                nbPoint1                = Integer.parseInt(parametre.getChild("nbPoint1").getAttributeValue("nb"));
+                nbPoint2                = Integer.parseInt(parametre.getChild("nbPoint2").getAttributeValue("nb"));
+                nbPoint3                = Integer.parseInt(parametre.getChild("nbPoint3").getAttributeValue("nb"));
+                nbPoint4                = Integer.parseInt(parametre.getChild("nbPoint4").getAttributeValue("nb"));
+                nbPoint5                = Integer.parseInt(parametre.getChild("nbPoint5").getAttributeValue("nb"));
+                nbPoint6                = Integer.parseInt(parametre.getChild("nbPoint6").getAttributeValue("nb"));
+                nbCarteJoueur            = Integer.parseInt(parametre.getChild("nbCarteJoueur").getAttributeValue("nb"));
+                nbJoueurDoublesVoies    = Integer.parseInt(parametre.getChild("nbJoueurDoublesVoies").getAttributeValue("nb"));
+                nbWagonCouleur          = Integer.parseInt(parametre.getChild("nbWagonCouleur").getAttributeValue("nb"));
+                nbJoker                 = Integer.parseInt(parametre.getChild("nbJoker").getAttributeValue("nb"));
+            }
+
+        
+        
+
+            // On s'occupe des cartes objectifs
+
+            // Pour les images présentent dans le XML
+            
+            
+            try {
+                List<Element> listImages = racine.getChild("listeImage").getChildren("image");
+                for (int i = 0; i < listImages.size(); i++) 
+                {
+                    String idImage = listImages.get(i).getAttributeValue("idImage");
+                    String nom = listImages.get(i).getAttributeValue("nom");
+                    this.allImages.add(nom);
+                    
+                    byte[] decodedBytes = Base64.getDecoder().decode(idImage);
+                    FileOutputStream fos = new FileOutputStream("images/"+ nom + ".png");
+                    fos.write(decodedBytes);
+                    fos.close();
+                }    
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            for(int i = 0; i < couleurCarte.length; i++)
+            {
+                this.allCartes.add(new Carte(couleurCarte[i],this.allImages.get(i)));
+            }
+
+            // Pour les cartes objectifs
+            List<Element> listCartesObjectifs = racine.getChild("listeCarteObjectif").getChildren("CarteObjectif");
+            for (Element carteObjectif : listCartesObjectifs) 
+            {
+                Noeud noeudDepart = null;
+                Noeud noeudArrive = null;
+                // Trouver les noeuds correspondant dans la liste des noeuds
+                for (Noeud noeud : this.allNoeuds) {
+                    if (noeud.getNom().equals(carteObjectif.getChild("noeudDepart").getAttributeValue("nom"))) {
+                        noeudDepart = noeud;
+                    }
+                    if (noeud.getNom().equals(carteObjectif.getChild("noeudArrive").getAttributeValue("nom"))) {
+                        noeudArrive = noeud;
+                    }
+                };
+                int points = Integer.parseInt(carteObjectif.getChild("point").getAttributeValue("pts"));
+                // On créer la carte avec les valeurs récupérées
+                this.allCartesObjectifs.add(new CarteObjectif(noeudDepart,noeudArrive,points));
+            }
+        }
+    
     }
 
     public void afficherJeux() 
     {
+        // Verifier si le nombre de joueur est correct pour afficher les doubles voies, si non, on les supprime de la liste des aretes
+
         this.gui = new Gui(this);
         initPiocheObjectif();
         this.gui.premierTourCarteObjectif();
@@ -674,7 +700,7 @@ public class Controleur
 
     public void verifLocoTable()
     {
-        // verif si il y a 3 loco sur la table
+        System.out.println("verifLocoTable");
         int nbLocoTable = 0;
         for(Carte carte : this.carteTable)
         {
@@ -687,7 +713,8 @@ public class Controleur
         }
         if(nbLocoTable == 3)
         {
-            // defausser toute les cartes sur la table
+            // defausser toute les carte
+            System.out.println("3");
             for(Carte carte : this.carteTable)
             {
                 this.defausse.add(carte);

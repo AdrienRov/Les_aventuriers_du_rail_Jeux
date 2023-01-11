@@ -40,6 +40,7 @@ public class PanelConfig extends JPanel implements ActionListener
     private boolean xmlImporte = false;
 
     private Controleur ctrl;
+    private File fichier;
 
 
     public PanelConfig(Controleur controleur)
@@ -92,7 +93,7 @@ public class PanelConfig extends JPanel implements ActionListener
     private File getFileDialog() 
     {
         JFileChooser fc = new JFileChooser();
-        File fichier = new File(System.getProperty("user.dir"));
+        this.fichier = new File(System.getProperty("user.dir"));
         fc.setCurrentDirectory(fichier);
 
         int valeurFC = fc.showOpenDialog(this);
@@ -106,7 +107,7 @@ public class PanelConfig extends JPanel implements ActionListener
 
                 if (extension.equals(".xml")) 
                 {
-                    this.ctrl.lireFichierXML(fichier, ctrl);
+                    this.ctrl.lireFichierXML(fichier, ctrl,false);
                     JOptionPane.showMessageDialog(this, "Fichier XML importé avec succès", "Succès", JOptionPane.INFORMATION_MESSAGE);
                     this.xmlImporte = true;
                     return fc.getSelectedFile();
@@ -156,11 +157,13 @@ public class PanelConfig extends JPanel implements ActionListener
             {
                 System.out.println("Nombre de joueurs : " + comboNbJoueurs.getSelectedItem());
                 this.ctrl.setNbJoueur(comboNbJoueurs.getSelectedIndex() + 1);
+                this.ctrl.lireFichierXML(fichier, ctrl,true);
                 this.ctrl.etatConfig(false);
                 this.ctrl.getFrameAccueil().dispose();
                 this.ctrl.initJeux();
                 this.ctrl.afficherJeux();
             }
+            
         }
         else if (e.getSource() == this.btnRetour) 
         {

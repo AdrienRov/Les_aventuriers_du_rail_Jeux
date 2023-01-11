@@ -58,7 +58,7 @@ public class PanelCarte extends JPanel {
                 int distanceAuBord;
 
                 // Décale l'angle de 90 degrés pour obtenir l'angle de décalage sur l'axe y
-                if (arete.getSensUnique() && this.ctrl.getNbJoueur() <= this.ctrl.getNbJoueurDoublesVoies()) 
+                if (arete.getSensUnique()) 
                 {
                     angle2 = angle;
                     distanceAuBord = 0;
