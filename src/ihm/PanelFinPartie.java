@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import src.Controleur;
+import src.metier.Joueur;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +29,7 @@ public class PanelFinPartie extends JPanel implements ActionListener
 
     private JLabel lblListeJoueurs;
 
+    private Joueur joueurGagnant = this.ctrl.getTabJoueur()[0];
 
     private JButton btnRetourAccueil;
 
@@ -42,9 +44,17 @@ public class PanelFinPartie extends JPanel implements ActionListener
         this.panelGagnant = new JPanel(new GridLayout(2, 1, 10, 10));
         this.panelListeJoueurs = new JPanel(new GridLayout(this.ctrl.getNbJoueur(), 1, 10, 10));
 
+        for(Joueur joueur : this.ctrl.getTabJoueur())
+        {
+            if(joueur.getScore() > this.joueurGagnant.getScore())
+            {
+                this.joueurGagnant = joueur;
+            }
+        }
+
         this.lblTitrePanel = new JLabel("Fin de la partie");
-        this.lblGagnant = new JLabel("Le gagnant est : LE JOUEUR JSP QUOI");
-        this.lblScoreGagnant = new JLabel("Score du gagnant : SON SCORE");
+        this.lblGagnant = new JLabel("Le gagnant est : " + this.joueurGagnant.getNom() );
+        this.lblScoreGagnant = new JLabel("Score du gagnant : " + this.joueurGagnant.getScore() + " points");
 
         this.lblListeJoueurs = new JLabel("Liste des joueurs : ");
         
@@ -79,7 +89,7 @@ public class PanelFinPartie extends JPanel implements ActionListener
 
         for(int i = 0; i<this.ctrl.getNbJoueur(); i++)
         {
-            JLabel lblNomJoueur = new JLabel("Joueur " + i + " : SON SCORE ICI" );
+            JLabel lblNomJoueur = new JLabel(this.ctrl.getTabJoueur()[i].getNom() + " | Score : " + this.ctrl.getTabJoueur()[i].getScore());
             lblNomJoueur.setHorizontalAlignment(SwingConstants.CENTER);
             lblNomJoueur.setForeground(Color.WHITE);
             this.panelListeJoueurs.add(lblNomJoueur);
@@ -102,6 +112,7 @@ public class PanelFinPartie extends JPanel implements ActionListener
         {
             // On re affiche le menu accueil de l'application en enlevant le tableau de fin de partie
             this.ctrl.enleverPanelFin(true);
+            this.setVisible(false);
             
         }
         

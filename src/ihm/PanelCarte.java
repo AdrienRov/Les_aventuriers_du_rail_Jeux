@@ -26,7 +26,7 @@ public class PanelCarte extends JPanel {
     {
         this.ctrl = ctrl;
         this.setBackground(new Color(35, 31, 32));
-        this.image          = new ImageIcon ("images/carte.png").getImage();
+        this.image          = new ImageIcon ("images/"+this.ctrl.getAllImages().get(this.ctrl.getAllImages().size()-1)+".png").getImage();
         this.allTrajets     = new ArrayList<Arete>();
         this.allNoeud       = new ArrayList<Noeud>();
         this.setBackground(new Color(35, 31, 32));
@@ -124,17 +124,17 @@ public class PanelCarte extends JPanel {
                     
 
                     //dessiner les noeuds
-                    g2d.setColor(Color.BLACK);
+                    g2d.setColor(this.ctrl.getCouleurNoeud());
                     g2d.fillOval(noeud.getX(), noeud.getY(), 35, 35);
 
                     //dessiner un cercke noir autour du noeud
-                    g2d.setColor(Color.BLACK);
+                    g2d.setColor(this.ctrl.getCouleurNoeud());
                     g2d.drawOval(noeud.getX(), noeud.getY(), 35, 35);
                     
                     //agrandir le texte du nom du noeud 
                     g2d.setFont(new Font("Arial", Font.BOLD, 20));
 
-                    g2d.drawString(noeud.getNom(), noeud.getXNom(), noeud.getY()-13);
+                    g2d.drawString(noeud.getNom(), noeud.getXNom(), noeud.getYNom()+15);
 
             }
             for(Joueur j : this.ctrl.getTabJoueur())

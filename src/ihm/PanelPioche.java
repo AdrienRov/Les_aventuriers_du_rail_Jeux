@@ -267,7 +267,7 @@ public class PanelPioche extends JPanel implements ActionListener
         this.panelGlobal.remove(this.panelPion);
         this.panelPion = new JPanel(new GridLayout(2, 2));
         this.panelPion.setBackground(new Color(35, 31, 32));
-        JLabel lblTextPion = new JLabel("Nombre de pion : ");
+        JLabel lblTextPion = new JLabel("Nombre de</br> pion : ");
         JLabel lblNbPion = new JLabel(String.valueOf(this.ctrl.getJoueur().getNbPion() + " / " + this.ctrl.getNbPionMax()));
 
         this.lblNomJoueur.setText(this.ctrl.getJoueur().getNom());
@@ -578,8 +578,21 @@ public class PanelPioche extends JPanel implements ActionListener
         }
         if(e.getSource() == this.btnPiocheObjectif)
         {
-            this.ctrl.jouerManche(1);
-            this.ctrl.joueurSuivant();
+            if(this.action > 0 && this.ctrl.getTabJoueur().length > 1)
+            {
+                JOptionPane.showMessageDialog(null, "Vous avez déjà effectué une action","Information", JOptionPane.ERROR_MESSAGE);
+                return ;
+            }
+            if(this.ctrl.getAllCartesObjectifs().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Il n'y a plus de carte objectif dans la pioche","Information", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            else
+            {
+                this.ctrl.getGui().piocherCarteObjectif();
+                this.ctrl.joueurSuivant();
+            }
         
         }
     }
