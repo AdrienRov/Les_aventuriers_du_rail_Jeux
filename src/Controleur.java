@@ -66,7 +66,7 @@ public class Controleur
     private int nbJoker;
 
     private Color couleurNoeud;
-
+    private boolean verifFinPartie = false;
     private int tour = 1;
 
     private boolean verifVide = false ;
@@ -100,23 +100,6 @@ public class Controleur
        
     }
 
-    public void jouerManche(int numAction)
-    {
-        if(numAction == 0)
-        {
-
-        }
-
-        if(numAction == 1)
-        {
-            this.gui.piocherCarteObjectif();
-        }
-
-        if(numAction == 2)
-        {
-            
-        }
-    }
     public void initJeux()
     {
         this.initPioche();
@@ -252,34 +235,36 @@ public class Controleur
 
         int[] tabScore = {nbPoint1,nbPoint2,nbPoint3,nbPoint4,nbPoint5,nbPoint6};
 
-        for(Arete arete : this.joueurSelect.getTabArete())
+        for(Joueur joueur : this.tabJoueur)
         {
-            somme += tabScore[arete.getNbVoiture()-1];
-        }
-
-        //parcourir les cartes objectif du joueur , si il possède la ville de départ et arriver de la carte objectif on ajoute des points
-        for(CarteObjectif carte : this.joueurSelect.getTabCarteObjectif())
-        {
-            Set<Noeud> noeudsVisites = new HashSet<Noeud>();
-            boolean possedeRoute = possedeRoute(carte.getNoeud1(), carte.getNoeud2(), this.joueurSelect.getNom(), this.joueurSelect.getTabArete(), noeudsVisites);
-            
-
-            if(possedeRoute)
+            for(Arete arete : joueur.getTabArete())
             {
-                somme += carte.getScore();
-                System.out.println("il possède = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
+                somme += tabScore[arete.getNbVoiture()-1];
             }
-            else
-            {
-                soustraction += carte.getScore();
-                System.out.println("il possède pas = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
-            }
-        }
-        
 
-        System.out.println("Score du Joueurs 1 = "+(somme-soustraction));
-        System.out.println("nb arete joueur = "+ this.joueurSelect.getAretes().size());
-        
+            //parcourir les cartes objectif du joueur , si il possède la ville de départ et arriver de la carte objectif on ajoute des points
+            for(CarteObjectif carte : joueur.getTabCarteObjectif())
+            {
+                Set<Noeud> noeudsVisites = new HashSet<Noeud>();
+                boolean possedeRoute = possedeRoute(carte.getNoeud1(), carte.getNoeud2(), this.joueurSelect.getNom(), this.joueurSelect.getTabArete(), noeudsVisites);
+                
+
+                if(possedeRoute)
+                {
+                    somme += carte.getScore();
+                    System.out.println("il possède = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
+                }
+                else
+                {
+                    soustraction += carte.getScore();
+                    System.out.println("il possède pas = "+possedeRoute + " "+carte.getNoeud1().getNom()+" "+carte.getNoeud2().getNom());
+                }
+            }
+
+            joueur.setScore(somme-soustraction);
+            System.out.println("Score "+joueur.getNom()+" "+(somme-soustraction));
+            System.out.println("nb arete joueur = "+ this.joueurSelect.getAretes().size());
+        }
     }
     public static boolean possedeRoute(Noeud depart, Noeud arrive, String nomJoueur, List<Arete> aretes, Set<Noeud> noeudsVisites) {
         // Si le noeud de départ est le même que le noeud d'arrivée, alors le joueur possède une route
@@ -570,10 +555,15 @@ public class Controleur
             }
 
             // On s'occupe de la couleur des noeuds
-            //couleurNoeud = new Color(Integer.parseInt(racine.getChild("CouleurNoeud").getAttributeValue("couleur")));
+            couleurNoeud = new Color(Integer.parseInt(racine.getChild("couleurNoeud").getChild("couleur").getAttributeValue("couleur")));
 
         }
     
+    }
+
+    public Gui getGui()
+    {
+        return this.gui;
     }
 
     public void afficherJeux() 
@@ -585,6 +575,7 @@ public class Controleur
         this.gui.premierTourCarteObjectif();
         this.gui.refreshTableCarteObjectif();
         this.tabJoueur[0].setPremierTour(false);
+        initPiocheObjectif();
         this.verifLocoTable();
     }
 
@@ -622,6 +613,11 @@ public class Controleur
 
         if(joueurSelect == this.tabJoueur[this.nbJoueur-1])
         {
+            if(verifFinPartie)
+            {
+                finDePartie();
+                return;
+            }
             idJoueur = 0;
             joueurSelect = this.tabJoueur[idJoueur];
         }
@@ -630,25 +626,36 @@ public class Controleur
             idJoueur++;
             joueurSelect = tabJoueur[idJoueur];
         }
-        if(this.joueurSelect.getNbPion() < this.nbWagonFin)
+        if(derniereManche())
         {
             //finPartie();
             System.out.print("Fin de partie Calul des score");
-            finDePartie();
+            verifFinPartie = true;
+        }
+        
+        this.gui.refreshTablePioche();
+        this.gui.refreshMain();
+        this.gui.refreshTableTrajets();
+        this.gui.refreshCarte();
+        this.gui.refreshPanelPion();
+
+        if(this.getTabJoueur().length != 1)
+        {
+            this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
         }
         this.gui.refreshTablePioche();
         this.gui.refreshMain();
         this.gui.refreshTableTrajets();
         this.gui.refreshCarte();
         this.gui.refreshPanelPion();
-        this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
-        
-        initPiocheObjectif();
 
         if (this.joueurSelect.getPremierTour() == true) {
             this.joueurSelect.setPremierTour(false);
+            initPiocheObjectif();
             this.gui.premierTourCarteObjectif();
         }
+        this.gui.refreshTableCarteObjectif();
+        initPiocheObjectif();
         //this.gui.notification("C'est au tour de " + this.joueurSelect.getNom());
     }
 
@@ -745,7 +752,6 @@ public class Controleur
             JOptionPane.showMessageDialog(null, "Il y a 3 locomotive sur la table, vous devez defausser toute les cartes de la table");
             this.defausse.addAll(this.carteTable);
             this.carteTable.clear();
-
             for(int i =0 ; i < 5 ; i++)
             {
                 if(i<this.pioche.size())
@@ -792,6 +798,11 @@ public class Controleur
                                 this.joueurSelect.removeCarte(c);
                                 this.defausse.add(c);
                             }
+                        }
+                        if(this.pioche.isEmpty())
+                        {
+                            this.remelanger();
+                            this.placerCarte();
                         }
                         if(this.pioche.isEmpty())
                         {
