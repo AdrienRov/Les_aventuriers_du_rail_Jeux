@@ -15,6 +15,7 @@ public class Arete {
     private Noeud noeudarrive;
 
     private boolean sensUnique;
+    private boolean actifDouble = true;
 
     private Color couleur;
 
@@ -58,9 +59,19 @@ public class Arete {
         return noeudarrive;
     }
 
+    public boolean getActifDouble() 
+    {
+        return this.actifDouble;
+    }
+
     public void setNoeudDepart(Noeud noeudDepart) 
     {
         this.noeudDepart = noeudDepart;
+    }
+
+    public void setActiveDouble(boolean actifDouble)
+    {
+        this.actifDouble = actifDouble;
     }
 
     public void setNoeudarrive(Noeud noeudarrive) 

@@ -559,18 +559,16 @@ public class PanelPioche extends JPanel implements ActionListener
                         {
                             if(trajets.get(y).getNoeudDepart().getNom().equals(this.comboVille1.getSelectedItem()) && trajets.get(y).getNoeudArrive().getNom().equals(this.comboVille2.getSelectedItem()) || trajets.get(y).getNoeudDepart().getNom().equals(this.comboVille2.getSelectedItem()) && trajets.get(y).getNoeudArrive().getNom().equals(this.comboVille1.getSelectedItem()))
                             {
-                                if(this.ctrl.detectDouble(trajets.get(y), this.ctrl.getJoueur()))
+                                if(this.ctrl.detectDouble(trajets.get(y)) && this.ctrl.getNbJoueur() < this.ctrl.getNbJoueurDoublesVoies())
                                 {
-                                    JOptionPane.showMessageDialog(null, "Vous avez déjà rempli cette section", "Information", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "Quelqu'un possède déjà une voie sur cette double voie", "Information", JOptionPane.ERROR_MESSAGE);
+                                    return;
                                 }
                                 System.out.println("" + trajets.get(y));
                                 cpt++;
                                 tabTrajetsDouble.add(trajets.get(y)); 
                             }
                         }
-
-
-
                         if(cpt!=2) 
                         {
 

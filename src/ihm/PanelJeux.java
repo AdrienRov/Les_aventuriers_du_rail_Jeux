@@ -16,16 +16,16 @@ import src.metier.Joueur;
 import src.metier.Noeud;
 
 public class PanelJeux extends JPanel{
-    private Controleur ctrl;
+    private Controleur    ctrl;
     
-    private JPanel panelMain;
+    private JPanel        panelMain;
 
-    private List<JLabel> cartesJoueur ;
+    private List<JLabel>  cartesJoueur ;
 
-    private PanelCarte panelCarte1;
-    private List<Arete> allTrajets;
-    private List<Noeud> allNoeud;
-    private List<String> allImages;
+    private PanelCarte    panelCarte1;
+    private List<Arete>   allTrajets;
+    private List<Noeud>   allNoeud;
+    private List<String>  allImages;
     
 
 
@@ -33,23 +33,23 @@ public class PanelJeux extends JPanel{
 
         this.ctrl = ctrl;
         this.setLayout(new BorderLayout());
-        this.panelMain = new JPanel();
+        this.panelMain     = new JPanel();
         this.panelMain.setLayout(new GridLayout(1, 8, 10, 10));
         this.panelMain.setBackground(new Color(35, 31, 32));
 
-        this.allImages = new ArrayList<String>();
+        this.allImages     = new ArrayList<String>();
 
-        this.cartesJoueur = new ArrayList<JLabel>();
+        this.cartesJoueur  = new ArrayList<JLabel>();
         System.out.println(this.ctrl.getJoueur().getCartes().size());
-        this.allImages = this.ctrl.getAllImages();
+        this.allImages     = this.ctrl.getAllImages();
         //création des boutons correspondant aux cartes du joueur
         refreshMain();
         
         this.add(this.panelMain);
 
         // initialisation des List
-        this.allTrajets = new ArrayList<Arete>();
-        this.allNoeud = new ArrayList<Noeud>();      
+        this.allTrajets    = new ArrayList<Arete>();
+        this.allNoeud      = new ArrayList<Noeud>();      
     }  
 
     public void refreshMain()
@@ -80,9 +80,7 @@ public class PanelJeux extends JPanel{
                         this.cartesJoueur.get(cpt).setText(" x" +this.ctrl.getJoueur().nbCouleur(this.ctrl.getCouleurCarte()[i]));
                         cpt++;
                         
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                    }   
+                    } catch (Exception e) {}   
                 }
                   
             }

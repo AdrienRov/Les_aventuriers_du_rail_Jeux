@@ -18,47 +18,48 @@ import java.awt.Font;
 
 public class PanelFinPartie extends JPanel implements ActionListener
 {
-    private Controleur ctrl;
+    private Controleur   ctrl;
 
-    private JPanel panelGagnant;
-    private JPanel panelListeJoueurs;
+    private JPanel       panelGagnant;
+    private JPanel       panelListeJoueurs;
 
-    private JLabel lblTitrePanel;
-    private JLabel lblGagnant;
-    private JLabel lblScoreGagnant;
+    private JLabel       lblTitrePanel;
+    private JLabel       lblGagnant;
+    private JLabel       lblScoreGagnant;
 
-    private JLabel lblListeJoueurs;
+    private JLabel       lblListeJoueurs;
 
-    private Joueur joueurGagnant = this.ctrl.getTabJoueur()[0];
+    private Joueur       joueurGagnant;
 
-    private JButton btnRetourAccueil;
+    private JButton      btnRetourAccueil;
 
-    public PanelFinPartie(Controleur controleur)
+    public PanelFinPartie(Controleur ctrl)
     {
-        this.ctrl = controleur;
+        this.ctrl = ctrl;
         // Paramètre du panel
         this.setSize(800, 600);
         this.setLayout(new GridLayout(5, 1, 10, 10));
         this.setBackground(new Color(35, 31, 32));
         // Création des composants
-        this.panelGagnant = new JPanel(new GridLayout(2, 1, 10, 10));
-        this.panelListeJoueurs = new JPanel(new GridLayout(this.ctrl.getNbJoueur(), 1, 10, 10));
+        this.joueurGagnant          = this.ctrl.getTabJoueur()[0];
+        this.panelGagnant           = new JPanel(new GridLayout(2, 1, 10, 10));
+        this.panelListeJoueurs      = new JPanel(new GridLayout(this.ctrl.getNbJoueur(), 1, 10, 10));
 
         for(Joueur joueur : this.ctrl.getTabJoueur())
         {
             if(joueur.getScore() > this.joueurGagnant.getScore())
             {
-                this.joueurGagnant = joueur;
+                this.joueurGagnant  = joueur;
             }
         }
 
-        this.lblTitrePanel = new JLabel("Fin de la partie");
-        this.lblGagnant = new JLabel("Le gagnant est : " + this.joueurGagnant.getNom() );
-        this.lblScoreGagnant = new JLabel("Score du gagnant : " + this.joueurGagnant.getScore() + " points");
+        this.lblTitrePanel          = new JLabel("Fin de la partie");
+        this.lblGagnant             = new JLabel("Le gagnant est : " + this.joueurGagnant.getNom() );
+        this.lblScoreGagnant        = new JLabel("Score du gagnant : " + this.joueurGagnant.getScore() + " points");
 
-        this.lblListeJoueurs = new JLabel("Liste des joueurs : ");
+        this.lblListeJoueurs        = new JLabel("Liste des joueurs : ");
         
-        this.btnRetourAccueil = new JButton("Retour à l'accueil");
+        this.btnRetourAccueil       = new JButton("Retour à l'accueil");
         // Configuration des composants
         this.btnRetourAccueil.addActionListener(this);
         this.btnRetourAccueil.setPreferredSize(new Dimension(100,30));
@@ -103,17 +104,14 @@ public class PanelFinPartie extends JPanel implements ActionListener
     }
 
 
-
-
     @Override
     public void actionPerformed(ActionEvent e) 
     {
         if(e.getSource() == this.btnRetourAccueil)
         {
-            // On re affiche le menu accueil de l'application en enlevant le tableau de fin de partie
+            // On affiche à nouveau le menu accueil de l'application en enlevant le tableau de fin de partie
             this.ctrl.enleverPanelFin(true);
             this.setVisible(false);
-            
         }
         
     }

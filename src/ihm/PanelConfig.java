@@ -25,22 +25,22 @@ import src.Controleur;
 
 public class PanelConfig extends JPanel implements ActionListener
 {
-    private JLabel lblImportXML;
-    private JLabel lblTitre;
+    private JLabel              lblImportXML;
+    private JLabel              lblTitre;
 
-    private JButton btnImportXML;
-    private JButton btnValider;
-    private JButton btnRetour;
+    private JButton             btnImportXML;
+    private JButton             btnValider;
+    private JButton             btnRetour;
 
-    private JPanel panelXML;
-    private JPanel panelValidation;
+    private JPanel              panelXML;
+    private JPanel              panelValidation;
 
-    private JComboBox<Integer> comboNbJoueurs;
+    private JComboBox<Integer>  comboNbJoueurs;
 
-    private boolean xmlImporte = false;
+    private boolean             xmlImporte = false;
 
-    private Controleur ctrl;
-    private File fichier;
+    private Controleur          ctrl;
+    private File                fichier;
 
 
     public PanelConfig(Controleur controleur)
@@ -52,14 +52,14 @@ public class PanelConfig extends JPanel implements ActionListener
         this.setBackground(new Color(35, 31, 32));
 
         // Création des composants
-        this.panelXML = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        this.panelValidation = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        this.panelXML          = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        this.panelValidation   = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        this.lblTitre = new JLabel("Configuration de la partie");
-        this.lblImportXML = new JLabel("Importer un fichier XML");
-        this.btnImportXML = new JButton("Importer");
-        this.btnValider = new JButton("Valider");
-        this.btnRetour = new JButton("Retour");
+        this.lblTitre          = new JLabel("Configuration de la partie");
+        this.lblImportXML      = new JLabel("Importer un fichier XML");
+        this.btnImportXML      = new JButton("Importer");
+        this.btnValider        = new JButton("Valider");
+        this.btnRetour         = new JButton("Retour");
 
         // Configuration des composants
         this.lblImportXML.setForeground(Color.WHITE);
@@ -140,7 +140,7 @@ public class PanelConfig extends JPanel implements ActionListener
 
             System.out.println("Valider");
             
-            // Demander le nombre de joueur pour jouer à la partie
+            // Demander le nombre de joueurs pour jouer à la partie
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
             JLabel label = new JLabel("Nombre de joueurs : ");
