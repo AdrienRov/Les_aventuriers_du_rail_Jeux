@@ -319,6 +319,8 @@ public class Controleur
     // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
     public void remelanger()
     {
+            // notification pour dire que la pioche est vide
+            this.gui.notification("La pioche est vide, on remélange la défausse");
             this.pioche.addAll(this.defausse);
             this.defausse.clear();
             Collections.shuffle(this.pioche);
