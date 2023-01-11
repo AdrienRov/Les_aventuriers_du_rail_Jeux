@@ -334,6 +334,8 @@ public class Controleur
     // methode pour remelanger la defausse et la mettre dans la pioche si la pioche est vide
     public void remelanger()
     {
+            // notification pour dire que la pioche est vide
+            this.gui.notification("La pioche est vide, on remélange la défausse");
             this.pioche.addAll(this.defausse);
             this.defausse.clear();
             Collections.shuffle(this.pioche);
@@ -718,21 +720,24 @@ public class Controleur
             
             if(carte.getNomCarte() == "grey")
             {
-                System.out.print("oui");
                 nbLocoTable++;
             }
             
         }
-        if(nbLocoTable == 3)
+        if(nbLocoTable >= 3)
         {
-            // defausser toute les carte
-            System.out.println("3");
-            for(Carte carte : this.carteTable)
+            //notification(il y a 3 locomotive sur la table)
+            JOptionPane.showMessageDialog(null, "Il y a 3 locomotive sur la table, vous devez defausser toute les cartes de la table");
+            this.defausse.addAll(this.carteTable);
+            this.carteTable.clear();
+            for(int i =0 ; i < 5 ; i++)
             {
-                this.defausse.add(carte);
-                this.carteTable.remove(carte);
-                this.carteTable.add(this.pioche.get(0));
-                this.pioche.remove(0);
+                if(i<this.pioche.size())
+                {
+                    this.carteTable.add(this.pioche.get(0));
+                    this.pioche.remove(0);
+                }
+                
             }
             System.out.println("defausse" + this.defausse);
             System.out.println("-------------------------------------------------------------------------------------------------------");

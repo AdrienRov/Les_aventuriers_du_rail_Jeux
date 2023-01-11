@@ -455,6 +455,7 @@ public class PanelPioche extends JPanel implements ActionListener
                 if(this.ctrl.getTabJoueur().length == 1 )
                 {
                     this.ctrl.piocheCarteTable(i, this.ctrl.getJoueur());
+                    this.refreshTablePioche();
                     this.ctrl.verifLocoTable();
                     this.refreshTablePioche();
                     return;
@@ -492,7 +493,8 @@ public class PanelPioche extends JPanel implements ActionListener
                         
                     }    
                 }    
-               this.ctrl.verifLocoTable();
+                this.ctrl.verifLocoTable();
+                this.refreshTablePioche();
             }
         }
         
