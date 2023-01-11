@@ -171,7 +171,8 @@ public class Controleur
             System.out.print(i);
             this.carteTable.add(this.pioche.get(i));
             this.pioche.remove(i);
-        }     
+        }
+        
         
         //refreshTabTrajets();
     }
@@ -228,7 +229,7 @@ public class Controleur
             this.placerCarte();
         }
         
-        this.verifLocoTable();
+       
                         
     }
 
@@ -566,6 +567,7 @@ public class Controleur
         this.gui.premierTourCarteObjectif();
         this.gui.refreshTableCarteObjectif();
         this.tabJoueur[0].setPremierTour(false);
+        this.verifLocoTable();
     }
 
     public void resizeFrame(int width, int height) 
@@ -705,8 +707,9 @@ public class Controleur
         for(Carte carte : this.carteTable)
         {
             
-            if(carte.getNomCarte().equals("Locomotive"))
+            if(carte.getNomCarte() == "grey")
             {
+                System.out.print("oui");
                 nbLocoTable++;
             }
             
@@ -718,10 +721,16 @@ public class Controleur
             for(Carte carte : this.carteTable)
             {
                 this.defausse.add(carte);
-                carte = null ; 
+                this.carteTable.remove(carte);
+                this.carteTable.add(this.pioche.get(0));
+                this.pioche.remove(0);
             }
+            System.out.println("defausse" + this.defausse);
+            System.out.println("-------------------------------------------------------------------------------------------------------");
+            System.out.println("carteTable" + this.carteTable);
             this.placerCarte();
-
+            this.gui.refreshMain(); 
+            verifLocoTable();
         }
     }
 
