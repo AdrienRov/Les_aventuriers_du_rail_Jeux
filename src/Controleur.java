@@ -69,6 +69,8 @@ public class Controleur
 
     private int tour = 1;
 
+    private boolean verifVide = false ;
+
     private int nbJoueur;
     private int idJoueur = 0;
     private int cpt ; // compteur pour le nombre de carte sur la table
@@ -212,9 +214,9 @@ public class Controleur
     }
 
     // action du joueur :prendre une carte de la table
+
     public void piocheCarteTable(int i, Joueur joueur)
     {
-        
         // verifie si la pioche est vide 
         System.out.println("piocheCarteTable" + this.carteTable.get(i-1));
         if(this.carteTable.get(i-1) == null)
@@ -225,13 +227,16 @@ public class Controleur
         this.carteTable.set(i-1, this.pioche());
         this.gui.refreshMain(); 
 
-        if(this.pioche.isEmpty())
+        if(this.pioche.isEmpty() )
         {
             this.remelanger();
             this.placerCarte();
         }
-        
-       
+        else
+        {
+            verifVide =  false ;
+        }
+
                         
     }
 
@@ -335,7 +340,12 @@ public class Controleur
     public void remelanger()
     {
             // notification pour dire que la pioche est vide
-            this.gui.notification("La pioche est vide, on remélange la défausse");
+            if(!verifVide)
+            {
+                this.gui.notification("La pioche est vide, on remélange la défausse");
+                verifVide = true;
+
+            }
             this.pioche.addAll(this.defausse);
             this.defausse.clear();
             Collections.shuffle(this.pioche);
@@ -598,9 +608,11 @@ public class Controleur
         return this.couleurNoeud;
     }
     
-    /**
+    /*
+     *
      * 
      */
+
     public void joueurSuivant()
     {
         System.out.println("Joueur suivant");
@@ -717,11 +729,14 @@ public class Controleur
         int nbLocoTable = 0;
         for(Carte carte : this.carteTable)
         {
-            
-            if(carte.getNomCarte() == "grey")
+            if(carte != null)
             {
-                nbLocoTable++;
+                if(carte.getNomCarte() == "grey")
+                {
+                    nbLocoTable++;
+                }
             }
+            
             
         }
         if(nbLocoTable >= 3)
@@ -730,6 +745,7 @@ public class Controleur
             JOptionPane.showMessageDialog(null, "Il y a 3 locomotive sur la table, vous devez defausser toute les cartes de la table");
             this.defausse.addAll(this.carteTable);
             this.carteTable.clear();
+
             for(int i =0 ; i < 5 ; i++)
             {
                 if(i<this.pioche.size())
@@ -750,6 +766,8 @@ public class Controleur
 
     public int prendrePossession(Arete arete) 
     {
+        // vérifier que l'arete n'est pas en double 
+        
         if(arete.getJoueur() == null)
         {
             for(Carte c : this.allCartes)
@@ -774,6 +792,11 @@ public class Controleur
                                 this.joueurSelect.removeCarte(c);
                                 this.defausse.add(c);
                             }
+                        }
+                        if(this.pioche.isEmpty())
+                        {
+                            this.remelanger();
+                            this.placerCarte();
                         }
                         arete.setJoueur(this.joueurSelect);
                         this.gui.refreshTablePioche();
