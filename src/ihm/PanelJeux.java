@@ -58,7 +58,7 @@ public class PanelJeux extends JPanel{
                         //mettre le texte en blanc
                         this.cartesJoueur.get(cpt).setForeground(Color.WHITE);
                         //changer la police du texte
-                        this.cartesJoueur.get(cpt).setFont(new Font("Arial", Font.BOLD, 15));
+                        this.cartesJoueur.get(cpt).setFont(new Font("Arial", Font.BOLD, 10));
                         this.cartesJoueur.get(cpt).setText(" x" +this.ctrl.getJoueur().nbCouleur(this.ctrl.getCouleurCarte()[i]));
                         cpt++;
                         

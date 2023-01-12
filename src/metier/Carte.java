@@ -22,6 +22,7 @@ public class Carte
         try {
             java.lang.reflect.Field field = Class.forName("java.awt.Color").getField(nomCarte);
             color = (Color)field.get(null);
+            
         } catch (Exception e) {
             color = null; // Not defined
         }

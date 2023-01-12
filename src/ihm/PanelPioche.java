@@ -192,7 +192,7 @@ public class PanelPioche extends JPanel implements ActionListener
         JLabel lblTextPion  = new JLabel("Nombre de pion : ");
         JLabel lblNbPion    = new JLabel(String.valueOf(this.ctrl.getJoueur().getNbPion() + " / " + this.ctrl.getNbPionMax()));
         lblTextPion.setForeground(Color.WHITE);
-        lblTextPion.setFont(new Font("Arial", Font.BOLD, 20));
+        lblTextPion.setFont(new Font("Arial", Font.BOLD, 15));
         lblNbPion.setForeground(Color.WHITE);
         lblNbPion.setFont(new Font("Arial", Font.BOLD, 20));
         this.panelPion.add(lblNomJoueur);
@@ -282,7 +282,7 @@ public class PanelPioche extends JPanel implements ActionListener
         this.lblNomJoueur.setHorizontalAlignment(SwingConstants.CENTER);
 
         lblTextPion.setForeground(Color.WHITE);
-        lblTextPion.setFont(new Font("Arial", Font.BOLD, 20));
+        lblTextPion.setFont(new Font("Arial", Font.BOLD, 15));
         lblNbPion.setForeground(Color.WHITE);
         lblNbPion.setFont(new Font("Arial", Font.BOLD, 20));
         this.panelPion.add(this.lblNomJoueur);

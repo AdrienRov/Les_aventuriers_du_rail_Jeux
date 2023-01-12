@@ -28,6 +28,14 @@ Chacun des joueurs pourra faire une dernière action avant que la partie se term
 
 ## Comment lancer notre application ?
 
+## Windows
+
 •   Se placer dans le répertoire "Les_aventuriers_du_rail2"
-•   javac -d ./class "@compile.list" -encoding utf8
+•   javac -cp ./lib/jdom-2.0.6.jar  -d ./class "@compile.list" -encoding utf8
+•   java -cp ./class src.Controleur
+
+## Linux
+
+•   Se placer dans le répertoire "Les_aventuriers_du_rail2"
+•   javac -cp ./lib/jdom-2.0.6.jar  -d ./class "@compile.list" -encoding utf8
 •   java -cp ./class src.Controleur

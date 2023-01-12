@@ -30,7 +30,7 @@ public class PanelCarte extends JPanel
         this.image          = new ImageIcon ("images/"+this.ctrl.getAllImages().get(this.ctrl.getAllImages().size()-1)+".png").getImage();
         this.allTrajets     = new ArrayList<Arete>();
         this.allNoeud       = new ArrayList<Noeud>();
-        this.setBackground(new Color(35, 31, 32));
+        this.setBackground(Color.white);
     }
 
     public void paintComponent(Graphics g) 
@@ -183,7 +183,7 @@ public class PanelCarte extends JPanel
                     int nbLettre = noeud.getNom().length();
                     // dessiner un carre blanc pour surligner le nom du noeud
                     g2d.setColor(Color.WHITE);
-                    g2d.fillRect(noeud.getXNom(), noeud.getYNom(), nbLettre * 12, 20);
+                    g2d.fillRect(noeud.getXNom(), noeud.getYNom(), nbLettre * 13, 20);
                     g2d.setColor(Color.WHITE);
                     
                     //dessiner les noeuds

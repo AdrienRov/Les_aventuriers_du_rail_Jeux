@@ -32,8 +32,8 @@ public class Controleur
 {
     private FrameAccueil              frameAcceuil;
     private Gui                       gui;
-    private String[]                  couleurCarte = {"red","blue","green","yellow","black","orange","white","pink","gray"};
-    private Color[]                   tabColors    = {Color.RED,Color.BLUE,Color.GREEN,Color.YELLOW,Color.BLACK,Color.ORANGE,Color.WHITE,Color.PINK,Color.GRAY};
+    private String[]                  couleurCarte = {"red","blue","green","yellow","black","pink","orange","white","gray"};
+    private Color[]                   tabColors    = {Color.RED,Color.BLUE,Color.GREEN,Color.YELLOW,Color.BLACK,Color.PINK,Color.ORANGE,Color.WHITE,Color.GRAY};
     private List<Noeud>               allNoeuds;
     private List<Arete>               allAretes;
     private List<CarteObjectif>       allCartesObjectifs;
@@ -301,10 +301,8 @@ public class Controleur
                 if (!noeudsVisites.contains(noeudSuivant)) 
                 {
                     // Appel récursif sur le noeud qui n'est pas le noeud de départ
-                    System.out.println("DANNNNS LA CONDITIONNNNNNN");
                     if (possedeRoute(noeudSuivant, arrive, nomJoueur, aretes, noeudsVisites)) 
                     {
-                        System.out.println("CAAAA MARCHEEEEEEEEEEEEEEEEEEEE");
                     return true;
                     }
               }
@@ -409,6 +407,7 @@ public class Controleur
             int nbWagon = Integer.parseInt(arete.getChild("nbWagon").getAttributeValue("nb"));
             // Récupération de la couleur de l'arête
             Color couleur = new Color(Integer.parseInt(arete.getChild("couleur").getAttributeValue("couleur")));
+            
             boolean sensUnique = Boolean.parseBoolean(arete.getChild("sens").getAttributeValue("sens"));
             // On crée l'arête avec les valeurs récupérées
             this.allAretes.add(new Arete(noeudDepart, noeudArrive, nbWagon, couleur, sensUnique));
@@ -530,7 +529,7 @@ public class Controleur
    
     public void joueurSuivant()
     {    
-        
+        System.out.println("CCCCCCCCCCCCCCCC"+ this.joueurSelect.nbCouleur("pink"));
         if(tabJoueur.length != 1)
         {
             if(joueurSelect == this.tabJoueur[this.nbJoueur-1] )
@@ -727,6 +726,7 @@ public class Controleur
                                 else 
                                 {
                                     this.joueurSelect.removeCarte(c);
+                                    System.out.println("carte : " + c);
                                     this.defausse.add(c);
                                 }
                             }
